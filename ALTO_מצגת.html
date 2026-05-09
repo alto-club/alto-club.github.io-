@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALTO — מצגת מנהלים</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #C9A96E;
+  --gold-lt: #F0E0B8;
+  --gold-dk: #A8813A;
+  --dark: #0F1C26;
+  --dark2: #1E2B35;
+  --dark3: #2C3E50;
+  --cream: #FAF8F5;
+  --cream2: #F0E8DA;
+  --sage: #7A9E7E;
+  --sage-lt: #C8DDCA;
+  --white: #fff;
+  --text2: rgba(255,255,255,0.65);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  direction: rtl;
+  background: var(--dark);
+}
+
+/* ===== SLIDE ENGINE ===== */
+.deck {
+  width: 100vw; height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 80px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s cubic-bezier(.4,0,.2,1), transform 0.55s cubic-bezier(.4,0,.2,1);
+  transform: translateX(-40px);
+  overflow: hidden;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+}
+
+.slide.prev {
+  opacity: 0;
+  transform: translateX(60px);
+}
+
+/* ===== NAV ===== */
+#nav {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  z-index: 999;
+  background: rgba(15,28,38,0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(201,169,110,0.2);
+  border-radius: 50px;
+  padding: 10px 22px;
+}
+
+.nav-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201,169,110,0.4);
+  background: transparent;
+  color: var(--gold);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-btn:hover { background: var(--gold); color: var(--dark); }
+
+#counter {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  min-width: 60px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.progress-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  z-index: 999;
+}
+
+#progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dk), var(--gold));
+  transition: width 0.4s ease;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Slide logo watermark */
+.slide-logo {
+  position: absolute;
+  top: 24px;
+  right: 36px;
+  font-size: 17px;
+  font-weight: 900;
+  color: rgba(201,169,110,0.35);
+  letter-spacing: 5px;
+}
+
+/* Full-screen hint */
+#fs-btn {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  background: rgba(15,28,38,0.7);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.4);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  z-index: 999;
+  transition: all 0.2s;
+}
+#fs-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+/* ===== TYPOGRAPHY ===== */
+.tag {
+  display: inline-block;
+  background: rgba(201,169,110,0.15);
+  border: 1px solid rgba(201,169,110,0.35);
+  color: var(--gold);
+  padding: 6px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+
+.tag.sage {
+  background: rgba(122,158,126,0.15);
+  border-color: rgba(122,158,126,0.35);
+  color: var(--sage-lt);
+}
+
+.tag.dark {
+  background: rgba(30,43,53,0.8);
+  border-color: rgba(201,169,110,0.3);
+  color: var(--gold);
+}
+
+h1.display {
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 900;
+  line-height: 1.05;
+  color: white;
+  margin-bottom: 18px;
+}
+
+h1.display .g { color: var(--gold); }
+
+h2.title {
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 800;
+  color: white;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+
+h2.title .g { color: var(--gold); }
+h2.title.dark-txt { color: var(--dark2); }
+h2.title.dark-txt .g { color: var(--gold-dk); }
+
+.sub {
+  font-size: clamp(15px, 1.6vw, 20px);
+  color: var(--text2);
+  line-height: 1.65;
+  max-width: 780px;
+}
+
+.sub.dark-txt { color: var(--dark3); }
+
+/* ===== GRID / LAYOUT UTILS ===== */
+.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; width: 100%; max-width: 1200px; }
+.cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 100%; max-width: 1200px; }
+.cols-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%; max-width: 1200px; }
+.center { text-align: center; align-items: center; }
+.full-w { width: 100%; max-width: 1200px; }
+
+/* ===== CARD STYLES ===== */
+.card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: rgba(201,169,110,0.3); }
+
+.card-light {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.card-gold {
+  background: linear-gradient(135deg, rgba(201,169,110,0.15), rgba(201,169,110,0.05));
+  border: 1px solid rgba(201,169,110,0.35);
+  border-radius: 16px;
+  padding: 28px 24px;
+}
+
+.card .icon { font-size: 36px; margin-bottom: 14px; display: block; }
+.card h3 { font-size: 18px; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+.card p { font-size: 14px; color: var(--text2); line-height: 1.65; }
+.card ul { list-style: none; margin-top: 10px; }
+.card li { font-size: 13px; color: var(--text2); padding: 3px 0; }
+.card li::before { content: '◦ '; color: var(--gold); }
+
+.card-light h3 { color: var(--dark2); font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.card-light p { font-size: 14px; color: #555; line-height: 1.65; }
+.card-light .icon { font-size: 32px; margin-bottom: 12px; display: block; }
+
+/* Stat box */
+.stat {
+  text-align: center;
+}
+.stat .n {
+  display: block;
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat .l { font-size: 14px; color: var(--text2); margin-top: 6px; line-height: 1.4; }
+.stat.dark-txt .n { color: var(--gold-dk); }
+.stat.dark-txt .l { color: var(--dark3); }
+
+/* Pill */
+.pill {
+  display: inline-block;
+  padding: 7px 16px;
+  border-radius: 25px;
+  font-size: 13px;
+  margin: 4px;
+}
+.pill-gold { background: var(--gold); color: var(--dark); font-weight: 700; }
+.pill-outline { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
+.pill-sage { background: rgba(122,158,126,0.2); border: 1px solid var(--sage); color: var(--sage-lt); }
+.pill-dark { background: rgba(30,43,53,0.6); border: 1px solid rgba(201,169,110,0.3); color: var(--gold-lt); }
+
+/* Big quote */
+.big-quote {
+  font-size: clamp(20px, 2.8vw, 36px);
+  font-weight: 700;
+  color: white;
+  line-height: 1.4;
+  max-width: 860px;
+  text-align: center;
+  border-right: 4px solid var(--gold);
+  padding-right: 28px;
+  text-align: right;
+}
+
+/* Gold divider */
+.divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 20px 0;
+  border-radius: 2px;
+}
+
+/* Bar split visual */
+.bar-wrap {
+  width: 100%;
+  height: 60px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  margin: 20px 0;
+}
+.bar-70 {
+  background: linear-gradient(90deg, var(--dark3), #3a5068);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 22px;
+  flex: 7;
+}
+.bar-30 {
+  background: linear-gradient(90deg, var(--sage), #5a7d5e);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 22px;
+  flex: 3;
+}
+
+/* Timeline */
+.tl-item {
+  display: flex;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  align-items: flex-start;
+}
+.tl-item:last-child { border-bottom: none; }
+.tl-dot {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(201,169,110,0.15);
+  border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.tl-txt h4 { font-size: 16px; color: var(--gold-lt); font-weight: 700; margin-bottom: 3px; }
+.tl-txt p { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+/* ===== SLIDE BGs ===== */
+.bg-dark { background: linear-gradient(145deg, var(--dark) 0%, var(--dark2) 100%); }
+.bg-dark2 { background: linear-gradient(145deg, #0a1520 0%, #1a2d3d 100%); }
+.bg-cream { background: var(--cream); }
+.bg-cream2 { background: var(--cream2); }
+.bg-sage { background: linear-gradient(145deg, #1a2d1e 0%, #243a27 100%); }
+.bg-split-dark {
+  background: linear-gradient(135deg, var(--dark) 50%, #162230 50%);
+}
+
+/* ===== SLIDE 1: COVER ===== */
+#s1 {
+  background: radial-gradient(ellipse at 30% 50%, #1a3040 0%, var(--dark) 70%);
+}
+#s1::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(201,169,110,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 10% 80%, rgba(122,158,126,0.05) 0%, transparent 40%);
+}
+.cover-logo {
+  font-size: clamp(80px, 12vw, 160px);
+  font-weight: 900;
+  color: white;
+  letter-spacing: clamp(12px, 2vw, 30px);
+  line-height: 1;
+  position: relative;
+}
+.cover-logo .o { color: var(--gold); }
+.cover-bar {
+  width: 120px; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-dk));
+  margin: 24px auto;
+  border-radius: 2px;
+}
+.cover-sub {
+  font-size: clamp(16px, 2vw, 24px);
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.cover-tagline {
+  font-size: clamp(13px, 1.4vw, 17px);
+  color: rgba(255,255,255,0.35);
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 60px;
+}
+.cover-people {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 28px;
+}
+.cover-person {
+  text-align: center;
+}
+.cover-person .name { font-size: 16px; color: white; font-weight: 600; }
+.cover-person .role { font-size: 12px; color: var(--gold); letter-spacing: 1px; }
+.cover-sep { width: 1px; height: 36px; background: rgba(255,255,255,0.15); }
+
+/* ===== SLIDE: FULL DARK CONTENT ===== */
+.slide-header { margin-bottom: 40px; }
+
+/* Checkmark list */
+.check-list { list-style: none; }
+.check-list li {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.5;
+}
+.check-list li:last-child { border-bottom: none; }
+.check-list .ck { color: var(--gold); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+.check-list.dark-txt li { color: var(--dark3); border-color: rgba(0,0,0,0.08); }
+.check-list.dark-txt .ck { color: var(--gold-dk); }
+
+/* Number highlight */
+.n-big {
+  font-size: clamp(60px, 8vw, 100px);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  display: block;
+}
+.n-lbl {
+  font-size: 15px;
+  color: var(--text2);
+  display: block;
+  margin-top: 4px;
+}
+
+/* Highlight box */
+.hl {
+  background: rgba(201,169,110,0.1);
+  border: 1px solid rgba(201,169,110,0.3);
+  border-radius: 12px;
+  padding: 20px 26px;
+  margin: 16px 0;
+  font-size: 16px;
+  color: var(--gold-lt);
+}
+.hl.sage {
+  background: rgba(122,158,126,0.1);
+  border-color: rgba(122,158,126,0.3);
+  color: var(--sage-lt);
+}
+.hl.dark-bg {
+  background: rgba(15,28,38,0.5);
+  border-color: rgba(201,169,110,0.2);
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+}
+
+/* Yoga/Wellness columns */
+.domain-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.domain-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 4px;
+}
+.domain-pct {
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 1;
+}
+.domain-sessions {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 16px;
+}
+
+/* Team card */
+.team-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-top: 3px solid var(--gold);
+  border-radius: 14px;
+  padding: 24px 20px;
+  text-align: center;
+}
+.team-av { font-size: 40px; display: block; margin-bottom: 12px; }
+.team-card h4 { font-size: 18px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.team-card .role { font-size: 12px; color: var(--text2); margin-bottom: 14px; letter-spacing: 0.5px; }
+.team-card ul { list-style: none; text-align: right; }
+.team-card li { font-size: 13px; color: var(--text2); padding: 3px 0; }
+.team-card li::before { content: '· '; color: var(--gold); }
+
+/* Experience timeline (horizontal) */
+.exp-timeline {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1100px;
+  gap: 0;
+  margin-top: 16px;
+}
+.exp-step {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 24px 20px;
+  position: relative;
+  text-align: center;
+}
+.exp-step:first-child { border-radius: 14px 0 0 14px; }
+.exp-step:last-child { border-radius: 0 14px 14px 0; }
+.exp-step.main {
+  background: linear-gradient(135deg, rgba(201,169,110,0.15), rgba(201,169,110,0.05));
+  border-color: rgba(201,169,110,0.4);
+  flex: 1.6;
+}
+.exp-time { font-size: 13px; color: var(--gold); font-weight: 700; margin-bottom: 6px; display: block; }
+.exp-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+.exp-title { font-size: 15px; color: white; font-weight: 700; margin-bottom: 6px; }
+.exp-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+/* Arrow between steps */
+.exp-arrow {
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Value grid */
+.val-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 1100px;
+}
+.val-item {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 24px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.val-icon { font-size: 28px; flex-shrink: 0; }
+.val-txt h5 { font-size: 15px; color: var(--gold-lt); font-weight: 700; margin-bottom: 5px; }
+.val-txt p { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+/* Marketing channels */
+.mkt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 1100px;
+}
+.mkt-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 22px 18px;
+  text-align: center;
+}
+.mkt-icon { font-size: 32px; display: block; margin-bottom: 10px; }
+.mkt-card h4 { font-size: 15px; color: white; font-weight: 700; margin-bottom: 6px; }
+.mkt-card p { font-size: 12px; color: var(--text2); line-height: 1.55; }
+.mkt-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+.mkt-badge.r { background: rgba(198,40,40,0.2); color: #EF9A9A; border: 1px solid rgba(198,40,40,0.3); }
+.mkt-badge.g { background: rgba(201,169,110,0.15); color: var(--gold); border: 1px solid rgba(201,169,110,0.3); }
+
+/* Next steps */
+.steps-list { width: 100%; max-width: 1000px; }
+.step-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.step-row:last-child { border-bottom: none; }
+.step-n {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(201,169,110,0.15);
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  font-weight: 900;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.step-row h4 { font-size: 16px; color: white; font-weight: 700; }
+.step-row p { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+/* Close slide */
+.close-logo {
+  font-size: clamp(60px, 9vw, 120px);
+  font-weight: 900;
+  color: white;
+  letter-spacing: clamp(10px, 2vw, 24px);
+  line-height: 1;
+}
+.close-logo .o { color: var(--gold); }
+.close-tagline {
+  font-size: clamp(16px, 2vw, 24px);
+  color: var(--text2);
+  margin: 20px 0 50px;
+  text-align: center;
+}
+.contacts {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+}
+.contact-item { text-align: center; }
+.contact-item .c-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+.contact-item .c-name { font-size: 18px; color: white; font-weight: 700; }
+.contact-item .c-phone { font-size: 20px; color: var(--gold); font-weight: 800; direction: ltr; }
+.contact-item .c-role { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.contact-sep { width: 1px; background: rgba(255,255,255,0.12); align-self: stretch; }
+
+/* Pillar cards */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 1100px;
+  margin-top: 20px;
+}
+.pillar {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-align: center;
+  transition: all 0.25s;
+}
+.pillar:hover {
+  background: rgba(201,169,110,0.08);
+  border-color: rgba(201,169,110,0.3);
+  transform: translateY(-4px);
+}
+.pillar .p-icon { font-size: 44px; display: block; margin-bottom: 18px; }
+.pillar h3 { font-size: 20px; color: var(--gold); font-weight: 800; margin-bottom: 10px; }
+.pillar p { font-size: 14px; color: var(--text2); line-height: 1.65; }
+
+/* Comparison table */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 20px;
+}
+.compare-col h4 {
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  text-align: center;
+  font-weight: 700;
+}
+.compare-col.yes h4 { background: rgba(122,158,126,0.2); color: var(--sage-lt); }
+.compare-col.no h4 { background: rgba(198,40,40,0.15); color: #EF9A9A; }
+.compare-col ul { list-style: none; }
+.compare-col li { font-size: 15px; padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.75); }
+.compare-col li:last-child { border-bottom: none; }
+.compare-col.yes li::before { content: '✓ '; color: var(--sage); }
+.compare-col.no li::before { content: '✗ '; color: #EF5350; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .slide { padding: 40px 28px; }
+  .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr; }
+  .val-grid, .mkt-grid { grid-template-columns: 1fr 1fr; }
+  .compare { grid-template-columns: 1fr; }
+  .exp-timeline { flex-direction: column; }
+  .exp-arrow { transform: rotate(90deg); }
+}
+
+@media print {
+  html, body { overflow: visible; }
+  .slide { position: relative !important; opacity: 1 !important; transform: none !important; pointer-events: all !important; height: 100vh; page-break-after: always; }
+  #nav, #fs-btn, .progress-wrap, .slide-logo { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div id="progress-bar"></div></div>
+
+<button id="fs-btn" onclick="toggleFS()">⛶ מסך מלא</button>
+
+<div class="deck" id="deck">
+
+<!-- ===== SLIDE 1: COVER ===== -->
+<div class="slide active" id="s1" style="background: radial-gradient(ellipse at 30% 60%, #1a3040 0%, #0F1C26 65%);">
+  <div class="cover-logo">ALT<span class="o">O</span></div>
+  <div class="cover-bar"></div>
+  <div class="cover-sub">מועדון Wellness לגיל הזהב | 65–75</div>
+  <div class="cover-tagline">"כי החיים הטובים מתחילים עכשיו"</div>
+  <div class="cover-people">
+    <div class="cover-person">
+      <div class="name">יוסי ברוש</div>
+      <div class="role">מייסד | אסטרטגיה ותפעול</div>
+    </div>
+    <div class="cover-sep"></div>
+    <div class="cover-person">
+      <div class="name">שרון חסקל</div>
+      <div class="role">שותף | מכירות ושיווק</div>
+    </div>
+    <div class="cover-sep"></div>
+    <div class="cover-person">
+      <div class="name">מצגת מנהלים</div>
+      <div class="role">מאי 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 2: THE INSIGHT ===== -->
+<div class="slide bg-dark2">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header center" style="text-align:center;">
+    <div class="tag">✦ ההזדמנות</div>
+    <h2 class="title">קהל שאף אחד לא משרת כמו שצריך</h2>
+  </div>
+  <div class="cols-3" style="margin-bottom:32px;">
+    <div style="text-align:center;">
+      <span class="n-big">200K+</span>
+      <span class="n-lbl">ישראלים יפרשו<br>ב-5 השנים הקרובות</span>
+    </div>
+    <div style="text-align:center;">
+      <span class="n-big">67%</span>
+      <span class="n-lbl">מהפורשים מדווחים על חוסר<br>משמעות בשנה הראשונה</span>
+    </div>
+    <div style="text-align:center;">
+      <span class="n-big">0</span>
+      <span class="n-lbl">פתרון פרמיום ראוי<br>קיים כיום לקהל הזה</span>
+    </div>
+  </div>
+  <div class="big-quote">
+    "הם לא רוצים להיות קשישים.<br>הם רוצים לחיות — ברמה שהם רגילים אליה."
+  </div>
+</div>
+
+<!-- ===== SLIDE 3: WHO IS ALTO FOR ===== -->
+<div class="slide bg-dark">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header center" style="text-align:center; margin-bottom:32px;">
+    <div class="tag">✦ קהל היעד</div>
+    <h2 class="title">מי הם חברי <span class="g">ALTO</span>?</h2>
+  </div>
+  <div class="cols-2" style="max-width:1100px;">
+    <div>
+      <div class="hl" style="margin-bottom:16px;">
+        <strong>גיל 65–75 | רמה סוציו-אקונומית גבוהה</strong><br>
+        <span style="font-size:14px; color:var(--text2);">אנשים שרגילים לאיכות, שיש להם פניות, ותיאבון עצום לחיים טובים</span>
+      </div>
+      <ul class="check-list">
+        <li><span class="ck">✦</span> רופאים ורופאות</li>
+        <li><span class="ck">✦</span> עורכי דין ורואי חשבון</li>
+        <li><span class="ck">✦</span> אנשי הייטק ויועצים בכירים</li>
+        <li><span class="ck">✦</span> מנהלים בכירים לשעבר</li>
+        <li><span class="ck">✦</span> פורשי צבא בדרגות גבוהות</li>
+        <li><span class="ck">✦</span> יזמים ואנשי אקדמיה</li>
+      </ul>
+    </div>
+    <div>
+      <div class="hl sage" style="margin-bottom:16px;">
+        <strong>אזור המרכז והשרון</strong>
+      </div>
+      <ul class="check-list">
+        <li><span class="ck">✦</span> תל אביב-יפו</li>
+        <li><span class="ck">✦</span> רמת השרון וגבעתיים</li>
+        <li><span class="ck">✦</span> רמת גן ובני ברק</li>
+        <li><span class="ck">✦</span> הוד השרון ורעננה</li>
+        <li><span class="ck">✦</span> חולון ופתח תקווה</li>
+        <li><span class="ck">✦</span> כל אזור השרון</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 4: WHAT IS ALTO ===== -->
+<div class="slide bg-dark2">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header center" style="text-align:center;">
+    <div class="tag">✦ הקונספט</div>
+    <h2 class="title">מה זה <span class="g">ALTO</span>?</h2>
+    <p class="sub" style="text-align:center; margin:0 auto 32px;">מועדון חברים פרמיום — לא חוג, לא קורס, לא מרכז קשישים</p>
+  </div>
+  <div class="pillars">
+    <div class="pillar">
+      <span class="p-icon">🌿</span>
+      <h3>גוף</h3>
+      <p>יוגה מקצועית ו-Wellness מותאמים לגיל 65+. גוף שנע, נושם ומתחזק.</p>
+    </div>
+    <div class="pillar">
+      <span class="p-icon">❤️</span>
+      <h3>קהילה</h3>
+      <p>אנשים ברמתך, בשפה שלך. חברויות חדשות, שייכות, ואולי גם מפגשים רומנטיים.</p>
+    </div>
+    <div class="pillar">
+      <span class="p-icon">✨</span>
+      <h3>משמעות</h3>
+      <p>מסגרת שנותנת ריתמוס, תכלית ותחושת התחדשות — הרבה אחרי הפרישה.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 5: ALTO vs NOTHING ===== -->
+<div class="slide bg-dark">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header center" style="text-align:center; margin-bottom:28px;">
+    <div class="tag">✦ המיצוב</div>
+    <h2 class="title">ALTO הוא — ואינו</h2>
+  </div>
+  <div class="compare">
+    <div class="compare-col yes">
+      <h4>✓ ALTO הוא</h4>
+      <ul>
+        <li>מועדון חברים בוטיק ואיכותי</li>
+        <li>מסגרת חברתית עשירה בתכנים</li>
+        <li>יום איכות שבועי בתל אביב</li>
+        <li>מקום להיכרות בין שווים</li>
+        <li>חוויה אסתטית ומוקפדת</li>
+        <li>כל מפגש ממשיך גם אחרי 12:00</li>
+      </ul>
+    </div>
+    <div class="compare-col no">
+      <h4>✗ ALTO אינו</h4>
+      <ul>
+        <li>חוג שכונתי גדוני</li>
+        <li>שיעור כושר בלבד</li>
+        <li>מרכז קשישים</li>
+        <li>פעילות סוציאלית רגילה</li>
+        <li>שעה וחצי ואחר כך הביתה</li>
+        <li>פתרון "לקשישים"</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 6: THE OFFERING ===== -->
+<div class="slide bg-dark2">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header" style="width:100%; max-width:1100px;">
+    <div class="tag">✦ ההצעה | מחזור 2026–2027</div>
+    <h2 class="title">תוכנית ה-<span class="g">Wellness</span></h2>
+    <p class="sub" style="margin-bottom:16px;">~30 מפגשים שנתיים · פעם בשבוע · 10:00–12:00 · ליד הים בתל אביב</p>
+  </div>
+  <div class="bar-wrap" style="max-width:1100px; width:100%;">
+    <div class="bar-70">יוגה 70%</div>
+    <div class="bar-30">Wellness 30%</div>
+  </div>
+  <div class="cols-2" style="max-width:1100px; margin-top:20px;">
+    <div class="card">
+      <div style="display:flex; gap:16px; align-items:center; margin-bottom:16px;">
+        <span style="font-size:36px;">🧘</span>
+        <div>
+          <div style="font-size:40px; font-weight:900; color:var(--gold); line-height:1;">20</div>
+          <div style="font-size:13px; color:var(--text2);">מפגשי יוגה שנתיים</div>
+        </div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px;">
+        <span class="pill pill-gold">יוגה עדינה</span>
+        <span class="pill pill-outline">יוגה טיפולית</span>
+        <span class="pill pill-outline">יוגה נשימתית</span>
+        <span class="pill pill-outline">יוגה דינמית מותאמת</span>
+        <span class="pill pill-outline">גמישות ושיווי משקל</span>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(122,158,126,0.3);">
+      <div style="display:flex; gap:16px; align-items:center; margin-bottom:16px;">
+        <span style="font-size:36px;">🌿</span>
+        <div>
+          <div style="font-size:40px; font-weight:900; color:var(--sage-lt); line-height:1;">10</div>
+          <div style="font-size:13px; color:var(--text2);">מפגשי Wellness שנתיים</div>
+        </div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px;">
+        <span class="pill pill-sage">מדיטציה</span>
+        <span class="pill pill-outline">Mindfulness</span>
+        <span class="pill pill-outline">Sound Healing</span>
+        <span class="pill pill-outline">Rebirthing</span>
+        <span class="pill pill-outline">נשימה עמוקה</span>
+        <span class="pill pill-outline">תנועה מודעת</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 7: YOGA DEEP DIVE ===== -->
+<div class="slide bg-dark">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header" style="width:100%; max-width:1100px;">
+    <div class="tag">✦ היוגה ב-ALTO</div>
+    <h2 class="title">🧘 יוגה מקצועית לגיל <span class="g">65+</span></h2>
+    <p class="sub">בהנחיית סטפני — מנחה Wellness ויוגה מנוסה</p>
+  </div>
+  <div class="cols-3" style="max-width:1100px; margin-top:24px;">
+    <div class="card">
+      <span class="icon">🪑</span>
+      <h3>יוגה עדינה וטיפולית</h3>
+      <p>מותאמת לכל רמה ומצב. עבודה עדינה על גמישות, כאבים ושיווי משקל. גרסת כיסא זמינה לכל משתתף.</p>
+    </div>
+    <div class="card">
+      <span class="icon">💨</span>
+      <h3>יוגה נשימתית</h3>
+      <p>Pranayama ועבודת נשימה עמוקה. מפחית לחץ, מחזק את הריאות, מביא שקט מיידי.</p>
+    </div>
+    <div class="card">
+      <span class="icon">⚡</span>
+      <h3>יוגה דינמית מותאמת</h3>
+      <p>רצפים מותאמים לגיל 65+ — מאתגרת אך בטוחה. בונה כוח, גמישות ואנרגיה.</p>
+    </div>
+  </div>
+  <div class="hl" style="max-width:1100px; width:100%; margin-top:20px; font-size:15px;">
+    💡 <strong>עיקרון ה-Accessibility:</strong> כל תנוחה מגיעה ב-3 גרסאות — למתחיל, למתקדם, ולכיסא. אף אחד לא נשאר מאחור.
+  </div>
+</div>
+
+<!-- ===== SLIDE 8: WELLNESS DEEP DIVE ===== -->
+<div class="slide bg-sage">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header" style="width:100%; max-width:1100px;">
+    <div class="tag sage">✦ עולמות ה-Wellness</div>
+    <h2 class="title">🌿 10 מפגשים — <span class="g">10 חוויות שונות</span></h2>
+    <p class="sub">כל מפגש Wellness הוא עולם חדש שמרחיב אופקים</p>
+  </div>
+  <div style="display:flex; flex-wrap:wrap; gap:12px; max-width:1100px; margin-top:24px;">
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:50px; padding:12px 22px; font-size:15px; color:white;">
+      🧘 מדיטציה מודרכת
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:50px; padding:12px 22px; font-size:15px; color:white;">
+      🧠 Mindfulness
+    </div>
+    <div style="background:rgba(201,169,110,0.2); border:1px solid var(--gold); border-radius:50px; padding:12px 22px; font-size:15px; color:var(--gold-lt); font-weight:700;">
+      🎵 Sound Healing
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:50px; padding:12px 22px; font-size:15px; color:white;">
+      💨 Rebirthing ונשימה
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:50px; padding:12px 22px; font-size:15px; color:white;">
+      🌲 Mindfulness בטבע
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:50px; padding:12px 22px; font-size:15px; color:white;">
+      💧 פעילות מים
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:50px; padding:12px 22px; font-size:15px; color:white;">
+      🕺 תנועה מודעת
+    </div>
+    <div style="background:rgba(201,169,110,0.2); border:1px solid var(--gold); border-radius:50px; padding:12px 22px; font-size:15px; color:var(--gold-lt); font-weight:700;">
+      🧊 אמבטיות קרח
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:50px; padding:12px 22px; font-size:15px; color:white;">
+      💛 סדנאות חיבור עצמי
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:50px; padding:12px 22px; font-size:15px; color:white;">
+      🌀 Yoga Nidra
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 9: THE EXPERIENCE ===== -->
+<div class="slide bg-dark2">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header center" style="text-align:center; margin-bottom:32px;">
+    <div class="tag">✦ החוויה</div>
+    <h2 class="title">יום ב-<span class="g">ALTO</span></h2>
+    <p class="sub" style="text-align:center; margin:0 auto;">זה לא שיעור. זה <strong style="color:white;">יום</strong>.</p>
+  </div>
+  <div class="exp-timeline">
+    <div class="exp-step">
+      <span class="exp-time">09:30</span>
+      <span class="exp-icon">☕</span>
+      <div class="exp-title">הגעה וקפה</div>
+      <div class="exp-desc">מפגש חברתי קצר לפני הפעילות. שיח, היכרות, אווירה.</div>
+    </div>
+    <div class="exp-arrow">◀</div>
+    <div class="exp-step main">
+      <span class="exp-time">10:00 – 12:00</span>
+      <span class="exp-icon">🧘</span>
+      <div class="exp-title">הפעילות המרכזית</div>
+      <div class="exp-desc">שעתיים של יוגה / Wellness / מדיטציה. מנחה מקצועי. קבוצה קטנה ואיכותית.</div>
+    </div>
+    <div class="exp-arrow">◀</div>
+    <div class="exp-step">
+      <span class="exp-time">12:00 – 13:00</span>
+      <span class="exp-icon">💬</span>
+      <div class="exp-title">שיחה חופשית</div>
+      <div class="exp-desc">נשנושים, שיח, חיבורים שנוצרים אחרי הפעילות.</div>
+    </div>
+    <div class="exp-arrow">◀</div>
+    <div class="exp-step">
+      <span class="exp-time">13:00+</span>
+      <span class="exp-icon">🌊</span>
+      <div class="exp-title">תל אביב שלך</div>
+      <div class="exp-desc">ארוחת צהריים, טיול ליד הים, בילוי חברתי. לא חובה, אבל תמיד מתרחש.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 10: SPECIAL EVENTS ===== -->
+<div class="slide bg-dark">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header center" style="text-align:center; margin-bottom:32px;">
+    <div class="tag">✦ מעבר למפגש השבועי</div>
+    <h2 class="title">אירועים מיוחדים <span class="g">לאורך השנה</span></h2>
+  </div>
+  <div class="cols-4" style="max-width:1100px;">
+    <div class="card" style="text-align:center;">
+      <span class="icon" style="font-size:44px;">🚀</span>
+      <h3 style="text-align:center;">אירוע השקה</h3>
+      <p>ספטמבר 2026. אירוע גדול ופתוח — הרצאות, טעימות Wellness, היכרות ראשונה עם ALTO.</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <span class="icon" style="font-size:44px;">🌲</span>
+      <h3 style="text-align:center;">יום טבע שנתי</h3>
+      <p>יום מחוץ לעיר — פרדס חנה, טבע פתוח, הליכה, מדיטציה, ארוחה משותפת.</p>
+    </div>
+    <div class="card" style="text-align:center; border-color:rgba(201,169,110,0.35);">
+      <span class="icon" style="font-size:44px;">🏔️</span>
+      <h3 style="text-align:center;">Retreat שנתי</h3>
+      <p>יום שיא מיוחד — Sound Healing, Yoga Nidra, שתיקה, חיבור עמוק.</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <span class="icon" style="font-size:44px;">🥂</span>
+      <h3 style="text-align:center;">יום סיום חגיגי</h3>
+      <p>יוני 2027. חגיגה, הכרת תודה, השראה — וגם אירוע הרשמה למחזור הבא.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 11: TEAM ===== -->
+<div class="slide bg-dark2">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header center" style="text-align:center; margin-bottom:32px;">
+    <div class="tag">✦ הצוות</div>
+    <h2 class="title">ארבעה אנשים. <span class="g">מועדון אחד.</span></h2>
+  </div>
+  <div class="cols-4" style="max-width:1100px;">
+    <div class="team-card">
+      <span class="team-av">💡</span>
+      <h4>יוסי ברוש</h4>
+      <div class="role">מייסד | אסטרטגיה ותפעול</div>
+      <ul>
+        <li>חזון ומיתוג</li>
+        <li>תפעול ולוגיסטיקה</li>
+        <li>מדיה ועיצוב</li>
+        <li>בניית המערך</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <span class="team-av">🤝</span>
+      <h4>שרון חסקל</h4>
+      <div class="role">שותף | מכירות ושיווק</div>
+      <ul>
+        <li>מכירות והרשמות</li>
+        <li>תקשורת לקוחות</li>
+        <li>קשרי ארגונים</li>
+        <li>גיוס חברים</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <span class="team-av">🧘</span>
+      <h4>סטפני</h4>
+      <div class="role">מובילת Wellness</div>
+      <ul>
+        <li>יוגה מקצועית</li>
+        <li>מדיטציה ונשימה</li>
+        <li>Sound Healing</li>
+        <li>מערכי שיעור</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <span class="team-av">🎭</span>
+      <h4>שרונה</h4>
+      <div class="role">תיאטרון וביטוי</div>
+      <ul>
+        <li>סדנאות תיאטרון</li>
+        <li>ביטוי עצמי</li>
+        <li>עבודת קבוצה</li>
+        <li>מפגשי חיבור</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 12: GO TO MARKET ===== -->
+<div class="slide bg-dark">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header center" style="text-align:center; margin-bottom:28px;">
+    <div class="tag">✦ גישה לשוק</div>
+    <h2 class="title">כיצד מגיעים לחברי <span class="g">ALTO</span></h2>
+  </div>
+  <div class="mkt-grid" style="max-width:1050px;">
+    <div class="mkt-card">
+      <span class="mkt-icon">📘</span>
+      <span class="mkt-badge r">עליונה</span>
+      <h4>פייסבוק</h4>
+      <p>פרסום ממומן מדויק לגיל 65–75 באזור המרכז. הקהל הכי פעיל ברשת.</p>
+    </div>
+    <div class="mkt-card">
+      <span class="mkt-icon">💼</span>
+      <span class="mkt-badge r">גבוהה</span>
+      <h4>לינקדאין</h4>
+      <p>גישה לאנשי מקצוע בכירים לפני ואחרי פרישה. קהל היעד המדויק.</p>
+    </div>
+    <div class="mkt-card">
+      <span class="mkt-icon">💬</span>
+      <span class="mkt-badge r">עליונה</span>
+      <h4>WhatsApp</h4>
+      <p>קבוצות גמלאים, קהילות שכונתיות — הפצה ויראלית בקרב הקהל הנכון.</p>
+    </div>
+    <div class="mkt-card">
+      <span class="mkt-icon">🏥</span>
+      <span class="mkt-badge g">אסטרטגי</span>
+      <h4>קופות חולים</h4>
+      <p>שיתופי פעולה עם כללית, מכבי, מאוחדת. הפניות ועסקאות מוסדיות.</p>
+    </div>
+    <div class="mkt-card">
+      <span class="mkt-icon">🏢</span>
+      <span class="mkt-badge g">אסטרטגי</span>
+      <h4>ארגוני גמלאים</h4>
+      <p>חבר, ארגוני עובדים, גמלאי חברות גדולות — גישה לאוכלוסייה מאורגנת.</p>
+    </div>
+    <div class="mkt-card">
+      <span class="mkt-icon">👥</span>
+      <span class="mkt-badge g">חזק</span>
+      <h4>מפה לאוזן</h4>
+      <p>חברי ALTO שמפנים חברים — הכלי השיווקי החזק ביותר לקהל הזה.</p>
+    </div>
+  </div>
+  <div class="hl" style="max-width:1050px; width:100%; margin-top:16px; font-size:14px;">
+    💼 <strong>מודל ארגוני:</strong> 10%–15% הנחה לחברי ארגון. אפשרות: הארגון מממן 10% + ALTO מוזיל 10% = החבר משלם 80%.
+  </div>
+</div>
+
+<!-- ===== SLIDE 13: VALUE ===== -->
+<div class="slide bg-dark2">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header center" style="text-align:center; margin-bottom:28px;">
+    <div class="tag">✦ ערך לחבר</div>
+    <h2 class="title">מה <span class="g">מקבלים</span> ב-ALTO?</h2>
+  </div>
+  <div class="val-grid" style="max-width:1050px;">
+    <div class="val-item">
+      <div class="val-icon">💪</div>
+      <div class="val-txt">
+        <h5>גוף שנע ומתחזק</h5>
+        <p>יוגה שמתאימה לגיל, שמחזקת, מגמישה ומשפרת שיווי משקל.</p>
+      </div>
+    </div>
+    <div class="val-item">
+      <div class="val-icon">🧠</div>
+      <div class="val-txt">
+        <h5>נפש שנושמת</h5>
+        <p>מדיטציה, Mindfulness, Sound Healing — שקט, ריענון, נוכחות.</p>
+      </div>
+    </div>
+    <div class="val-item">
+      <div class="val-icon">❤️</div>
+      <div class="val-txt">
+        <h5>קהילה אמיתית</h5>
+        <p>מקום שבו מחכים לך, מכירים אותך, ושמחים לראות אותך. לא אנונימי.</p>
+      </div>
+    </div>
+    <div class="val-item">
+      <div class="val-icon">🌟</div>
+      <div class="val-txt">
+        <h5>משמעות לאחר הפרישה</h5>
+        <p>מסגרת שנותנת תכלית ומשמעות לשבוע — לא רק עוד חוג.</p>
+      </div>
+    </div>
+    <div class="val-item">
+      <div class="val-icon">💕</div>
+      <div class="val-txt">
+        <h5>חברויות (ואולי יותר)</h5>
+        <p>הסביבה האיכותית יוצרת חברויות אמיתיות — ואולי גם פגישה רומנטית.</p>
+      </div>
+    </div>
+    <div class="val-item">
+      <div class="val-icon">☀️</div>
+      <div class="val-txt">
+        <h5>יום איכות שבועי בת"א</h5>
+        <p>שעתיים פעילות + ארוחת צהריים + טיול. יום שלם שמגדיר את עצמו.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 14: FUTURE VISION ===== -->
+<div class="slide bg-dark">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header" style="width:100%; max-width:1100px;">
+    <div class="tag">✦ חזון לטווח ארוך</div>
+    <h2 class="title">ALTO מתחיל ב-Wellness — <span class="g">ומתרחב</span></h2>
+    <p class="sub" style="margin-bottom:28px;">המחזור הראשון מוקדש לבניית בסיס Wellness איכותי. מהמחזור השני — ALTO יהפוך למועדון רב-תחומי מלא.</p>
+  </div>
+  <div style="display:flex; gap:16px; flex-wrap:wrap; max-width:1100px; margin-bottom:24px;">
+    <div style="background:rgba(201,169,110,0.2); border:2px solid var(--gold); border-radius:16px; padding:20px 24px; flex:1; min-width:160px; text-align:center;">
+      <span style="font-size:32px; display:block; margin-bottom:8px;">🧘</span>
+      <div style="font-size:14px; color:var(--gold); font-weight:700;">Wellness ויוגה</div>
+      <div style="font-size:11px; color:var(--gold-lt); margin-top:4px;">מחזור ראשון ←</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:20px 24px; flex:1; min-width:160px; text-align:center;">
+      <span style="font-size:32px; display:block; margin-bottom:8px;">🎭</span>
+      <div style="font-size:14px; color:rgba(255,255,255,0.7); font-weight:700;">תיאטרון וביטוי</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:20px 24px; flex:1; min-width:160px; text-align:center;">
+      <span style="font-size:32px; display:block; margin-bottom:8px;">🎨</span>
+      <div style="font-size:14px; color:rgba(255,255,255,0.7); font-weight:700;">אמנות פלסטית</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:20px 24px; flex:1; min-width:160px; text-align:center;">
+      <span style="font-size:32px; display:block; margin-bottom:8px;">🎵</span>
+      <div style="font-size:14px; color:rgba(255,255,255,0.7); font-weight:700;">שירה ומוזיקה</div>
+    </div>
+    <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:20px 24px; flex:1; min-width:160px; text-align:center;">
+      <span style="font-size:32px; display:block; margin-bottom:8px;">💃</span>
+      <div style="font-size:14px; color:rgba(255,255,255,0.7); font-weight:700;">ריקוד ותנועה</div>
+    </div>
+  </div>
+  <div class="hl" style="max-width:1100px; width:100%; font-size:14px;">
+    🏛️ <strong>כל תחום — מרחב עצמאי, מנחה מקצועי, קהל מוגדר.</strong>
+    ALTO הוא הגג שמאגד אותם לקהילה אחת שלמה.
+  </div>
+</div>
+
+<!-- ===== SLIDE 15: NEXT STEPS ===== -->
+<div class="slide bg-dark2">
+  <div class="slide-logo">ALTO</div>
+  <div class="slide-header" style="width:100%; max-width:1000px; margin-bottom:28px;">
+    <div class="tag">✦ המשך הדרך</div>
+    <h2 class="title">הצעדים <span class="g">הבאים</span></h2>
+  </div>
+  <div class="steps-list">
+    <div class="step-row">
+      <div class="step-n">1</div>
+      <div>
+        <h4>בניית שפה מיתוגית</h4>
+        <p>לוגו, צבעים, טון — ה-DNA הוויזואלי שמגדיר את ALTO כמועדון פרמיום</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-n">2</div>
+      <div>
+        <h4>אתר ומערכת הרשמה</h4>
+        <p>דף נחיתה שמספר את הסיפור ומאפשר הרשמה — פשוט, יפה, ממיר</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-n">3</div>
+      <div>
+        <h4>סרטוני תדמית</h4>
+        <p>60–90 שניות שמספרים מה זה ALTO — להפצה בפייסבוק, WhatsApp, לינקדאין</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-n">4</div>
+      <div>
+        <h4>פנייה לארגונים ושותפים</h4>
+        <p>קופות חולים, חבר, ארגוני גמלאים, חברות גדולות — בניית הסכמים</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-n">5</div>
+      <div>
+        <h4>אירוע השקה — ספטמבר 2026</h4>
+        <p>אירוע גדול ופתוח לכל המתעניינים. יצירת FOMO. גיוס המחזור הראשון.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-n">6</div>
+      <div>
+        <h4>פתיחת המחזור הראשון — אוקטובר 2026</h4>
+        <p>לאחר חגי תשרי. קבוצה ראשונה. בניית קהילה. תחילת הסיפור.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 16: CLOSE ===== -->
+<div class="slide" style="background: radial-gradient(ellipse at 30% 60%, #1a3040 0%, #0F1C26 65%);">
+  <div class="close-logo">ALT<span class="o">O</span></div>
+  <div class="cover-bar"></div>
+  <div class="close-tagline">"יחד, ניצור את המועדון שהם מחכים לו"</div>
+  <div class="contacts">
+    <div class="contact-item">
+      <span class="c-icon">👤</span>
+      <div class="c-name">יוסי ברוש</div>
+      <div class="c-role">מייסד | אסטרטגיה ותפעול</div>
+      <div class="c-phone">052-267-4041</div>
+    </div>
+    <div class="contact-sep"></div>
+    <div class="contact-item">
+      <span class="c-icon">🤝</span>
+      <div class="c-name">שרון חסקל</div>
+      <div class="c-role">שותף | מכירות ושיווק</div>
+      <div class="c-phone">054-464-9544</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ===== NAVIGATION ===== -->
+<div id="nav">
+  <button class="nav-btn" onclick="prevSlide()" title="הקודם (←)">▶</button>
+  <span id="counter">1 / 16</span>
+  <button class="nav-btn" onclick="nextSlide()" title="הבא (→)">◀</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let cur = 0;
+
+function updateUI() {
+  document.getElementById('counter').textContent = (cur + 1) + ' / ' + total;
+  document.getElementById('progress-bar').style.width = ((cur + 1) / total * 100) + '%';
+}
+
+function goTo(n) {
+  if (n < 0 || n >= total) return;
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('prev');
+  setTimeout(() => { slides[cur] && slides[cur].classList.remove('prev'); }, 600);
+  cur = n;
+  slides[cur].classList.add('active');
+  updateUI();
+}
+
+function nextSlide() { goTo(cur + 1); }
+function prevSlide() { goTo(cur - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'Home') goTo(0);
+  if (e.key === 'End') goTo(total - 1);
+});
+
+// Touch/swipe
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 50) { dx > 0 ? nextSlide() : prevSlide(); }
+});
+
+// Click right side / left side to navigate
+document.getElementById('deck').addEventListener('click', e => {
+  const w = window.innerWidth;
+  const x = e.clientX;
+  if (x < w * 0.35) prevSlide();
+  else if (x > w * 0.65) nextSlide();
+});
+
+function toggleFS() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+    document.getElementById('fs-btn').textContent = '✕ צא ממסך מלא';
+  } else {
+    document.exitFullscreen();
+    document.getElementById('fs-btn').textContent = '⛶ מסך מלא';
+  }
+}
+
+updateUI();
+</script>
+</body>
+</html>

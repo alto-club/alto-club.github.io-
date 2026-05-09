@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="פעילויות לומינה - מדיטציה ויוגה, משחקים קוגניטיביים, ציור יצירתי וכתיבת סיפור חיים. הצטרפו לפעילויות מגוונות המותאמות לגיל 65+ בישראל.">
+    <title>פעילויות | לומינה - רשת פעילות לגיל 65+</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ========== RESET & BASE ========== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background-color: #fafaf8;
+            color: #2c2c2c;
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        /* ========== NAV ========== */
+        .main-nav {
+            background: linear-gradient(135deg, #2d1b69 0%, #4a2c8a 100%);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(45, 27, 105, 0.35);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 70px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #f7d44c;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s;
+        }
+
+        .logo:hover {
+            opacity: 0.85;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-links li a {
+            color: #e8e0ff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-links li a:hover,
+        .nav-links li a[href="activities.html"] {
+            background: rgba(247, 212, 76, 0.18);
+            color: #f7d44c;
+        }
+
+        .nav-links li a[href="activities.html"] {
+            background: rgba(247, 212, 76, 0.25);
+            color: #f7d44c;
+            border-bottom: 2px solid #f7d44c;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: 2px solid #f7d44c;
+            color: #f7d44c;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(247, 212, 76, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                right: 0;
+                left: 0;
+                background: linear-gradient(180deg, #3a2278, #2d1b69);
+                padding: 16px 24px 24px;
+                gap: 4px;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links li a {
+                display: block;
+                padding: 12px 16px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* ========== HERO SECTION ========== */
+        .activities-hero {
+            background: linear-gradient(135deg, #2d1b69 0%, #6b3fa0 50%, #9b59b6 100%);
+            color: #fff;
+            text-align: center;
+            padding: 80px 24px 90px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activities-hero::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: -60px;
+            width: 300px;
+            height: 300px;
+            background: rgba(247, 212, 76, 0.07);
+            border-radius: 50%;
+        }
+
+        .activities-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            right: -40px;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 50%;
+        }
+
+        .activities-hero .hero-badge {
+            display: inline-block;
+            background: rgba(247, 212, 76, 0.2);
+            border: 1.5px solid rgba(247, 212, 76, 0.5);
+            color: #f7d44c;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 6px 20px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .activities-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 900;
+            margin-bottom: 18px;
+            line-height: 1.25;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .activities-hero h1 span {
+            color: #f7d44c;
+        }
+
+        .activities-hero p {
+            font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+            max-width: 680px;
+            margin: 0 auto 32px;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 36px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #f7d44c;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            display: block;
+        }
+
+        /* ========== INTRO STRIP ========== */
+        .intro-strip {
+            background: #fff;
+            border-bottom: 1px solid #ede9f8;
+            padding: 28px 24px;
+            text-align: center;
+        }
+
+        .intro-strip p {
+            max-width: 860px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .intro-strip strong {
+            color: #4a2c8a;
+        }
+
+        /* ========== ACTIVITIES SECTION ========== */
+        .activities-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 70px 24px 80px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 800;
+            color: #2d1b69;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #f7d44c, #9b59b6);
+            border-radius: 2px;
+            margin: 16px auto 0;
+        }
+
+        /* ========== ACTIVITY CARDS ========== */
+        .activities-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 44px;
+        }
+
+        .activity-card {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(45, 27, 105, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            min-height: 380px;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 55px rgba(45, 27, 105, 0.18);
+        }
+
+        .activity-card:nth-child(even) {
+            grid-template-columns: 1.8fr 1fr;
+        }
+
+        .activity-card:nth-child(even) .card-visual {
+            order: 2;
+        }
+
+        .activity-card:nth-child(even) .card-content {
+            order: 1;
+        }
+
+        .card-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 40px 30px;
+            min-height: 300px;
+        }
+
+        /* Card colors */
+        .card-1 .card-visual {
+            background: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-2 .card-visual {
+            background: linear-gradient(145deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .card-3 .card-visual {
+            background: linear-gradient(145deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .card-4 .card-visual {
+            background: linear-gradient(145deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .card-visual .activity-emoji {
+            font-size: 5rem;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card-2 .card-visual .activity-emoji { animation-delay: 0.5s; }
+        .card-3 .card-visual .activity-emoji { animation-delay: 1s; }
+        .card-4 .card-visual .activity-emoji { animation-delay: 1.5s; }
+
+        .card-visual .visual-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .schedule-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .card-content {
+            padding: 44px 44px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .activity-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 50px;
+            margin-bottom: 14px;
+            width: fit-content;
+        }
+
+        .card-1 .activity-tag { background: #ede9f8; color: #4a2c8a; }
+        .card-2 .activity-tag { background: #fde8f0; color: #c0355a; }
+        .card-3 .activity-tag { background: #e0f4ff; color: #0077b6; }
+        .card-4 .activity-tag { background: #e6faf2; color: #1a7a52; }
+
+        .card-content h3 {
+            font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 14px;
+            line-height: 1.3;
+        }
+
+        .card-content .main-description {
+            font-size: 1.05rem;
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 22px;
+        }
+
+        /* Benefits list */
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 16px;
+        }
+
+        .benefits-list li {
+            font-size: 0.95rem;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .benefits-list li::before {
+            content: '✓';
+            font-weight: 900;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-1 .benefits-list li::before { background: #ede9f8; color: #4a2c8a; }
+        .card-2 .benefits-list li::before { background: #fde8f0; color: #c0355a; }
+        .card-3 .benefits-list li::before { background: #e0f4ff; color: #0077b6; }
+        .card-4 .benefits-list li::before { background: #e6faf2; color: #1a7a52; }
+
+        /* Info row */
+        .card-info-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 26px;
+            padding: 16px 20px;
+            background: #f8f7fc;
+            border-radius: 12px;
+            border-right: 4px solid #d4c8f0;
+        }
+
+        .card-2 .card-info-row { border-right-color: #f5a7c0; background: #fff9fb; }
+        .card-3 .card-info-row { border-right-color: #80ccf5; background: #f5fbff; }
+        .card-4 .card-info-row { border-right-color: #7de8c0; background: #f5fdf9; }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .info-item .info-icon {
+            font-size: 1rem;
+        }
+
+        .info-item strong {
+            color: #2d1b69;
+        }
+
+        .card-2 .info-item strong { color: #a0284a; }
+        .card-3 .info-item strong { color: #005c8a; }
+        .card-4 .info-item strong { color: #12634a; }
+
+        .info-divider {
+            width: 1px;
+            background: #ddd;
+            align-self: stretch;
+        }
+
+        /* Card CTA button */
+        .card-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: none;
+            width: fit-content;
+            min-height: 52px;
+        }
+
+        .card-1 .card-btn {
+            background: linear-gradient(135deg, #4a2c8a, #764ba2);
+            color: #fff;
+        }
+
+        .card-1 .card-btn:hover {
+            background: linear-gradient(135deg, #3a1f6e, #5e3b8a);
+            transform: translateX(-3px);
+        }
+
+        .card-2 .card-btn {
+            background: linear-gradient(135deg, #f5576c, #c0355a);
+            color: #fff;
+        }
+
+        .card-2 .card-btn:hover {
+            background: linear-gradient(135deg, #d9445a, #a02a48);
+            transform: translateX(-3px);
+        }
+
+        .card-3 .card-btn {
+            background: linear-gradient(135deg, #0077b6, #4facfe);
+            color: #fff;
+        }
+
+        .card-3 .card-btn:hover {
+            background: linear-gradient(135deg, #005f94, #3d99e8);
+            transform: translateX(-3px);
+        }
+
+        .card-4 .card-btn {
+            background: linear-gradient(135deg, #1a7a52, #43e97b);

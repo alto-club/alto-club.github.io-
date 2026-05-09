@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMINA — פעילויות</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@200;300;400&family=Noto+Sans+Hebrew:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design.css">
+  <style>
+    .page-hero { background: var(--bg); padding: 10rem 0 5rem; text-align: center; border-bottom: 1px solid var(--stone-light); }
+    .act-section { padding: 6rem 0; }
+    .act-section:nth-child(even) { background: var(--bg-cream); }
+    .act-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .act-layout.reverse .act-text { order: 2; }
+    .act-layout.reverse .act-visual { order: 1; }
+    .act-visual {
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+    }
+    .act-emoji-bg { font-size: 8rem; opacity: 0.1; position: absolute; }
+    .act-visual-inner { position: relative; z-index: 1; text-align: center; color: white; padding: 2rem; }
+    .act-visual-inner h3 { font-weight: 200; font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .act-visual-inner p { font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+    .act-pull {
+      position: absolute;
+      bottom: -1.5rem;
+      background: var(--matcha);
+      color: white;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      max-width: 200px;
+    }
+    .act-pull.right { left: -1.5rem; }
+    .act-pull.left { right: -1.5rem; }
+    .benefits { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin: 1.5rem 0 2rem; }
+    .benefits li { display: flex; align-items: flex-start; gap: 0.7rem; font-size: 0.9rem; color: var(--ink-light); }
+    .benefits li::before { content: '✓'; color: var(--matcha); flex-shrink: 0; font-size: 0.85rem; margin-top: 0.15rem; }
+    .schedule-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .schedule-pill {
+      padding: 0.3rem 0.9rem;
+      font-size: 0.75rem;
+      border: 1px solid var(--stone-light);
+      color: var(--ink-light);
+    }
+    @media (max-width: 900px) {
+      .act-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .act-layout.reverse .act-text, .act-layout.reverse .act-visual { order: unset; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-dot"></span>LUMINA · לומינה</a>
+    <ul class="nav-links">
+      <li><a href="index.html">ראשי</a></li>
+      <li><a href="activities.html" class="active">פעילויות</a></li>
+      <li><a href="about.html">אודות</a></li>
+      <li><a href="join.html">הצטרפות</a></li>
+      <li><a href="contact.html">צור קשר</a></li>
+    </ul>
+    <a href="join.html" class="btn btn-primary btn-sm">הצטרפי עכשיו</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="label fi">ארבעת אשכולות הפעילות</span>
+    <h1 class="title-xl fi d1" style="margin-bottom:1rem;">מה עושים ב-LUMINA?</h1>
+    <div class="zen-line fi d1"></div>
+    <p class="text-lg fi d2" style="max-width:520px;margin:0 auto 3rem;">
+      כל פעילות עוצבה בקפידה — מקצועית, נגישה, ומחברת קהילה של אנשים שרוצים להמשיך לצמוח.
+    </p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;" class="fi d3">
+      <a href="#yoga" class="btn btn-outline">🧘 מדיטציה ויוגה</a>
+      <a href="#games" class="btn btn-outline">🎲 משחק קוגניטיבי</a>
+      <a href="#art" class="btn btn-outline">🎨 ציור ואמנות</a>
+      <a href="#story" class="btn btn-outline">📖 הסיפור שלי</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── Yoga ── -->
+<section class="act-section" id="yoga">
+  <div class="container">
+    <div class="act-layout fi">
+      <div class="act-text">
+        <span class="label">אשכול 01</span>
+        <h2 class="title-lg" style="margin-bottom:1rem;">מדיטציה ויוגה</h2>
+        <div class="zen-line start"></div>
+        <p class="text-lg" style="margin-bottom:1rem;">
+          שילוב ייחודי של יוגה עדינה ומדיטציה מודרכת — תוכנן ספציפית לגוף הבוגר.
+          שיעורים חיים בזום ומוקלטים לצפייה בכל עת.
+        </p>
+        <ul class="benefits">
+          <li>שיפור גמישות, כוח ושיווי משקל</li>
+          <li>הפחתת כאבי גב ומפרקים</li>
+          <li>הרגעת מערכת העצבים, הפחתת חרדה</li>
+          <li>חיזוק הקשר לרגע הנוכחי</li>
+          <li>שיעורים לרמות שונות — מתחילים ועד מתקדמים</li>
+        </ul>
+        <div class="schedule-pills">
+          <span class="schedule-pill">ב׳ + ה׳ 09:00</span>
+          <span class="schedule-pill">ד׳ 17:00 מדיטציה</span>
+          <span class="schedule-pill">ג׳ 18:00 מתקדמים</span>
+        </div>
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="join.html" class="btn btn-primary">הצטרפי לשיעור</a>
+          <a href="contact.html" class="btn btn-outline">שאלה למנחה</a>
+        </div>
+      </div>
+      <div style="position:relative;">
+        <div class="act-visual">
+          <span class="act-emoji-bg">🧘</span>
+          <div class="act-visual-inner">
+            <h3>מדיטציה ויוגה</h3>
+            <p>עם ד"ר מיכל שרון ונעמי בן-דוד</p>
+          </div>
+          <div class="act-pull right">
+            "יוגה לימדה אותי לנשום מחדש — גם את החיים."
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Games ── -->
+<section class="act-section" id="games">
+  <div class="container">
+    <div class="act-layout reverse fi">
+      <div style="position:relative;">
+        <div class="act-visual" style="background:#2D3A2D;">
+          <span class="act-emoji-bg">🎲</span>
+          <div class="act-visual-inner">
+            <h3>משחק קוגניטיבי</h3>
+            <p>עם רן מוזס וגדי לוין</p>
+          </div>
+          <div class="act-pull left" style="background:var(--gold);">
+            "השחמט החזיר לי את החדות שחשבתי שאיבדתי."
+          </div>
+        </div>
+      </div>
+      <div class="act-text">
+        <span class="label">אשכול 02</span>
+        <h2 class="title-lg" style="margin-bottom:1rem;">משחק קוגניטיבי</h2>
+        <div class="zen-line start"></div>
+        <p class="text-lg" style="margin-bottom:1rem;">
+          שחמט, שש-בש, תשחץ ומשחקי קלפים — שומרים על החשיבה חדה, הזיכרון חי
+          וחברתיות פורחת. כולל תחרויות חודשיות.
+        </p>
+        <ul class="benefits">
+          <li>חיזוק הזיכרון לטווח קצר וארוך</li>
+          <li>שיפור יכולת ריכוז ופתרון בעיות</li>
+          <li>חברתיות — אחד על אחד וקבוצות</li>
+          <li>תחרויות ואירועים מיוחדים</li>
+          <li>מתאים לכל רמה — גם למתחילים לגמרי</li>
+        </ul>
+        <div class="schedule-pills">
+          <span class="schedule-pill">ג׳ + ו׳ 16:00 שחמט</span>
+          <span class="schedule-pill">א׳ 10:00 שש-בש</span>
+          <span class="schedule-pill">תחרות חודשית</span>
+        </div>
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="join.html" class="btn btn-primary">הצטרפי</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Art ── -->
+<section class="act-section" id="art">
+  <div class="container">
+    <div class="act-layout fi">
+      <div class="act-text">
+        <span class="label">אשכול 03</span>
+        <h2 class="title-lg" style="margin-bottom:1rem;">ציור ואמנות</h2>
+        <div class="zen-line start"></div>
+        <p class="text-lg" style="margin-bottom:1rem;">
+          סדנאות ציור מודרכות בסגנונות שונים — אקוורל, שמן, פחם, עפרון.
+          ביטוי חזותי חופשי לכל רמה, ללא צורך בניסיון קודם.
+        </p>
+        <ul class="benefits">
+          <li>ביטוי יצירתי — שפה שאין לה גיל</li>
+          <li>הפחתת מתח ועיסוק מדיטטיבי</li>
+          <li>פיתוח מוטוריקה עדינה</li>
+          <li>אווירה מחייכת ולא שיפוטית</li>
+          <li>תערוכות וירטואליות רבעוניות</li>
+        </ul>
+        <div class="schedule-pills">
+          <span class="schedule-pill">ד׳ 10:30 אקוורל</span>
+          <span class="schedule-pill">ה׳ 14:00 שמן</span>
+          <span class="schedule-pill">תערוכה רבעונית</span>
+        </div>
+        <div style="margin-top:2rem;">
+          <a href="join.html" class="btn btn-primary">הצטרפי לסדנה</a>
+        </div>
+      </div>
+      <div style="position:relative;">
+        <div class="act-visual" style="background:#2A2020;">
+          <span class="act-emoji-bg">🎨</span>
+          <div class="act-visual-inner">
+            <h3>ציור ואמנות</h3>
+            <p>עם נורית אלון ואיריס מנור</p>
+          </div>
+          <div class="act-pull right" style="background:var(--sakura-dark);">
+            "גיליתי שאני אמנית — בגיל 71."
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Story ── -->
+<section class="act-section" id="story">
+  <div class="container">
+    <div class="act-layout reverse fi">
+      <div style="position:relative;">
+        <div class="act-visual" style="background:#1A1A2E;">
+          <span class="act-emoji-bg">📖</span>
+          <div class="act-visual-inner">
+            <h3>הסיפור שלי</h3>
+            <p>עם ד"ר אורה ליבוביץ ויגאל פז</p>
+          </div>
+          <div class="act-pull left">
+            "ילדיי קראו את הזיכרונות שכתבתי — ובכו מרוב אהבה."
+          </div>
+        </div>
+      </div>
+      <div class="act-text">
+        <span class="label">אשכול 04</span>
+        <h2 class="title-lg" style="margin-bottom:1rem;">הסיפור שלי</h2>
+        <div class="zen-line start"></div>
+        <p class="text-lg" style="margin-bottom:1rem;">
+          כלי מורשת אישי ייחודי — כתיבה אוטוביוגרפית, צילום ותיעוד זיכרונות.
+          שמרי את הסיפור שלך לנצח ושתפי עם מי שאוהב אותך.
+        </p>
+        <ul class="benefits">
+          <li>עיבוד חוויות חיים ומציאת משמעות</li>
+          <li>חיזוק תחושת הזהות והרציפות</li>
+          <li>מתנה למשפחה ולדורות הבאים</li>
+          <li>כתיבה, צילום, הקלטה — כל פורמט</li>
+          <li>ספר אישי מודפס כתוצאה אופציונלית</li>
+        </ul>
+        <div class="schedule-pills">
+          <span class="schedule-pill">ב׳ 15:00 כתיבה</span>
+          <span class="schedule-pill">א׳ 16:00 צילום</span>
+        </div>
+        <div style="margin-top:2rem;">
+          <a href="join.html" class="btn btn-primary">התחילי לתעד</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--matcha-dark);color:white;text-align:center;">
+  <div class="container">
+    <span class="label fi" style="color:rgba(255,255,255,0.4);">מוכנה?</span>
+    <h2 class="title-lg fi d1" style="color:white;margin-bottom:1rem;">בחרי פעילות והתחילי</h2>
+    <div class="zen-line fi d1" style="background:rgba(255,255,255,0.2);"></div>
+    <p class="fi d2" style="color:rgba(255,255,255,0.7);max-width:440px;margin:0 auto 2.5rem;">ההצטרפות חינמית. אין מחויבות. פשוט מתחילים.</p>
+    <a href="join.html" class="btn btn-white btn-lg fi d3">הצטרפי חינם עכשיו</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand"><h3>LUMINA · לומינה</h3><p>מרחב חיים חברתי לגיל 65+.</p></div>
+      <div class="footer-links-col"><h4>פעילויות</h4><ul>
+        <li><a href="#yoga">מדיטציה ויוגה</a></li><li><a href="#games">משחק קוגניטיבי</a></li>
+        <li><a href="#art">ציור ואמנות</a></li><li><a href="#story">הסיפור שלי</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 LUMINA · לומינה</span></div>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('v'), i*70); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

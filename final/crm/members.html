@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMINA CRM — ניהול חברות וחברים</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@200;300;400&family=Noto+Sans+Hebrew:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design.css">
+  <style>
+    body { background: #F2F2F0; }
+
+    .crm-layout { display: flex; min-height: 100vh; }
+
+    /* ── Sidebar (same as dashboard) ── */
+    .sidebar {
+      width: 240px;
+      background: var(--ink);
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-logo {
+      padding: 1.75rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .sidebar-logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--matcha); }
+    .sidebar-logo-text { font-family: var(--font-serif); font-weight: 200; color: white; font-size: 1.1rem; }
+    .sidebar-logo-sub { font-size: 0.65rem; color: rgba(255,255,255,0.35); letter-spacing: 0.15em; display: block; }
+    .sidebar-nav { padding: 1.5rem 0; flex: 1; }
+    .nav-section-label { font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.25); text-transform: uppercase; padding: 0.75rem 1.5rem 0.4rem; display: block; }
+    .nav-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.7rem 1.5rem; font-size: 0.875rem;
+      color: rgba(255,255,255,0.6); transition: var(--ease);
+      cursor: pointer; text-decoration: none;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
+    .nav-item.active { background: rgba(74,124,89,0.2); color: white; border-right: 2px solid var(--matcha); }
+    .nav-item-icon { width: 16px; text-align: center; opacity: 0.7; }
+    .nav-badge { margin-right: auto; background: var(--matcha); color: white; font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 10px; }
+    .sidebar-user { padding: 1.25rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 0.75rem; }
+    .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--matcha); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: white; flex-shrink: 0; }
+    .user-name { font-size: 0.85rem; color: white; display: block; }
+    .user-role { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+
+    /* ── Main ── */
+    .crm-main { margin-right: 240px; flex: 1; display: flex; flex-direction: column; }
+    .topbar {
+      background: white; border-bottom: 1px solid var(--stone-light);
+      padding: 0 2rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .topbar-title { font-size: 1.05rem; font-weight: 400; color: var(--ink); }
+    .topbar-subtitle { font-size: 0.78rem; color: var(--stone); }
+    .page-content { padding: 2rem; flex: 1; }
+
+    /* ── Filters bar ── */
+    .filters-bar {
+      background: white;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg);
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius);
+      padding: 0.55rem 1rem;
+      flex: 1;
+      min-width: 200px;
+    }
+    .search-box input {
+      border: none; background: transparent; outline: none;
+      font-family: var(--font-sans); font-size: 0.875rem;
+      color: var(--ink); direction: rtl; width: 100%;
+    }
+    .search-icon { color: var(--stone); font-size: 0.9rem; flex-shrink: 0; }
+    .filter-select {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      color: var(--ink-light);
+      background: var(--bg);
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius);
+      padding: 0.55rem 0.9rem;
+      outline: none;
+      direction: rtl;
+      cursor: pointer;
+    }
+    .filter-select:focus { border-color: var(--matcha); }
+    .filters-count { font-size: 0.8rem; color: var(--stone); margin-right: auto; white-space: nowrap; }
+
+    /* ── Members table ── */
+    .members-panel {
+      background: white;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .members-panel thead th:first-child { padding-right: 1.5rem; }
+    .members-panel tbody td:first-child { padding-right: 1.5rem; }
+
+    .member-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .m-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: white;
+      flex-shrink: 0;
+      font-family: var(--font-serif);
+    }
+    .m-name { font-size: 0.875rem; font-weight: 400; color: var(--ink); }
+    .m-phone { font-size: 0.75rem; color: var(--stone); direction: ltr; text-align: right; }
+
+    .action-btns { display: flex; gap: 0.5rem; align-items: center; }
+    .icon-btn {
+      width: 30px; height: 30px;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      background: transparent;
+      transition: var(--ease);
+      text-decoration: none;
+    }
+    .icon-btn:hover { border-color: var(--matcha); background: var(--bg-matcha); }
+    .icon-btn.whatsapp:hover { border-color: #25D366; background: #f0fff5; }
+
+    /* ── Pagination ── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--stone-light);
+      background: white;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+    .pagination-info { font-size: 0.78rem; color: var(--stone); }
+    .pagination-btns { display: flex; gap: 0.4rem; }
+    .page-btn {
+      width: 32px; height: 32px;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      background: transparent;
+      cursor: pointer;
+      color: var(--ink-light);
+      transition: var(--ease);
+    }
+    .page-btn:hover { border-color: var(--matcha); color: var(--matcha); }
+    .page-btn.active { background: var(--matcha); border-color: var(--matcha); color: white; }
+
+    /* ── New member modal (panel) ── */
+    .new-member-panel {
+      display: none;
+      background: white;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .new-member-panel.open { display: block; }
+    .new-member-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 1.5rem 0; }
+  </style>
+</head>
+<body>
+
+<div class="crm-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-dot"></div>
+      <div>
+        <div class="sidebar-logo-text">לומינה</div>
+        <span class="sidebar-logo-sub">CRM מערכת ניהול</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">ראשי</span>
+      <a href="index.html" class="nav-item"><span class="nav-item-icon">⬜</span>לוח בקרה</a>
+      <a href="members.html" class="nav-item active"><span class="nav-item-icon">👥</span>חברות וחברים<span class="nav-badge">127</span></a>
+      <span class="nav-section-label">תוכן</span>
+      <a href="activities.html" class="nav-item"><span class="nav-item-icon">📅</span>פעילויות</a>
+      <a href="reports.html" class="nav-item"><span class="nav-item-icon">📊</span>דוחות</a>
+      <span class="nav-section-label">תקשורת</span>
+      <a href="#" class="nav-item"><span class="nav-item-icon">💬</span>הודעות<span class="nav-badge">3</span></a>
+      <a href="#" class="nav-item"><span class="nav-item-icon">📧</span>ניוזלטר</a>
+      <span class="nav-section-label">מערכת</span>
+      <a href="#" class="nav-item"><span class="nav-item-icon">⚙️</span>הגדרות</a>
+      <a href="../website/index.html" class="nav-item" target="_blank"><span class="nav-item-icon">🌐</span>אתר לומינה ↗</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="user-avatar">י</div>
+      <div><span class="user-name">יוסי ברוש</span><span class="user-role">מנהל ראשי</span></div>
+    </div>
+  </aside>
+
+  <main class="crm-main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">חברות וחברים</div>
+        <div class="topbar-subtitle">127 חברות וחברים פעילים</div>
+      </div>
+      <div style="display:flex;gap:1rem;">
+        <button class="btn btn-outline btn-sm" onclick="exportCSV()">ייצא Excel</button>
+        <button class="btn btn-primary btn-sm" onclick="toggleNewMember()">+ חבר/ה חדש/ה</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- New member form panel -->
+      <div class="new-member-panel" id="new-member-panel">
+        <h3 class="title-sm" style="margin-bottom:0.25rem;">הוספת חבר/ה חדש/ה</h3>
+        <p class="text-sm">מלא את הפרטים ולחץ שמור</p>
+        <div class="new-member-grid">
+          <div class="form-group"><label>שם מלא</label><input type="text" placeholder="שם פרטי ומשפחה"></div>
+          <div class="form-group"><label>טלפון</label><input type="tel" placeholder="05X-XXXXXXX" dir="ltr"></div>
+          <div class="form-group"><label>אימייל</label><input type="email" placeholder="email@example.com" dir="ltr"></div>
+          <div class="form-group"><label>גיל</label><input type="number" placeholder="גיל" min="60" max="100"></div>
+          <div class="form-group">
+            <label>מסלול מנוי</label>
+            <select>
+              <option>חינם</option>
+              <option>לומינה כסף — 59₪/חודש</option>
+              <option>לומינה זהב — 99₪/חודש</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>פעילות עיקרית</label>
+            <select>
+              <option>מדיטציה ויוגה</option>
+              <option>משחק קוגניטיבי</option>
+              <option>ציור ואמנות</option>
+              <option>הסיפור שלי</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;">
+          <button class="btn btn-primary" onclick="saveNewMember()">שמור חבר/ה</button>
+          <button class="btn btn-outline" onclick="toggleNewMember()">ביטול</button>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="חפש לפי שם, טלפון..." oninput="filterTable()">
+        </div>
+        <select class="filter-select" id="filter-plan" onchange="filterTable()">
+          <option value="">כל המסלולים</option>
+          <option value="חינם">חינם</option>
+          <option value="כסף">כסף</option>
+          <option value="זהב">זהב</option>
+        </select>
+        <select class="filter-select" id="filter-activity" onchange="filterTable()">
+          <option value="">כל הפעילויות</option>
+          <option value="יוגה">יוגה ומדיטציה</option>
+          <option value="משחק">משחק קוגניטיבי</option>
+          <option value="ציור">ציור ואמנות</option>
+          <option value="סיפור">הסיפור שלי</option>
+        </select>
+        <select class="filter-select" id="filter-status" onchange="filterTable()">
+          <option value="">כל הסטטוסים</option>
+          <option value="פעיל">פעיל/ה</option>
+          <option value="לא פעיל">לא פעיל/ה</option>
+        </select>
+        <span class="filters-count" id="count-label">מציג 127 חברים</span>
+      </div>
+
+      <!-- Table -->
+      <div class="members-panel">
+        <div class="table-wrap">
+          <table id="members-table">
+            <thead>
+              <tr>
+                <th>שם</th>
+                <th>גיל</th>
+                <th>מסלול</th>
+                <th>פעילות עיקרית</th>
+                <th>תאריך הצטרפות</th>
+                <th>סטטוס</th>
+                <th>פעולות</th>
+              </tr>
+            </thead>
+            <tbody id="members-body"></tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="pagination-info" id="page-info">עמוד 1 מתוך 5</span>
+          <div class="pagination-btns">
+            <button class="page-btn" onclick="prevPage()">›</button>
+            <button class="page-btn active" id="page-1-btn" onclick="goPage(1)">1</button>
+            <button class="page-btn" id="page-2-btn" onclick="goPage(2)">2</button>
+            <button class="page-btn" id="page-3-btn" onclick="goPage(3)">3</button>
+            <button class="page-btn" onclick="nextPage()">‹</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const COLORS = ['#4A7C59','#C9A96E','#5B8ED6','#C47A80','#8FAF78','#7A9E7E'];
+const MEMBERS = [
+  { name:'רחל לוי', age:68, plan:'כסף', activity:'מדיטציה ויוגה', joined:'10/03/2026', status:'פעיל' },
+  { name:'שלמה כהן', age:72, plan:'זהב', activity:'משחק קוגניטיבי', joined:'08/03/2026', status:'פעיל' },
+  { name:'מרים אברהם', age:65, plan:'חינם', activity:'ציור ואמנות', joined:'12/03/2026', status:'פעיל' },
+  { name:'דוד שפירא', age:70, plan:'כסף', activity:'הסיפור שלי', joined:'01/02/2026', status:'לא פעיל' },
+  { name:'שרה ביטון', age:67, plan:'כסף', activity:'הסיפור שלי', joined:'15/03/2026', status:'פעיל' },
+  { name:'יעקב רוזן', age:75, plan:'זהב', activity:'מדיטציה ויוגה', joined:'20/01/2026', status:'פעיל' },
+  { name:'חנה גרין', age:69, plan:'חינם', activity:'ציור ואמנות', joined:'05/03/2026', status:'פעיל' },
+  { name:'משה פרידמן', age:73, plan:'כסף', activity:'משחק קוגניטיבי', joined:'14/02/2026', status:'פעיל' },
+  { name:'אסתר נחום', age:66, plan:'זהב', activity:'מדיטציה ויוגה', joined:'28/02/2026', status:'פעיל' },
+  { name:'בנימין אלוני', age:71, plan:'חינם', activity:'הסיפור שלי', joined:'03/03/2026', status:'פעיל' },
+  { name:'לאה גולדברג', age:68, plan:'כסף', activity:'ציור ואמנות', joined:'07/03/2026', status:'פעיל' },
+  { name:'אברהם גולד', age:74, plan:'זהב', activity:'משחק קוגניטיבי', joined:'16/03/2026', status:'פעיל' },
+];
+
+const PER_PAGE = 8;
+let page = 1;
+let filtered = [...MEMBERS];
+
+function planTag(plan) {
+  const cls = plan==='זהב'?'tag-gold':plan==='כסף'?'tag-matcha':'tag-stone';
+  return `<span class="tag ${cls}">${plan}</span>`;
+}
+function statusDot(s) {
+  const c = s==='פעיל' ? '#4A7C59' : '#C47A80';
+  return `<span style="display:inline-flex;align-items:center;gap:.4rem;font-size:.8rem;color:${c}">
+    <span style="width:7px;height:7px;border-radius:50%;background:${c};display:inline-block;"></span>${s}
+  </span>`;
+}
+function initials(name) { return name.trim().split(' ').map(w=>w[0]).join('').slice(0,2); }
+function color(i) { return COLORS[i % COLORS.length]; }
+
+function renderTable() {
+  const tbody = document.getElementById('members-body');
+  const start = (page-1)*PER_PAGE;
+  const slice = filtered.slice(start, start+PER_PAGE);
+  const whatsApp = encodeURIComponent('שלום, זה צוות לומינה! 😊');
+  tbody.innerHTML = slice.map((m,i) => `
+    <tr>
+      <td>
+        <div class="member-cell">
+          <div class="m-avatar" style="background:${color(start+i)}">${initials(m.name)}</div>
+          <div>
+            <div class="m-name">${m.name}</div>
+          </div>
+        </div>
+      </td>
+      <td style="font-size:.875rem;color:var(--ink-light);">${m.age}</td>
+      <td>${planTag(m.plan)}</td>
+      <td style="font-size:.875rem;color:var(--ink-light);">${m.activity}</td>
+      <td style="font-size:.78rem;color:var(--stone);">${m.joined}</td>
+      <td>${statusDot(m.status)}</td>
+      <td>
+        <div class="action-btns">
+          <a href="https://wa.me/97205XXXXXXXX?text=${whatsApp}" class="icon-btn whatsapp" title="וואטסאפ" target="_blank">💬</a>
+          <button class="icon-btn" title="עריכה">✏️</button>
+          <button class="icon-btn" title="צפייה">👁</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+  document.getElementById('page-info').textContent = `עמוד ${page} מתוך ${Math.ceil(filtered.length/PER_PAGE)}`;
+  document.getElementById('count-label').textContent = `מציג ${filtered.length} חברים`;
+}
+
+function filterTable() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const plan = document.getElementById('filter-plan').value;
+  const act = document.getElementById('filter-activity').value;
+  const status = document.getElementById('filter-status').value;
+  filtered = MEMBERS.filter(m =>
+    (!q || m.name.includes(q)) &&
+    (!plan || m.plan === plan) &&
+    (!act || m.activity.includes(act)) &&
+    (!status || m.status === status)
+  );
+  page = 1;
+  renderTable();
+}
+
+function goPage(p) {
+  page = p;
+  [1,2,3].forEach(n => document.getElementById(`page-${n}-btn`)?.classList.toggle('active', n===p));
+  renderTable();
+}
+function prevPage() { if(page>1) goPage(page-1); }
+function nextPage() { if(page*PER_PAGE<filtered.length) goPage(page+1); }
+
+function toggleNewMember() {
+  document.getElementById('new-member-panel').classList.toggle('open');
+}
+function saveNewMember() {
+  alert('חבר/ה נשמר/ה בהצלחה! (דמו)');
+  toggleNewMember();
+}
+function exportCSV() {
+  alert('ייצוא Excel — בקרוב (דמו)');
+}
+
+renderTable();
+</script>
+</body>
+</html>

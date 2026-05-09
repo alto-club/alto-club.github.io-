@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALTO — מסמך פגישת תכנון</title>
+<style>
+  body {
+    font-family: 'David', 'Arial', sans-serif;
+    font-size: 12pt;
+    direction: rtl;
+    text-align: right;
+    margin: 2.5cm;
+    color: #1a1a1a;
+    line-height: 1.7;
+  }
+  h1 {
+    font-size: 22pt;
+    color: #4a3060;
+    border-bottom: 3px solid #4a3060;
+    padding-bottom: 8px;
+    margin-bottom: 6px;
+  }
+  h2 {
+    font-size: 15pt;
+    color: #4a3060;
+    background: #f0ebf8;
+    padding: 6px 12px;
+    border-right: 5px solid #4a3060;
+    margin-top: 24px;
+  }
+  h3 {
+    font-size: 12pt;
+    color: #6b4f8a;
+    margin-bottom: 4px;
+  }
+  .header-meta {
+    color: #666;
+    font-size: 10pt;
+    margin-bottom: 20px;
+  }
+  .tagline {
+    font-size: 13pt;
+    color: #6b4f8a;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 11pt;
+  }
+  th {
+    background: #4a3060;
+    color: white;
+    padding: 7px 10px;
+    text-align: right;
+  }
+  td {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background: #f9f5ff;
+  }
+  .highlight-box {
+    background: #fff8e1;
+    border: 1px solid #f0c040;
+    border-right: 5px solid #f0c040;
+    padding: 10px 14px;
+    margin: 10px 0;
+    border-radius: 4px;
+  }
+  .action-box {
+    background: #e8f5e9;
+    border: 1px solid #81c784;
+    border-right: 5px solid #388e3c;
+    padding: 10px 14px;
+    margin: 10px 0;
+    border-radius: 4px;
+  }
+  .question-list {
+    list-style: none;
+    padding: 0;
+  }
+  .question-list li {
+    padding: 6px 0;
+    border-bottom: 1px dashed #ddd;
+  }
+  .question-list li::before {
+    content: "❓ ";
+  }
+  .priority-red { color: #c62828; font-weight: bold; }
+  .priority-yellow { color: #e65100; font-weight: bold; }
+  .page-break { page-break-before: always; }
+  .footer {
+    margin-top: 40px;
+    font-size: 9pt;
+    color: #999;
+    border-top: 1px solid #ddd;
+    padding-top: 8px;
+    text-align: center;
+  }
+  .checkbox {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid #4a3060;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  ul.checklist {
+    list-style: none;
+    padding: 0;
+  }
+  ul.checklist li::before {
+    content: "☐ ";
+    font-size: 13pt;
+    color: #4a3060;
+  }
+  ul.checklist li {
+    padding: 4px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- כפתור הדפסה -->
+<div style="text-align:center; margin-bottom:20px;" class="no-print">
+  <button onclick="window.print()" style="
+    background:#4a3060; color:white; border:none; padding:12px 32px;
+    font-size:14pt; border-radius:8px; cursor:pointer; font-family:Arial;
+  ">🖨️ שמור כ-PDF / הדפס</button>
+</div>
+
+<style>
+  @media print {
+    .no-print { display: none !important; }
+    body { margin: 1.5cm; }
+  }
+</style>
+
+<!-- כותרת -->
+<h1>✨ ALTO — מסמך פגישת תכנון</h1>
+<div class="header-meta">
+  תאריך הפגישה: __________ &nbsp;|&nbsp; משתתפים: יוסי ברוש, שרון חסקל &nbsp;|&nbsp; מיקום: __________
+</div>
+<div class="tagline">פלטפורמה חברתית-תרבותית לגיל 65+ בישראל — "מרחב חיים, לא אפליקציה לקשישים"</div>
+
+<div class="highlight-box">
+  <strong>📌 רקע בקצרה:</strong><br>
+  1.1 מיליון ישראלים מעל גיל 65 — כ-30% חווים בדידות משמעותית. 70-75% מבני 65–74 כבר פעילים דיגיטלית.
+  אין כיום פלטפורמה דיגיטלית כוללת שמשרתת אוכלוסייה זו. ALTO מציעה 4 פעילויות: מדיטציה ויוגה, משחקים קוגניטיביים, ציור ואמנות, ו"הסיפור שלי".
+</div>
+
+---
+
+<h2>1. שאלות חזון — לפתוח בהן</h2>
+<ul class="question-list">
+  <li>מה <strong>הלב</strong> של ALTO? רוחני? חברתי? טיפולי? שילוב?</li>
+  <li>מי הלקוח <strong>האידיאלי</strong> שלנו — גיל? רקע? צורך עיקרי?</li>
+  <li>מה <strong>מבדיל</strong> אותנו מקבוצת יוגה שכונתית / מרכז קהילתי רגיל?</li>
+  <li>פיזי בלבד? דיגיטלי בלבד? <strong>שניהם</strong>?</li>
+  <li>מה ה-<strong>תוצר</strong> שמשתתף יוצא איתו מ-ALTO?</li>
+</ul>
+
+---
+
+<h2>2. 4 הפעילויות — תיעדוף ולוח זמנים</h2>
+<table>
+  <tr>
+    <th>פעילות</th>
+    <th>עדיפות מומלצת</th>
+    <th>נימוק</th>
+    <th>החלטה שלנו</th>
+  </tr>
+  <tr>
+    <td><strong>מדיטציה ויוגה</strong> (כיסא / רצפה)</td>
+    <td class="priority-red">🔴 ראשון</td>
+    <td>ביקוש מוכח, עלות הפקה נמוכה, נגיש לכולם</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>משחקים קוגניטיביים</strong></td>
+    <td class="priority-red">🔴 ראשון</td>
+    <td>Engagement יומי גבוה, בריאות מוח, "Hook"</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>ציור ואמנות</strong></td>
+    <td class="priority-yellow">🟡 שני (חודש 2)</td>
+    <td>חוויה רגשית, יוצרים תוצר מוחשי</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>"הסיפור שלי"</strong></td>
+    <td class="priority-yellow">🟡 שני (חודש 3)</td>
+    <td>המוצר הייחודי ביותר — מורשת אישית, כלי legacy</td>
+    <td></td>
+  </tr>
+</table>
+
+---
+
+<h2>3. מודל כלכלי — להחליט</h2>
+<table>
+  <tr>
+    <th>מסלול</th>
+    <th>מחיר מוצע</th>
+    <th>מה כלול</th>
+    <th>אישור / שינוי</th>
+  </tr>
+  <tr>
+    <td><strong>חינם</strong></td>
+    <td>0 ₪</td>
+    <td>5-10 שיעורים מוקלטים/חודש, קהילה בסיסית</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>"ALTO כסף"</strong></td>
+    <td>59 ₪/חודש</td>
+    <td>כל השיעורים החיים, ארכיון מלא, קבוצות</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>"ALTO זהב"</strong></td>
+    <td>99 ₪/חודש</td>
+    <td>כולל ליווי אישי + "הסיפור שלי" מלא</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>מוסדי</strong> (בתי אבות, קופ"ח, עיריות)</td>
+    <td>800–8,000 ₪/חודש</td>
+    <td>גישה לכל הפלטפורמה עבור המוסד</td>
+    <td></td>
+  </tr>
+</table>
+
+<div class="highlight-box">
+  <strong>⚠️ שאלות פתוחות:</strong><br>
+  • כמה כסף <strong>יש לנו</strong> להתחיל? <span style="color:#999">_________</span><br>
+  • מי משקיע — רק אנחנו? מענקים? שותפים חיצוניים?<br>
+  • האם לגבות כסף כבר בפיילוט — או לתת חינם ולבדוק ביקוש?
+</div>
+
+---
+
+<div class="page-break"></div>
+
+<h2>4. מבנה משפטי — להחליט</h2>
+<table>
+  <tr>
+    <th>אפשרות</th>
+    <th>יתרון</th>
+    <th>חיסרון</th>
+    <th>עלות</th>
+  </tr>
+  <tr>
+    <td><strong>חל"צ (מומלץ)</strong></td>
+    <td>משלב ייעוד חברתי + הכנסות + אמינות + מענקים</td>
+    <td>רישום מורכב קצת יותר</td>
+    <td>8,000–15,000 ₪</td>
+  </tr>
+  <tr>
+    <td>חברה בע"מ</td>
+    <td>גמישות מסחרית מלאה</td>
+    <td>מיסוי מלא, פחות אמינות חברתית</td>
+    <td>2,000–5,000 ₪</td>
+  </tr>
+  <tr>
+    <td>עמותה</td>
+    <td>מענקים ציבוריים</td>
+    <td>הגבלות על הכנסות מסחריות</td>
+    <td>3,000–8,000 ₪</td>
+  </tr>
+</table>
+
+<ul class="question-list">
+  <li>יש לנו עו"ד מוכר? רואה חשבון?</li>
+  <li>האם אנחנו רוצים שותפים נוספים במייסדים?</li>
+</ul>
+
+---
+
+<h2>5. צעדים ראשונים — 30 הימים הקרובים</h2>
+<table>
+  <tr>
+    <th>מה</th>
+    <th>מי</th>
+    <th>מתי</th>
+    <th>עלות</th>
+    <th>סטטוס</th>
+  </tr>
+  <tr>
+    <td><strong>30 שיחות ולידציה</strong> עם בני 65-80 (שאלות: "מה עושה ביום רגיל?", "מה היית רוצה ללמוד?", "כמה מוכן לשלם?")</td>
+    <td></td>
+    <td>ימים 1-14</td>
+    <td>0 ₪</td>
+    <td>☐</td>
+  </tr>
+  <tr>
+    <td><strong>3 שיעורי פיילוט ב-Zoom</strong> — יוגה-כיסא, חינמיים, 15 משתתפים</td>
+    <td></td>
+    <td>ימים 7-21</td>
+    <td>500-1,500 ₪ מדריך</td>
+    <td>☐</td>
+  </tr>
+  <tr>
+    <td><strong>התקשרות עם עו"ד</strong> לרישום חל"צ</td>
+    <td></td>
+    <td>ימים 1-7</td>
+    <td>8,000-15,000 ₪</td>
+    <td>☐</td>
+  </tr>
+  <tr>
+    <td><strong>פגישה עם קופת חולים אחת</strong> (מכבי Care / כללית מושלם)</td>
+    <td></td>
+    <td>ימים 14-30</td>
+    <td>0 ₪</td>
+    <td>☐</td>
+  </tr>
+  <tr>
+    <td><strong>פגישה עם עירייה</strong> אחת (מנהל קהילה / גיל שלישי)</td>
+    <td></td>
+    <td>ימים 14-30</td>
+    <td>0 ₪</td>
+    <td>☐</td>
+  </tr>
+  <tr>
+    <td><strong>אתר מינימלי</strong> + WhatsApp לגיוס פיילוט</td>
+    <td></td>
+    <td>ימים 1-7</td>
+    <td>0 ₪ (יש לנו אתר!)</td>
+    <td>☐</td>
+  </tr>
+</table>
+
+---
+
+<h2>6. שיווק — ערוצים ראשיים</h2>
+<div class="action-box">
+  <strong>✅ 91% מהקהל פעילים ב-WhatsApp — זה ערוץ ההפצה המרכזי!</strong>
+</div>
+<table>
+  <tr>
+    <th>ערוץ</th>
+    <th>פוטנציאל</th>
+    <th>האם נשתמש?</th>
+  </tr>
+  <tr>
+    <td><strong>WhatsApp</strong> — קבוצות, סטטוסים, שיתוף חבר-חבר</td>
+    <td>🔴 גבוה מאוד</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>Facebook</strong> — קבוצות "גיל שלישי", "גמלאים", עיר ספציפית</td>
+    <td>🔴 גבוה</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>הפניות מרופאי משפחה / קופ"ח</strong></td>
+    <td>🔴 גבוה מאוד (אמינות)</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>מרכזים קהילתיים</strong> — פליירים, הרצאות</td>
+    <td>🟡 בינוני</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><strong>Instagram / YouTube</strong></td>
+    <td>🟡 בינוני-נמוך לגיל זה</td>
+    <td></td>
+  </tr>
+</table>
+
+---
+
+<h2>7. מה <u>לא</u> לעשות עכשיו</h2>
+<ul style="color: #c62828; font-weight: bold;">
+  <li>❌ לא לפתח אפליקציה מלאה — קודם ולידציה</li>
+  <li>❌ לא להשקיע בפרסום ממומן לפני שיש מוצר מוכח</li>
+  <li>❌ לא לרשום חברה לפני שמחליטים על המבנה הנכון</li>
+  <li>❌ לא לגייס עובדים לפני שיש הכנסות ראשונות</li>
+</ul>
+
+---
+
+<h2>8. סיכום הפגישה — מה מחליטים?</h2>
+<table>
+  <tr>
+    <th>נושא</th>
+    <th>ההחלטה שהתקבלה</th>
+    <th>אחראי</th>
+    <th>תאריך יעד</th>
+  </tr>
+  <tr>
+    <td>מבנה משפטי</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>פעילות ראשונה לפיילוט</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>תקציב פתיחה</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>מיקום הפיילוט</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>תאריך שיעור ראשון</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>פגישה עם עו"ד</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>הצעד הבא — עד מתי?</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
+<div class="action-box">
+  <strong>📌 הפגישה הבאה:</strong> תאריך: __________ | מיקום: __________ | מטרה: __________
+</div>
+
+<div class="footer">
+  ALTO | נוצר: מאי 2026 | מסמך פנימי בלבד | יוסי ברוש 052-2674041 | שרון חסקל 054-4649544
+</div>
+
+</body>
+</html>

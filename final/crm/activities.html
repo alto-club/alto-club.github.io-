@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMINA CRM — ניהול פעילויות</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@200;300;400&family=Noto+Sans+Hebrew:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design.css">
+  <style>
+    body { background: #F2F2F0; }
+    .crm-layout { display: flex; min-height: 100vh; }
+    .sidebar { width: 240px; background: var(--ink); position: fixed; top: 0; right: 0; bottom: 0; z-index: 100; display: flex; flex-direction: column; }
+    .sidebar-logo { padding: 1.75rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 0.6rem; }
+    .sidebar-logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--matcha); }
+    .sidebar-logo-text { font-family: var(--font-serif); font-weight: 200; color: white; font-size: 1.1rem; }
+    .sidebar-logo-sub { font-size: 0.65rem; color: rgba(255,255,255,0.35); letter-spacing: 0.15em; display: block; }
+    .sidebar-nav { padding: 1.5rem 0; flex: 1; }
+    .nav-section-label { font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.25); text-transform: uppercase; padding: 0.75rem 1.5rem 0.4rem; display: block; }
+    .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 1.5rem; font-size: 0.875rem; color: rgba(255,255,255,0.6); transition: var(--ease); cursor: pointer; text-decoration: none; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
+    .nav-item.active { background: rgba(74,124,89,0.2); color: white; border-right: 2px solid var(--matcha); }
+    .nav-item-icon { width: 16px; text-align: center; opacity: 0.7; }
+    .nav-badge { margin-right: auto; background: var(--matcha); color: white; font-size: 0.65rem; padding: 0.15rem 0.5rem; border-radius: 10px; }
+    .sidebar-user { padding: 1.25rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 0.75rem; }
+    .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--matcha); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: white; flex-shrink: 0; }
+    .user-name { font-size: 0.85rem; color: white; display: block; }
+    .user-role { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+    .crm-main { margin-right: 240px; flex: 1; display: flex; flex-direction: column; }
+    .topbar { background: white; border-bottom: 1px solid var(--stone-light); padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .topbar-title { font-size: 1.05rem; font-weight: 400; color: var(--ink); }
+    .topbar-subtitle { font-size: 0.78rem; color: var(--stone); }
+    .page-content { padding: 2rem; flex: 1; }
+
+    /* ── Calendar view toggle ── */
+    .view-toggle {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .view-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.82rem;
+      font-family: var(--font-sans);
+      background: transparent;
+      border: none;
+      color: var(--ink-light);
+      cursor: pointer;
+      transition: var(--ease);
+    }
+    .view-btn.active { background: var(--matcha); color: white; }
+
+    /* ── Activity cards grid ── */
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .activity-card {
+      background: white;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--ease);
+    }
+    .activity-card:hover { box-shadow: var(--shadow-md); border-color: rgba(74,124,89,0.25); }
+
+    .activity-card-header {
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--stone-light);
+    }
+    .activity-emoji { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+    .activity-title { font-size: 1rem; font-weight: 400; color: var(--ink); margin-bottom: 0.2rem; }
+    .activity-instructor { font-size: 0.78rem; color: var(--stone); }
+
+    .activity-card-body { padding: 1.25rem 1.5rem; }
+
+    .activity-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+    }
+    .activity-meta-row svg { width: 14px; height: 14px; color: var(--stone); flex-shrink: 0; }
+
+    .capacity-bar {
+      margin-top: 1rem;
+    }
+    .capacity-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--stone);
+    }
+    .cap-bar-bg { height: 3px; background: var(--stone-light); border-radius: 2px; }
+    .cap-bar-fill { height: 100%; border-radius: 2px; background: var(--matcha); }
+
+    .activity-card-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--stone-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    /* ── New activity form ── */
+    .new-act-panel {
+      display: none;
+      background: white;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .new-act-panel.open { display: block; }
+    .new-act-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin: 1.5rem 0; }
+  </style>
+</head>
+<body>
+
+<div class="crm-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-dot"></div>
+      <div><div class="sidebar-logo-text">לומינה</div><span class="sidebar-logo-sub">CRM מערכת ניהול</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">ראשי</span>
+      <a href="index.html" class="nav-item"><span class="nav-item-icon">⬜</span>לוח בקרה</a>
+      <a href="members.html" class="nav-item"><span class="nav-item-icon">👥</span>חברות וחברים<span class="nav-badge">127</span></a>
+      <span class="nav-section-label">תוכן</span>
+      <a href="activities.html" class="nav-item active"><span class="nav-item-icon">📅</span>פעילויות</a>
+      <a href="reports.html" class="nav-item"><span class="nav-item-icon">📊</span>דוחות</a>
+      <span class="nav-section-label">תקשורת</span>
+      <a href="#" class="nav-item"><span class="nav-item-icon">💬</span>הודעות<span class="nav-badge">3</span></a>
+      <a href="#" class="nav-item"><span class="nav-item-icon">📧</span>ניוזלטר</a>
+      <span class="nav-section-label">מערכת</span>
+      <a href="#" class="nav-item"><span class="nav-item-icon">⚙️</span>הגדרות</a>
+      <a href="../website/index.html" class="nav-item" target="_blank"><span class="nav-item-icon">🌐</span>אתר לומינה ↗</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="user-avatar">י</div>
+      <div><span class="user-name">יוסי ברוש</span><span class="user-role">מנהל ראשי</span></div>
+    </div>
+  </aside>
+
+  <main class="crm-main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">ניהול פעילויות</div>
+        <div class="topbar-subtitle">18 פעילויות מתוכננות החודש</div>
+      </div>
+      <div style="display:flex;gap:1rem;align-items:center;">
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="setView('cards',this)">כרטיסיות</button>
+          <button class="view-btn" onclick="setView('list',this)">רשימה</button>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="toggleNewAct()">+ פעילות חדשה</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- New activity form -->
+      <div class="new-act-panel" id="new-act-panel">
+        <h3 class="title-sm" style="margin-bottom:0.25rem;">פעילות חדשה</h3>
+        <p class="text-sm">הוספת שיעור או אירוע חדש ללו"ז</p>
+        <div class="new-act-grid">
+          <div class="form-group"><label>שם הפעילות</label><input type="text" placeholder="לדוגמה: יוגה בוקר"></div>
+          <div class="form-group"><label>סוג</label>
+            <select>
+              <option>🧘 מדיטציה ויוגה</option>
+              <option>🎲 משחק קוגניטיבי</option>
+              <option>🎨 ציור ואמנות</option>
+              <option>📖 הסיפור שלי</option>
+            </select>
+          </div>
+          <div class="form-group"><label>מנחה/ה</label><input type="text" placeholder="שם המנחה"></div>
+          <div class="form-group"><label>תאריך</label><input type="date"></div>
+          <div class="form-group"><label>שעה</label><input type="time"></div>
+          <div class="form-group"><label>קיבולת</label><input type="number" placeholder="מקס משתתפים" min="1" max="50"></div>
+        </div>
+        <div style="display:flex;gap:1rem;">
+          <button class="btn btn-primary" onclick="alert('פעילות נשמרה! (דמו)');toggleNewAct()">שמור פעילות</button>
+          <button class="btn btn-outline" onclick="toggleNewAct()">ביטול</button>
+        </div>
+      </div>
+
+      <!-- Activities grid -->
+      <div class="activities-grid" id="activities-container"></div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const ACTS = [
+  { emoji:'🧘', title:'יוגה בוקר — מתחילים', instructor:'ד"ר מיכל שרון', day:'ב׳ + ה׳', time:'09:00–10:00', cap:15, reg:12, type:'מדיטציה ויוגה', status:'פעיל' },
+  { emoji:'🧘', title:'מדיטציה מודרכת', instructor:'נעמי בן-דוד', day:'ד׳', time:'17:00–17:45', cap:20, reg:18, type:'מדיטציה ויוגה', status:'פעיל' },
+  { emoji:'🎲', title:'שחמט קבוצתי', instructor:'רן מוזס', day:'ג׳ + ו׳', time:'16:00–17:30', cap:12, reg:8, type:'משחק קוגניטיבי', status:'פעיל' },
+  { emoji:'🎲', title:'שש-בש ותשחץ', instructor:'גדי לוין', day:'א׳', time:'10:00–11:30', cap:10, reg:7, type:'משחק קוגניטיבי', status:'פעיל' },
+  { emoji:'🎨', title:'סדנת ציור אקוורל', instructor:'נורית אלון', day:'ד׳', time:'10:30–12:00', cap:10, reg:9, type:'ציור ואמנות', status:'מלא' },
+  { emoji:'🎨', title:'ציור חופשי — שמן', instructor:'איריס מנור', day:'ה׳', time:'14:00–15:30', cap:8, reg:5, type:'ציור ואמנות', status:'פעיל' },
+  { emoji:'📖', title:'סדנת כתיבה אוטוביוגרפית', instructor:"ד\"ר אורה ליבוביץ", day:'ב׳', time:'15:00–16:30', cap:8, reg:6, type:'הסיפור שלי', status:'פעיל' },
+  { emoji:'📖', title:'צילום — עצור את הרגע', instructor:'יגאל פז', day:'א׳', time:'16:00–17:30', cap:10, reg:4, type:'הסיפור שלי', status:'פעיל' },
+  { emoji:'🧘', title:'יוגה ערב — מתקדמים', instructor:'ד"ר מיכל שרון', day:'ג׳', time:'18:00–19:00', cap:12, reg:11, type:'מדיטציה ויוגה', status:'פעיל' },
+];
+
+function actCard(a) {
+  const pct = Math.round(a.reg/a.cap*100);
+  const statusCls = a.status==='מלא' ? 'tag-sakura' : 'tag-matcha';
+  return `
+    <div class="activity-card">
+      <div class="activity-card-header">
+        <div>
+          <span class="activity-emoji">${a.emoji}</span>
+          <div class="activity-title">${a.title}</div>
+          <div class="activity-instructor">${a.instructor}</div>
+        </div>
+        <span class="tag ${statusCls}">${a.status}</span>
+      </div>
+      <div class="activity-card-body">
+        <div class="activity-meta-row">📅 ${a.day} | ⏰ ${a.time}</div>
+        <div class="activity-meta-row">🏷️ ${a.type}</div>
+        <div class="capacity-bar">
+          <div class="capacity-header">
+            <span>נרשמו: ${a.reg}</span><span>${a.reg}/${a.cap} מקומות</span>
+          </div>
+          <div class="cap-bar-bg">
+            <div class="cap-bar-fill" style="width:${pct}%;${pct>=90?'background:var(--sakura-dark)':''}"></div>
+          </div>
+        </div>
+      </div>
+      <div class="activity-card-footer">
+        <button class="btn btn-ghost btn-sm" onclick="alert('שליחת תזכורת לרשומים (דמו)')">📢 תזכורת</button>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn btn-outline btn-sm">✏️ עריכה</button>
+          <button class="btn btn-primary btn-sm">👁 רשומים</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById('activities-container').innerHTML = ACTS.map(actCard).join('');
+
+function toggleNewAct() {
+  document.getElementById('new-act-panel').classList.toggle('open');
+}
+function setView(v, el) {
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
+</body>
+</html>

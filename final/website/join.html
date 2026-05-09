@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMINA — הצטרפות</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@200;300;400&family=Noto+Sans+Hebrew:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design.css">
+  <style>
+    .page-hero {
+      background: var(--bg-cream);
+      padding: 10rem 0 6rem;
+      text-align: center;
+    }
+    .join-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .plans-stack { display: flex; flex-direction: column; gap: 1rem; }
+    .plan-row {
+      padding: 1.75rem;
+      border: 1px solid var(--stone-light);
+      cursor: pointer;
+      transition: var(--ease);
+      position: relative;
+    }
+    .plan-row:hover, .plan-row.selected { border-color: var(--matcha); background: var(--bg-matcha); }
+    .plan-row.selected::before {
+      content: '✓';
+      position: absolute;
+      top: 1rem; left: 1rem;
+      color: var(--matcha);
+      font-size: 1rem;
+    }
+    .plan-row-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+    .plan-row-name { font-size: 1rem; font-weight: 400; }
+    .plan-row-price { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 200; color: var(--matcha); }
+    .plan-row-features { font-size: 0.8rem; color: var(--ink-light); }
+
+    .form-card {
+      background: white;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius-md);
+      padding: 2.5rem;
+    }
+    .form-stack { display: flex; flex-direction: column; gap: 1.25rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      font-size: 0.75rem;
+      color: var(--stone);
+    }
+    .step { display: flex; align-items: center; gap: 0.4rem; }
+    .step-num {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--stone-light);
+      color: var(--stone);
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step.done .step-num { background: var(--matcha); color: white; }
+    .step.active .step-num { background: var(--ink); color: white; }
+    .step-sep { width: 24px; height: 1px; background: var(--stone-light); }
+
+    @media (max-width: 900px) {
+      .join-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-dot"></span>LUMINA · לומינה</a>
+    <ul class="nav-links">
+      <li><a href="index.html">ראשי</a></li>
+      <li><a href="activities.html">פעילויות</a></li>
+      <li><a href="about.html">אודות</a></li>
+      <li><a href="join.html" class="active">הצטרפות</a></li>
+      <li><a href="contact.html">צור קשר</a></li>
+    </ul>
+    <a href="join.html" class="btn btn-primary btn-sm">הצטרפי עכשיו</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="label fi">ברוכה הבאה</span>
+    <h1 class="title-xl fi d1" style="margin-bottom:1rem;">הצטרפי ל-LUMINA</h1>
+    <div class="zen-line fi d1"></div>
+    <p class="text-lg fi d2" style="max-width:480px;margin:0 auto;">
+      הצטרפות בחינם — ללא כרטיס אשראי. בחרי את המסלול המתאים לך.
+    </p>
+  </div>
+</div>
+
+<section class="section" style="background:var(--bg);">
+  <div class="container">
+    <div class="join-grid">
+      <!-- Plans -->
+      <div class="fi">
+        <span class="label">בחרי מסלול</span>
+        <h2 class="title-md" style="margin-bottom:2rem;">מה מתאים לך?</h2>
+        <div class="plans-stack">
+          <div class="plan-row selected" onclick="selectPlan(this,'חינם')">
+            <div class="plan-row-header">
+              <span class="plan-row-name">מסלול חינם</span>
+              <span class="plan-row-price">0₪</span>
+            </div>
+            <div class="plan-row-features">טעימה מהפלטפורמה · 5-10 שיעורים מוקלטים בחודש · קהילה בסיסית</div>
+          </div>
+          <div class="plan-row" onclick="selectPlan(this,'כסף')">
+            <div class="plan-row-header">
+              <span class="plan-row-name">לומינה כסף 🥈</span>
+              <span class="plan-row-price">59₪/חודש</span>
+            </div>
+            <div class="plan-row-features">כל השיעורים החיים · ארכיון מלא · קבוצות וסדנאות · תמיכה בעברית</div>
+          </div>
+          <div class="plan-row" onclick="selectPlan(this,'זהב')">
+            <div class="plan-row-header">
+              <span class="plan-row-name">לומינה זהב ⭐</span>
+              <span class="plan-row-price">99₪/חודש</span>
+            </div>
+            <div class="plan-row-features">הכל מ"כסף" + ליווי אישי + "הסיפור שלי" מלא + גישה מוקדמת לאירועים</div>
+          </div>
+        </div>
+
+        <div style="margin-top:2.5rem;padding:1.5rem;background:var(--bg-matcha);border:1px solid rgba(74,124,89,0.15);">
+          <p class="text-sm" style="color:var(--matcha-dark);">
+            💬 <strong>שאלה?</strong> צרי קשר עם יוסי או שרון בוואטסאפ — נשמח לעזור לך לבחור.
+          </p>
+          <a href="https://wa.me/972522674041?text=שלום, אני מתעניינת בהצטרפות ל-LUMINA" class="btn btn-ghost btn-sm" style="margin-top:0.75rem;" target="_blank">💬 שלחי הודעה ביוואטסאפ</a>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="fi d1">
+        <div class="form-card">
+          <div class="step-indicator">
+            <div class="step active"><div class="step-num">1</div><span>פרטים אישיים</span></div>
+            <div class="step-sep"></div>
+            <div class="step"><div class="step-num">2</div><span>פעילויות</span></div>
+            <div class="step-sep"></div>
+            <div class="step"><div class="step-num">3</div><span>אישור</span></div>
+          </div>
+
+          <h3 class="title-sm" style="margin-bottom:1.75rem;">פרטים אישיים</h3>
+
+          <form class="form-stack" onsubmit="submitForm(event)">
+            <input type="hidden" id="selected-plan" value="חינם">
+            <div class="form-row">
+              <div class="form-group"><label>שם פרטי</label><input type="text" required placeholder="שם פרטי"></div>
+              <div class="form-group"><label>שם משפחה</label><input type="text" required placeholder="שם משפחה"></div>
+            </div>
+            <div class="form-group"><label>טלפון נייד</label><input type="tel" required placeholder="05X-XXXXXXX" dir="ltr"></div>
+            <div class="form-group"><label>אימייל</label><input type="email" placeholder="אופציונלי" dir="ltr"></div>
+            <div class="form-group">
+              <label>גיל</label>
+              <select required>
+                <option value="">בחרי טווח גיל</option>
+                <option>60–65</option>
+                <option>66–70</option>
+                <option>71–75</option>
+                <option>76–80</option>
+                <option>80+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>פעילות עיקרית שמעניינת אותך</label>
+              <select>
+                <option>🧘 מדיטציה ויוגה</option>
+                <option>🎲 משחק קוגניטיבי</option>
+                <option>🎨 ציור ואמנות</option>
+                <option>📖 הסיפור שלי</option>
+                <option>כולן!</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>איך שמעת עלינו?</label>
+              <select>
+                <option>חברה/חבר המליצה</option>
+                <option>פייסבוק</option>
+                <option>ווצאפ</option>
+                <option>גוגל</option>
+                <option>אחר</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem;">
+              הצטרפי עכשיו — חינם 🎉
+            </button>
+            <p class="text-xs" style="text-align:center;">
+              בלחיצה על הכפתור את מסכימה ל<a href="#" style="color:var(--matcha);">תנאי השימוש</a> ולמדיניות הפרטיות.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="margin-top:0;padding-top:0;border-top:none;">
+      <span>© 2026 LUMINA · לומינה</span>
+      <div style="display:flex;gap:1.5rem;">
+        <a href="index.html" style="font-size:0.8rem;color:rgba(255,255,255,0.4);">ראשי</a>
+        <a href="activities.html" style="font-size:0.8rem;color:rgba(255,255,255,0.4);">פעילויות</a>
+        <a href="contact.html" style="font-size:0.8rem;color:rgba(255,255,255,0.4);">צור קשר</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function selectPlan(el, plan) {
+  document.querySelectorAll('.plan-row').forEach(r => r.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('selected-plan').value = plan;
+  const btn = document.querySelector('button[type=submit]');
+  const prices = { 'חינם':'חינם 🎉', 'כסף':'59₪/חודש', 'זהב':'99₪/חודש' };
+  btn.textContent = `הצטרפי עכשיו — ${prices[plan]}`;
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  const plan = document.getElementById('selected-plan').value;
+  const msg = encodeURIComponent(`שלום! הצטרפתי ל-LUMINA במסלול ${plan}. מחכה לאישור 😊`);
+  window.open(`https://wa.me/972522674041?text=${msg}`, '_blank');
+}
+
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('v'), i*70); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

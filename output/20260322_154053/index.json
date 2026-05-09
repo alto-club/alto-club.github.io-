@@ -1,0 +1,73 @@
+{
+  "project": "LUMINA - לומינה",
+  "generated": "2026-03-22T16:25:21.119001",
+  "domains_researched": 11,
+  "domains": [
+    {
+      "id": "legal",
+      "name_he": "משפטי ורגולטורי",
+      "name_en": "Legal & Regulatory",
+      "file": "legal.md"
+    },
+    {
+      "id": "financial",
+      "name_he": "פיננסי ותכנית עסקית",
+      "name_en": "Financial & Business Plan",
+      "file": "financial.md"
+    },
+    {
+      "id": "business_plan",
+      "name_he": "תוכנית עסקית",
+      "name_en": "Business Plan",
+      "file": "business_plan.md"
+    },
+    {
+      "id": "marketing",
+      "name_he": "שיווק ומיתוג",
+      "name_en": "Marketing & Branding",
+      "file": "marketing.md"
+    },
+    {
+      "id": "technology",
+      "name_he": "פלטפורמה טכנולוגית",
+      "name_en": "Technology Platform",
+      "file": "technology.md"
+    },
+    {
+      "id": "crm",
+      "name_he": "מערכת CRM",
+      "name_en": "CRM System",
+      "file": "crm.md"
+    },
+    {
+      "id": "website_plan",
+      "name_he": "תכנון אתר חברה",
+      "name_en": "Website Plan",
+      "file": "website_plan.md"
+    },
+    {
+      "id": "content",
+      "name_he": "תוכן ופעילויות",
+      "name_en": "Content & Activities",
+      "file": "content.md"
+    },
+    {
+      "id": "operations",
+      "name_he": "תפעול וקהילה",
+      "name_en": "Operations & Community",
+      "file": "operations.md"
+    },
+    {
+      "id": "social_impact",
+      "name_he": "אימפקט חברתי ומחקר",
+      "name_en": "Social Impact & Research",
+      "file": "social_impact.md"
+    },
+    {
+      "id": "lesson_plans",
+      "name_he": "מערכי שיעור",
+      "name_en": "Lesson Plans",
+      "file": "lesson_plans.md"
+    }
+  ]
+}

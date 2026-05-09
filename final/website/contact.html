@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMINA — צור קשר</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@200;300;400&family=Noto+Sans+Hebrew:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design.css">
+  <style>
+    .page-hero { background: var(--matcha-dark); color: white; padding: 10rem 0 6rem; text-align: center; }
+    .page-hero .label { color: rgba(255,255,255,0.4); }
+    .page-hero h1 { color: white; }
+    .page-hero p { color: rgba(255,255,255,0.7); }
+    .page-hero .zen-line { background: rgba(255,255,255,0.2); }
+
+    .contact-section { background: var(--bg); }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .coord-cards { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
+    .coord-card {
+      padding: 2rem;
+      border: 1px solid var(--stone-light);
+      transition: var(--ease);
+    }
+    .coord-card:hover { border-color: var(--matcha); }
+    .coord-name { font-size: 1.15rem; font-weight: 400; margin-bottom: 0.2rem; }
+    .coord-role { font-size: 0.72rem; color: var(--stone); letter-spacing: 0.12em; display: block; margin-bottom: 1.25rem; text-transform: uppercase; }
+    .contact-link { display: flex; align-items: center; gap: 0.6rem; font-size: 0.875rem; color: var(--ink-light); margin-bottom: 0.5rem; transition: color var(--ease); text-decoration: none; }
+    .contact-link:hover { color: var(--matcha); }
+
+    .form-card {
+      background: white;
+      border: 1px solid var(--stone-light);
+      border-radius: var(--radius-md);
+      padding: 2.5rem;
+    }
+    .form-stack { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    @media (max-width: 900px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-dot"></span>LUMINA · לומינה</a>
+    <ul class="nav-links">
+      <li><a href="index.html">ראשי</a></li>
+      <li><a href="activities.html">פעילויות</a></li>
+      <li><a href="about.html">אודות</a></li>
+      <li><a href="join.html">הצטרפות</a></li>
+      <li><a href="contact.html" class="active">צור קשר</a></li>
+    </ul>
+    <a href="join.html" class="btn btn-primary btn-sm">הצטרפי עכשיו</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="label fi">אנחנו כאן בשבילך</span>
+    <h1 class="title-xl fi d1" style="margin-bottom:1rem;">צרי קשר</h1>
+    <div class="zen-line fi d1"></div>
+    <p class="text-lg fi d2" style="max-width:440px;margin:0 auto;">
+      שאלה, הצעה, או סתם רצית להגיד שלום? נשמח לשמוע ממך.
+    </p>
+  </div>
+</div>
+
+<section class="contact-section section">
+  <div class="container">
+    <div class="contact-layout">
+      <!-- Coordinators -->
+      <div class="fi">
+        <span class="label">צוות לומינה</span>
+        <h2 class="title-md" style="margin-bottom:2rem;">נשמח לשוחח</h2>
+        <div class="coord-cards">
+          <div class="coord-card">
+            <div class="coord-name">יוסי ברוש</div>
+            <span class="coord-role">מנהל ומייסד</span>
+            <a href="tel:0522674041" class="contact-link">📞 052-2674041</a>
+            <a href="https://wa.me/972522674041?text=שלום יוסי, הגעתי מהאתר LUMINA" class="contact-link" target="_blank">💬 וואטסאפ</a>
+          </div>
+          <div class="coord-card">
+            <div class="coord-name">שרון הסקל</div>
+            <span class="coord-role">רכזת פעילויות</span>
+            <a href="tel:0544649544" class="contact-link">📞 054-4649544</a>
+            <a href="https://wa.me/972544649544?text=שלום שרון, הגעתי מהאתר LUMINA" class="contact-link" target="_blank">💬 וואטסאפ</a>
+          </div>
+        </div>
+
+        <div style="padding:1.75rem;background:var(--bg-cream);border:1px solid var(--stone-light);">
+          <h4 class="title-sm" style="margin-bottom:1rem;">שעות זמינות</h4>
+          <p class="text-sm">ראשון–חמישי: 09:00–18:00</p>
+          <p class="text-sm">שישי: 09:00–13:00</p>
+          <p class="text-sm" style="margin-top:0.75rem;color:var(--matcha);">✅ בד"כ מגיבים בתוך שעה בוואטסאפ</p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="fi d1">
+        <div class="form-card">
+          <h3 class="title-sm" style="margin-bottom:1.75rem;">שלחי לנו הודעה</h3>
+          <form class="form-stack" onsubmit="sendForm(event)">
+            <div class="form-group"><label>שמך המלא</label><input type="text" required placeholder="שם פרטי ומשפחה" id="f-name"></div>
+            <div class="form-group"><label>טלפון</label><input type="tel" placeholder="05X-XXXXXXX" dir="ltr" id="f-phone"></div>
+            <div class="form-group">
+              <label>נושא הפנייה</label>
+              <select id="f-topic">
+                <option>הצטרפות לפלטפורמה</option>
+                <option>שאלה על פעילות</option>
+                <option>שאלה על מחירים</option>
+                <option>שיתוף פעולה מוסדי</option>
+                <option>אחר</option>
+              </select>
+            </div>
+            <div class="form-group"><label>הודעה</label><textarea placeholder="כתבי כאן..." id="f-msg"></textarea></div>
+            <button type="submit" class="btn btn-primary" style="justify-content:center;">
+              שלחי ביוואטסאפ ↗
+            </button>
+            <p class="text-xs" style="text-align:center;">ההודעה תישלח ישירות ליוסי ברוש דרך וואטסאפ</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>LUMINA · לומינה</h3>
+        <p>מרחב חיים חברתי לגיל 65+.</p>
+      </div>
+      <div class="footer-links-col">
+        <h4>ניווט</h4>
+        <ul>
+          <li><a href="index.html">ראשי</a></li>
+          <li><a href="activities.html">פעילויות</a></li>
+          <li><a href="about.html">אודות</a></li>
+          <li><a href="join.html">הצטרפות</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 LUMINA · לומינה</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function sendForm(e) {
+  e.preventDefault();
+  const name = document.getElementById('f-name').value;
+  const phone = document.getElementById('f-phone').value;
+  const topic = document.getElementById('f-topic').value;
+  const msg = document.getElementById('f-msg').value;
+  let text = `שלום יוסי, קוראים לי ${name}`;
+  if (phone) text += `, מספרי: ${phone}`;
+  text += `. נושא: ${topic}`;
+  if (msg) text += `. ${msg}`;
+  window.open(`https://wa.me/972522674041?text=${encodeURIComponent(text)}`, '_blank');
+}
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('v'), i*70); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

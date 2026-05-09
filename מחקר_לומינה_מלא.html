@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>ALTO — מחקר עסקי מלא</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'David', 'Arial', sans-serif;
+    font-size: 12pt;
+    direction: rtl;
+    text-align: right;
+    color: #1a1a1a;
+    line-height: 1.7;
+    background: #fff;
+  }
+  .print-btn {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    background: #4a3060;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 13pt;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(74,48,96,0.4);
+  }
+  .print-btn:hover { background: #6b4f8a; }
+  @media print {
+    .print-btn, .toc-nav { display: none !important; }
+    .chapter { page-break-before: always; }
+    .chapter:first-of-type { page-break-before: auto; }
+    body { font-size: 10pt; }
+  }
+
+  /* Cover Page */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4a3060 0%, #6b4f8a 50%, #9b7fb8 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 40px;
+    page-break-after: always;
+  }
+  .cover h1 { font-size: 56pt; font-weight: bold; letter-spacing: 4px; margin-bottom: 10px; }
+  .cover .subtitle { font-size: 18pt; opacity: 0.9; margin-bottom: 30px; }
+  .cover .tagline { font-size: 14pt; opacity: 0.8; font-style: italic; margin-bottom: 50px; }
+  .cover .meta { font-size: 11pt; opacity: 0.7; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 20px; }
+  .cover .badges {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0;
+  }
+  .cover .badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 12pt;
+  }
+
+  /* TOC */
+  .toc {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px 40px;
+    page-break-after: always;
+  }
+  .toc h2 { font-size: 22pt; color: #4a3060; border-bottom: 3px solid #4a3060; padding-bottom: 8px; margin-bottom: 24px; }
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dotted #ccc;
+    font-size: 13pt;
+  }
+  .toc-item .num { color: #4a3060; font-weight: bold; margin-left: 12px; }
+  .toc-item .emoji { margin-left: 8px; }
+
+  /* Chapter */
+  .chapter {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px 40px 60px;
+  }
+  .chapter-header {
+    background: linear-gradient(135deg, #4a3060, #6b4f8a);
+    color: white;
+    padding: 24px 28px;
+    border-radius: 8px;
+    margin-bottom: 28px;
+  }
+  .chapter-header h2 { font-size: 22pt; }
+  .chapter-header .ch-sub { font-size: 11pt; opacity: 0.85; margin-top: 6px; }
+
+  h3 { font-size: 15pt; color: #4a3060; margin: 24px 0 10px; border-right: 4px solid #4a3060; padding-right: 10px; }
+  h4 { font-size: 12pt; color: #6b4f8a; margin: 16px 0 6px; }
+  p { margin-bottom: 10px; }
+  ul, ol { padding-right: 24px; margin-bottom: 12px; }
+  li { margin-bottom: 4px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 11pt; }
+  th { background: #4a3060; color: white; padding: 7px 10px; text-align: right; }
+  td { padding: 6px 10px; border: 1px solid #ddd; vertical-align: top; }
+  tr:nth-child(even) td { background: #f9f5ff; }
+
+  /* Boxes */
+  .highlight { background: #fff8e1; border-right: 5px solid #f0c040; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+  .key-stat { background: #e8f5e9; border-right: 5px solid #388e3c; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+  .warn { background: #fce4ec; border-right: 5px solid #c62828; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+  .info { background: #e3f2fd; border-right: 5px solid #1565c0; padding: 12px 16px; margin: 12px 0; border-radius: 4px; }
+
+  /* Divider */
+  hr { border: none; border-top: 2px solid #e0e0e0; margin: 24px 0; }
+
+  /* Stats row */
+  .stats-row { display: flex; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
+  .stat-box {
+    flex: 1;
+    min-width: 140px;
+    background: #f0ebf8;
+    border: 2px solid #4a3060;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .stat-box .num { font-size: 22pt; color: #4a3060; font-weight: bold; display: block; }
+  .stat-box .label { font-size: 10pt; color: #666; }
+
+  /* Code blocks */
+  pre { background: #f5f5f5; border: 1px solid #ddd; padding: 12px; border-radius: 4px; font-family: monospace; font-size: 10pt; overflow-x: auto; white-space: pre-wrap; margin: 10px 0; direction: ltr; text-align: left; }
+
+  blockquote {
+    border-right: 4px solid #9b7fb8;
+    padding-right: 16px;
+    margin: 12px 0;
+    color: #555;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">🖨️ שמור כ-PDF</button>
+
+<!-- ===== COVER ===== -->
+<div class="cover">
+  <div style="font-size:60pt; margin-bottom:10px;">✨</div>
+  <h1>ALTO</h1>
+  <div class="subtitle">ALTO — מחקר עסקי מקיף</div>
+  <div class="tagline">"פלטפורמה חברתית-תרבותית לגיל 65+ בישראל"</div>
+  <div class="badges">
+    <div class="badge">⚖️ משפטי</div>
+    <div class="badge">💰 פיננסי</div>
+    <div class="badge">📈 תוכנית עסקית</div>
+    <div class="badge">📣 שיווק</div>
+    <div class="badge">💻 טכנולוגיה</div>
+    <div class="badge">👥 CRM</div>
+    <div class="badge">🌐 אתר</div>
+    <div class="badge">🎨 תוכן</div>
+    <div class="badge">⚙️ תפעול</div>
+    <div class="badge">🌟 אימפקט</div>
+    <div class="badge">📚 מערכי שיעור</div>
+  </div>
+  <div class="meta">
+    נוצר: מרץ 2026 | 11 תחומי מחקר | מסמך פנימי<br>
+    יוסי ברוש 052-2674041 | שרון חסקל 054-4649544
+  </div>
+</div>
+
+<!-- ===== TOC ===== -->
+<div class="toc">
+  <h2>תוכן עניינים</h2>
+  <div class="toc-item"><span><span class="num">1.</span><span class="emoji">⚖️</span> משפטי ורגולטורי</span></div>
+  <div class="toc-item"><span><span class="num">2.</span><span class="emoji">💰</span> פיננסי ותכנית עסקית</span></div>
+  <div class="toc-item"><span><span class="num">3.</span><span class="emoji">📈</span> תוכנית עסקית מלאה</span></div>
+  <div class="toc-item"><span><span class="num">4.</span><span class="emoji">📣</span> שיווק ומיתוג</span></div>
+  <div class="toc-item"><span><span class="num">5.</span><span class="emoji">💻</span> פלטפורמה טכנולוגית</span></div>
+  <div class="toc-item"><span><span class="num">6.</span><span class="emoji">👥</span> מערכת CRM</span></div>
+  <div class="toc-item"><span><span class="num">7.</span><span class="emoji">🌐</span> תכנון אתר חברה</span></div>
+  <div class="toc-item"><span><span class="num">8.</span><span class="emoji">🎨</span> תוכן ופעילויות</span></div>
+  <div class="toc-item"><span><span class="num">9.</span><span class="emoji">⚙️</span> תפעול וקהילה</span></div>
+  <div class="toc-item"><span><span class="num">10.</span><span class="emoji">🌟</span> אימפקט חברתי ומחקר</span></div>
+  <div class="toc-item"><span><span class="num">11.</span><span class="emoji">📚</span> מערכי שיעור</span></div>
+</div>
+
+<!-- ===== CHAPTER 1: LEGAL ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>⚖️ פרק 1 — משפטי ורגולטורי</h2>
+    <div class="ch-sub">היבטים משפטיים, התאגדות, פרטיות, ביטוחים ונגישות</div>
+  </div>
+
+  <h3>מבנה עסקי מומלץ</h3>
+  <div class="key-stat">💡 <strong>המלצה:</strong> הקמת חברה לתועלת הציבור (חל"צ) — משלבת ייעוד חברתי עם קיימות כלכלית.</div>
+  <table>
+    <tr><th>מבנה</th><th>יתרונות</th><th>חסרונות</th><th>התאמה ל-ALTO</th></tr>
+    <tr><td><strong>חל"צ (מומלץ)</strong></td><td>גמישות מסחרית + ייעוד ציבורי, אמינות, מענקים</td><td>עלות הקמה גבוהה יותר</td><td>גבוהה מאוד ✅</td></tr>
+    <tr><td>עמותה (ע"ר)</td><td>פטור ממס, אמינות ציבורית</td><td>רווחים מוגבלים</td><td>גבוהה</td></tr>
+    <tr><td>חברה בע"מ</td><td>גמישות מלאה</td><td>מיסוי מלא, פחות אמינות</td><td>בינונית</td></tr>
+  </table>
+
+  <h3>עלויות הקמת חל"צ</h3>
+  <div class="stats-row">
+    <div class="stat-box"><span class="num">₪2,617</span><span class="label">אגרת רשם החברות</span></div>
+    <div class="stat-box"><span class="num">₪5-15K</span><span class="label">שכ"ט עו"ד</span></div>
+    <div class="stat-box"><span class="num">60-90</span><span class="label">ימים לאישור מלא</span></div>
+  </div>
+
+  <h3>הגנת פרטיות — חוק ישראלי ו-GDPR</h3>
+  <div class="warn">⚠️ <strong>תיקון 14 לחוק הגנת הפרטיות</strong> נכנס לתוקף אוגוסט 2025. קנסות עד ₪3.4 מיליון. חובת רישום מאגר מידע.</div>
+  <p>ALTO <strong>חייבת</strong> לרשום מאגר מידע ברשות להגנת הפרטיות — מחזיקה נתוני משתמשים, כולל מידע רגיש (גיל, בריאות).</p>
+
+  <h3>ביטוחים נדרשים</h3>
+  <table>
+    <tr><th>ביטוח</th><th>עלות שנתית משוערת</th><th>חשיבות</th></tr>
+    <tr><td>צד ג' (Third Party)</td><td>₪3,000–8,000</td><td>חובה</td></tr>
+    <tr><td>אחריות מקצועית (E&O)</td><td>₪4,000–12,000</td><td>קריטי</td></tr>
+    <tr><td>סייבר ופרטיות</td><td>₪8,000–25,000</td><td>קריטי</td></tr>
+    <tr><td>D&O (מנהלים)</td><td>₪5,000–15,000</td><td>מומלץ</td></tr>
+    <tr><td>פעילות פיזית (יוגה)</td><td>₪6,000–18,000</td><td>גבוה לגיל 65+</td></tr>
+    <tr><td><strong>סה"כ שנתי</strong></td><td><strong>₪26,000–78,000</strong></td><td></td></tr>
+  </table>
+
+  <h3>נגישות דיגיטלית — תקן SI 5568</h3>
+  <div class="info">ALTO חייבת לעמוד בתקן נגישות SI 5568 (מבוסס WCAG 2.1 רמת AA). זהו גם יתרון עסקי — מגדיל נגישות לקהל היעד.</div>
+  <table>
+    <tr><th>אתגר הקהל</th><th>פתרון נגישות</th></tr>
+    <tr><td>ראייה מוחלשת</td><td>גופן מינימום 18px, ניגודיות גבוהה 7:1</td></tr>
+    <tr><td>רעד בידיים</td><td>כפתורים גדולים 56×56px לפחות</td></tr>
+    <tr><td>קוגניציה</td><td>ניווט פשוט, מקסימום 3 לחיצות לכל פעולה</td></tr>
+    <tr><td>מגע מסך</td><td>Touch targets גדולים, ללא swipe מורכב</td></tr>
+  </table>
+</div>
+
+<!-- ===== CHAPTER 2: FINANCIAL ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>💰 פרק 2 — פיננסי</h2>
+    <div class="ch-sub">מודלי הכנסה, תמחור, מקורות מימון, עלויות ונקודת איזון</div>
+  </div>
+
+  <h3>מודל מנויים (B2C)</h3>
+  <table>
+    <tr><th>מסלול</th><th>מחיר חודשי</th><th>מחיר שנתי</th><th>מה כלול</th></tr>
+    <tr><td><strong>חינם</strong></td><td>₪0</td><td>—</td><td>5-10 שיעורים מוקלטים, קהילה בסיסית</td></tr>
+    <tr><td><strong>ALTO כסף</strong></td><td>₪59</td><td>₪598</td><td>כל השיעורים החיים, ארכיון מלא</td></tr>
+    <tr><td><strong>ALTO זהב</strong></td><td>₪99</td><td>₪998</td><td>כולל ליווי אישי + "הסיפור שלי" מלא</td></tr>
+  </table>
+
+  <h3>מודל מוסדי (B2B)</h3>
+  <table>
+    <tr><th>לקוח</th><th>מחיר חודשי</th><th>פוטנציאל</th></tr>
+    <tr><td>בית אבות / דיור מוגן</td><td>₪800–2,500</td><td>~500 מוסדות</td></tr>
+    <tr><td>קופת חולים</td><td>חוזה תאגידי</td><td>4 קופות, מיליוני חברים</td></tr>
+    <tr><td>עיריות</td><td>₪3,000–8,000</td><td>~100 עיריות</td></tr>
+  </table>
+
+  <h3>נקודת איזון</h3>
+  <div class="key-stat">
+    <strong>ALTO זקוקה ל-~2,400 מנויים משלמים בלבד להגיע לאיזון.</strong><br>
+    זה <strong>0.18% בלבד</strong> מהשוק של 1.3 מיליון ישראלים בגיל 65+!
+  </div>
+  <table>
+    <tr><th>חודש</th><th>מנויים</th><th>הכנסה חודשית</th></tr>
+    <tr><td>3</td><td>200</td><td>₪14,800</td></tr>
+    <tr><td>6</td><td>800</td><td>₪59,200</td></tr>
+    <tr><td>12</td><td>2,500</td><td>₪185,000</td></tr>
+    <tr><td>18</td><td>5,000</td><td>₪370,000</td></tr>
+  </table>
+
+  <h3>עלויות שנה ראשונה</h3>
+  <table>
+    <tr><th>קטגוריה</th><th>עלות שנתית</th></tr>
+    <tr><td>פיתוח טכנולוגי (MVP)</td><td>₪288,000–460,000</td></tr>
+    <tr><td>תוכן ומדריכים</td><td>₪420,000–610,000</td></tr>
+    <tr><td>כוח אדם (5-6 עובדים)</td><td>₪720,000–1,000,000</td></tr>
+    <tr><td>שיווק</td><td>₪205,000–320,000</td></tr>
+    <tr><td>תפעול + משפטי</td><td>₪100,000–170,000</td></tr>
+    <tr><td><strong>סה"כ שנה 1</strong></td><td><strong>₪1.75–2.56 מיליון</strong></td></tr>
+  </table>
+
+  <h3>מקורות מימון עיקריים</h3>
+  <table>
+    <tr><th>מקור</th><th>סכום פוטנציאלי</th><th>הערות</th></tr>
+    <tr><td>ג'וינט ישראל — אשל</td><td>₪300,000–1,500,000</td><td>ראשון לפנות!</td></tr>
+    <tr><td>משרד הרווחה</td><td>₪50,000–500,000</td><td>תכנית "מיצ'ב"</td></tr>
+    <tr><td>רשות החדשנות</td><td>עד ₪1.5 מיליון</td><td>מסלול מיזמים חברתיים</td></tr>
+    <tr><td>קרן רש"י</td><td>₪200,000–2,000,000</td><td>—</td></tr>
+    <tr><td>UJA Federation</td><td>מיליוני דולרים</td><td>פרויקטים ישראליים</td></tr>
+  </table>
+</div>
+
+<!-- ===== CHAPTER 3: BUSINESS PLAN ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>📈 פרק 3 — תוכנית עסקית</h2>
+    <div class="ch-sub">חזון, ניתוח שוק, מוצר, אסטרטגיית כניסה</div>
+  </div>
+
+  <blockquote>"עולם שבו כל אדם מעל גיל 65 חי חיים מלאי משמעות, קשרים וצמיחה — ולא רק שנים."</blockquote>
+
+  <h3>גודל השוק</h3>
+  <div class="stats-row">
+    <div class="stat-box"><span class="num">1.1M</span><span class="label">ישראלים 65+ (2025)</span></div>
+    <div class="stat-box"><span class="num">255K</span><span class="label">SAM — שוק ניתן לשירות</span></div>
+    <div class="stat-box"><span class="num">₪303M</span><span class="label">הכנסה שנתית פוטנציאלית</span></div>
+    <div class="stat-box"><span class="num">30%</span><span class="label">חווים בדידות</span></div>
+  </div>
+
+  <h3>יעדי צמיחה</h3>
+  <table>
+    <tr><th>שנה</th><th>מנויים משלמים</th><th>נתח SAM</th><th>הכנסה שנתית</th></tr>
+    <tr><td>שנה 1</td><td>2,500</td><td>1%</td><td>₪2.97 מיליון</td></tr>
+    <tr><td>שנה 2</td><td>8,000</td><td>3.1%</td><td>₪9.5 מיליון</td></tr>
+    <tr><td>שנה 3</td><td>18,000</td><td>7.1%</td><td>₪21.4 מיליון</td></tr>
+  </table>
+
+  <h3>4 עמודי הפעילות</h3>
+  <table>
+    <tr><th>עמוד</th><th>עדיפות</th><th>פורמט</th><th>ייחוד</th></tr>
+    <tr><td>🧘 מדיטציה ויוגה</td><td style="color:#c62828; font-weight:bold;">ראשון</td><td>שיעורים חיים 3×/שבוע + ספריית VOD</td><td>יוגה-כיסא לכולם</td></tr>
+    <tr><td>🎲 משחקים קוגניטיביים</td><td style="color:#c62828; font-weight:bold;">ראשון</td><td>שחמט, שש-בש, טריוויה</td><td>Hook יומי</td></tr>
+    <tr><td>🎨 ציור ואמנות</td><td style="color:#e65100; font-weight:bold;">שני (חודש 2)</td><td>סדנאות 75 דקות</td><td>גלריה דיגיטלית</td></tr>
+    <tr><td>📖 הסיפור שלי</td><td style="color:#e65100; font-weight:bold;">שני (חודש 3)</td><td>כתיבה + קול + תמונות</td><td>Legacy tool ייחודי!</td></tr>
+  </table>
+
+  <h3>אסטרטגיית כניסה לשוק — 3 שלבים</h3>
+  <table>
+    <tr><th>שלב</th><th>תקופה</th><th>יעד</th><th>מהלך מרכזי</th></tr>
+    <tr><td>"ניצוץ"</td><td>חודשים 1-6</td><td>500 חברים</td><td>פיילוט מוכוון, ולידציה</td></tr>
+    <tr><td>"להבה"</td><td>חודשים 7-18</td><td>3,000–8,000</td><td>שיתוף קופות חולים + עיריות</td></tr>
+    <tr><td>"אש"</td><td>חודשים 19-36</td><td>18,000+</td><td>הרחבה לערים + ערבית + B2B</td></tr>
+  </table>
+</div>
+
+<!-- ===== CHAPTER 4: MARKETING ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>📣 פרק 4 — שיווק ומיתוג</h2>
+    <div class="ch-sub">קהל יעד, ערוצי שיווק, מסרים ואסטרטגיית לאנצ'</div>
+  </div>
+
+  <h3>פרופיל קהל היעד</h3>
+  <div class="stats-row">
+    <div class="stat-box"><span class="num">91%</span><span class="label">פעילים ב-WhatsApp</span></div>
+    <div class="stat-box"><span class="num">75%</span><span class="label">65-74 גולשים באינטרנט</span></div>
+    <div class="stat-box"><span class="num">85%</span><span class="label">מחזיקים סמארטפון</span></div>
+    <div class="stat-box"><span class="num">2.5-3.5</span><span class="label">שעות גלישה/יום</span></div>
+  </div>
+
+  <h3>ערוצי שיווק לפי עדיפות</h3>
+  <table>
+    <tr><th>ערוץ</th><th>עדיפות</th><th>הסבר</th></tr>
+    <tr><td>💬 <strong>WhatsApp</strong></td><td>🔴 עליונה</td><td>91% מהקהל, הפצה ויראלית, עלות 0</td></tr>
+    <tr><td>📘 <strong>Facebook</strong></td><td>🔴 גבוהה</td><td>58% פעילים, טרגוט מדויק 63-78</td></tr>
+    <tr><td>🏥 <strong>קופות חולים</strong></td><td>🔴 אסטרטגי</td><td>הפניית רופא = אמינות × 10</td></tr>
+    <tr><td>🏘️ <strong>עיריות + מרכזי קהילה</strong></td><td>🟡 גבוהה</td><td>אוכלוסייה מזוהה</td></tr>
+    <tr><td>📰 <strong>מדיה מסורתית</strong></td><td>🟡 בינונית</td><td>ישראל היום, גלי צה"ל</td></tr>
+    <tr><td>👥 <strong>מפה לאוזן</strong></td><td>🟢 45% מהגיוס</td><td>שגרירי ALTO</td></tr>
+  </table>
+
+  <h3>מסרים שיווקיים מרכזיים</h3>
+  <div class="highlight">
+    <strong>מסר-על:</strong> <em>"ALTO – כי הסיפור שלך עוד לא נגמר"</em>
+  </div>
+  <ul>
+    <li><strong>נגד בדידות:</strong> "מאות נשים וגברים כמוך כבר מחכים לך"</li>
+    <li><strong>קוגניציה:</strong> "המוח שלך אוהב אתגרים. ALTO מספקת לו אותם"</li>
+    <li><strong>מורשת:</strong> "תעד, שתף, ותן לנכדים לגלות מי אתה באמת"</li>
+    <li><strong>עצמאות:</strong> "בלי לצאת מהבית. פשוט לוחצת – ומתחילה"</li>
+  </ul>
+
+  <h3>טון הדיבור</h3>
+  <table>
+    <tr><th>✅ כן</th><th>❌ לא</th></tr>
+    <tr><td>חמים, מכבד, שווה-ערך</td><td>פטרוני, רחמני</td></tr>
+    <tr><td>אנרגטי אך לא קיצוני</td><td>"כיצד לעזור לקשיש"</td></tr>
+    <tr><td>"את/אתה" ישיר</td><td>"הקשיש/ה"</td></tr>
+    <tr><td>הומור עדין ואנושי</td><td>מדגיש מגבלות גיל</td></tr>
+  </table>
+</div>
+
+<!-- ===== CHAPTER 5: TECHNOLOGY ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>💻 פרק 5 — פלטפורמה טכנולוגית</h2>
+    <div class="ch-sub">Stack טכנולוגי, UX/UI לגיל 65+, ארכיטקטורה</div>
+  </div>
+
+  <h3>ארכיטקטורה מומלצת</h3>
+  <div class="info">💡 <strong>Hybrid Architecture:</strong> PWA (Progressive Web App) + Native App. PWA מאפשר גישה ללא הורדה — חסם ענק לגיל 65+.</div>
+
+  <h3>Stack טכנולוגי</h3>
+  <table>
+    <tr><th>שכבה</th><th>טכנולוגיה</th><th>סיבה</th></tr>
+    <tr><td>Frontend</td><td>Next.js 14+ + Tailwind + Radix UI</td><td>SSR מהיר, נגישות מובנית, RTL מלא</td></tr>
+    <tr><td>Backend</td><td>Node.js + NestJS</td><td>TypeScript, מודולרי, מפתחים זמינים</td></tr>
+    <tr><td>Database</td><td>PostgreSQL (Supabase) + Redis + MongoDB</td><td>EU servers, GDPR מלא</td></tr>
+    <tr><td>וידאו חי</td><td>Agora.io</td><td>תמיכה עברית, שרתים באירופה</td></tr>
+    <tr><td>וידאו מוקלט</td><td>Cloudflare Stream</td><td>$5/1,000 דקות</td></tr>
+    <tr><td>תשלומים</td><td>Tranzila / Cardcom</td><td>ישראלי, PCI-DSS</td></tr>
+    <tr><td>SMS/WhatsApp</td><td>Inforu + Wati.io</td><td>ישראלי, WhatsApp API</td></tr>
+  </table>
+
+  <h3>עיצוב UX לגיל 65+ — כללים קריטיים</h3>
+  <table>
+    <tr><th>פרמטר</th><th>ערך מומלץ</th></tr>
+    <tr><td>גודל פונט בסיסי</td><td>18-20px (מינימום 16px)</td></tr>
+    <tr><td>גודל כפתור</td><td>56×64px מינימום</td></tr>
+    <tr><td>ניגודיות צבע</td><td>7:1 (WCAG AAA)</td></tr>
+    <tr><td>לחיצות לכל פעולה</td><td>מקסימום 3</td></tr>
+    <tr><td>פריטי תפריט</td><td>מקסימום 5</td></tr>
+    <tr><td>רקע</td><td>#FAFAF8 (שמנת, לא לבן טהור)</td></tr>
+  </table>
+
+  <h3>עלות פיתוח MVP</h3>
+  <div class="warn">עלות פיתוח MVP שנה 1: <strong>₪288,000–460,000</strong> (3-4 חודשים)</div>
+</div>
+
+<!-- ===== CHAPTER 6: CRM ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>👥 פרק 6 — מערכת CRM</h2>
+    <div class="ch-sub">ניהול לקוחות, אוטומציות, דשבורד ו-KPIs</div>
+  </div>
+
+  <h3>מחזור חיי חבר ALTO</h3>
+  <table>
+    <tr><th>שלב</th><th>מה קורה</th><th>זמן ממוצע</th></tr>
+    <tr><td>גיוס</td><td>חשיפה ראשונה — 45% הפניות, 30% קופ"ח</td><td>1-4 שבועות</td></tr>
+    <tr><td>ליד</td><td>צלצול / השארת פרטים — תגובה תוך 24 שעות!</td><td>יום 1</td></tr>
+    <tr><td>רישום</td><td>שיחת "ברוך הבא" אישית + שיעור ניסיון</td><td>ימים 1-7</td></tr>
+    <tr><td>פעילות ראשונה</td><td>שיעור הניסיון — "רגע האמת"</td><td>שבוע 1</td></tr>
+    <tr><td>חבר פעיל</td><td>2+ פעמים בשבוע, יוצר תוכן</td><td>חודש 1-3</td></tr>
+    <tr><td>שגריר</td><td>מפנה אקטיבי, מנחה קהילה</td><td>חודש 6+</td></tr>
+  </table>
+
+  <h3>המלצת מערכת CRM</h3>
+  <div class="key-stat">🏆 <strong>Zoho CRM Standard (₪120/חודש)</strong> — עברית מלאה, RTL, WhatsApp Business מובנה, אקוסיסטם שלם.</div>
+
+  <h3>אוטומציות מרכזיות</h3>
+  <ul>
+    <li><strong>ברוכים הבאים (7 ימים):</strong> WhatsApp מיידי → אימייל → SMS תזכורת → מעקב יום 3 → הזמנה נוספת יום 7</li>
+    <li><strong>תזכורות שיעורים:</strong> 48 שעות לפני + 2 שעות לפני + 15 דקות לפני</li>
+    <li><strong>יום הולדת:</strong> הפתעה + קופון שיעור חינם + ברכה קבוצתית</li>
+    <li><strong>Re-engagement:</strong> לא פעיל 14 יום → WhatsApp חם → שיחה טלפונית</li>
+    <li><strong>שגריר:</strong> 20+ שיעורים + הפנייה → הטבות מיוחדות</li>
+  </ul>
+
+  <h3>KPIs מרכזיים — יעדי שנה 1</h3>
+  <table>
+    <tr><th>מדד</th><th>יעד חודש 6</th><th>יעד שנה 1</th></tr>
+    <tr><td>חברים רשומים</td><td>300</td><td>1,000</td></tr>
+    <tr><td>MAU (פעילים חודשי)</td><td>200 (67%)</td><td>700 (70%)</td></tr>
+    <tr><td>NPS</td><td>55+</td><td>65+</td></tr>
+    <tr><td>שיעור נשירה חודשי</td><td>&lt;5%</td><td>&lt;4%</td></tr>
+    <tr><td>LTV/CAC</td><td>—</td><td>&gt;12</td></tr>
+  </table>
+</div>
+
+<!-- ===== CHAPTER 7: WEBSITE ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>🌐 פרק 7 — תכנון אתר חברה</h2>
+    <div class="ch-sub">מבנה עמודים, UX/UI, תוכן ומסרים</div>
+  </div>
+
+  <h3>מבנה האתר</h3>
+  <ul>
+    <li>🏠 דף בית</li>
+    <li>🎯 פעילויות (4 תת-עמודים: יוגה, משחקים, ציור, הסיפור שלי)</li>
+    <li>👥 אודות (חזון, צוות, ערכים)</li>
+    <li>💳 הצטרף אלינו (מסלולי מנוי + הרשמה)</li>
+    <li>📞 צור קשר</li>
+    <li>🔐 כניסה לחברים</li>
+  </ul>
+
+  <h3>כותרות דף הבית — אפשרויות</h3>
+  <div class="highlight">
+    <strong>אפשרות מומלצת (שילוב):</strong><br>
+    <em>Headline: "65+ זה לא גיל. זה ניסיון."</em><br>
+    <em>Subheadline: "הצטרפו ל-ALTO — קהילה פעילה של אנשים כמוכם שמגלים מחדש יצירתיות, חברות ושקט פנימי."</em>
+  </div>
+
+  <h3>עקרונות עיצוב לגיל 65+</h3>
+  <table>
+    <tr><th>פרמטר</th><th>ערך מומלץ</th></tr>
+    <tr><td>פונט גוף</td><td>Heebo / Assistant, 18-20px</td></tr>
+    <tr><td>כפתורי CTA</td><td>56-64px גובה, 200px+ רוחב</td></tr>
+    <tr><td>תפריט ראשי</td><td>מקסימום 5-6 פריטים</td></tr>
+    <tr><td>כפתור WhatsApp צף</td><td>בכל עמוד, תמיד גלוי</td></tr>
+    <tr><td>מספר טלפון</td><td>בולט בכל עמוד</td></tr>
+    <tr><td>ניגודיות</td><td>7:1 ומעלה</td></tr>
+  </table>
+</div>
+
+<!-- ===== CHAPTER 8: CONTENT ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>🎨 פרק 8 — תוכן ופעילויות</h2>
+    <div class="ch-sub">מדיטציה, יוגה, משחקים, ציור, "הסיפור שלי" — פירוט מחקרי</div>
+  </div>
+
+  <h3>יוגה לגיל 65+ — סוגים מומלצים</h3>
+  <table>
+    <tr><th>סוג</th><th>עדיפות</th><th>למי מתאים</th><th>פורמט</th></tr>
+    <tr><td>יוגה על כיסא (Chair Yoga)</td><td>🔴 ראשון</td><td>כולם, כולל מוגבלות</td><td>45 דקות, שידור חי</td></tr>
+    <tr><td>יוגה עדינה (Gentle Yoga)</td><td>🔴 ראשון</td><td>גמישות בסיסית</td><td>50-60 דקות</td></tr>
+    <tr><td>Yoga Nidra (מדיטציה שכיבה)</td><td>🟡 שני</td><td>כולם</td><td>30 דקות, מוקלט</td></tr>
+    <tr><td>MBSR מיינדפולנס</td><td>🟡 שני</td><td>מחפשי הפחתת מתח</td><td>8 שבועות, קורס</td></tr>
+  </table>
+
+  <h3>תדירות שיעורים מומלצת</h3>
+  <table>
+    <tr><th>יום</th><th>שעה</th><th>פעילות</th><th>פורמט</th></tr>
+    <tr><td>ראשון</td><td>09:00</td><td>קוויז בוקר</td><td>Live</td></tr>
+    <tr><td>שני</td><td>10:00</td><td>יוגה כיסאית</td><td>Live</td></tr>
+    <tr><td>שלישי</td><td>16:00</td><td>שש-בש / שחמט</td><td>Live</td></tr>
+    <tr><td>רביעי</td><td>10:00</td><td>סדנת ציור</td><td>Live</td></tr>
+    <tr><td>חמישי</td><td>09:30</td><td>מדיטציה + שיחה</td><td>Live</td></tr>
+    <tr><td>שישי</td><td>11:00</td><td>"קפה שישי" חופשי</td><td>Live</td></tr>
+    <tr><td>כל יום</td><td>בכל שעה</td><td>ספריית תכנים</td><td>מוקלט</td></tr>
+  </table>
+
+  <h3>"הסיפור שלי" — המוצר הייחודי</h3>
+  <div class="key-stat">
+    📊 <strong>מחקרי Stanford (2019):</strong> 83% דיווחו שהפעילות "נתנה משמעות לחייהם". 65% — חיזוק קשרים משפחתיים. 71% — תחושת תרומה לדורות הבאים.
+  </div>
+
+  <h4>שאלות פתיחה מוכחות לסיפורי חיים:</h4>
+  <ul>
+    <li>"מה הריח שמחזיר אותך מיד לילדות?"</li>
+    <li>"מה היה הרגע שבו הרגשת הכי גאה בעצמך?"</li>
+    <li>"ספר לי על מישהו שלא פגשת עוד אבל שינה את חייך"</li>
+    <li>"אם היית יכול להגיד משהו אחד לנכד/ה שלך — מה זה היה?"</li>
+  </ul>
+
+  <h3>משחקים קוגניטיביים — עדיפות עליונה</h3>
+  <div class="info">💡 <strong>שש-בש הוא פנינה תרבותית ישראלית</strong> — נפוץ מאוד בגיל זה, מהווה גשר חברתי. חובה לכלול!</div>
+  <p>מחקר Mayo Clinic (2021): אנשים שמשחקים משחקי לוח ב-60+ מפחיתים סיכון לדמנציה ב-15%.</p>
+</div>
+
+<!-- ===== CHAPTER 9: OPERATIONS ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>⚙️ פרק 9 — תפעול וקהילה</h2>
+    <div class="ch-sub">צוות, שותפויות, בניית קהילה, תמיכה</div>
+  </div>
+
+  <h3>צוות ליבה — שלב הקמה</h3>
+  <table>
+    <tr><th>תפקיד</th><th>שכר חודשי</th><th>עדיפות</th></tr>
+    <tr><td>מנכ"ל / Co-Founder</td><td>₪20,000–30,000</td><td>מיידי</td></tr>
+    <tr><td>CTO</td><td>₪30,000–45,000</td><td>מיידי</td></tr>
+    <tr><td>מנהל קהילה ראשי</td><td>₪18,000–25,000</td><td>מיידי — לב הפרויקט</td></tr>
+    <tr><td>מנהל תוכן</td><td>₪16,000–22,000</td><td>מיידי</td></tr>
+    <tr><td>מנהל שותפויות</td><td>₪18,000–24,000</td><td>חודש 1-3</td></tr>
+    <tr><td>רכז תמיכה טלפונית (×2)</td><td>₪10,000–14,000</td><td>חודש 1</td></tr>
+  </table>
+
+  <div class="highlight">💡 <strong>המלצה:</strong> גייסו לפחות 2 עובדים בגיל 55-70 עצמם — הם יוצרים אמון אותנטי עם קהל היעד.</div>
+
+  <h3>שותפויות אסטרטגיות — עדיפויות</h3>
+  <table>
+    <tr><th>שותף</th><th>מה הם מביאים</th><th>מה ALTO מביאה</th></tr>
+    <tr><td>כללית מושלם</td><td>500,000+ חברים 60+, אמינות</td><td>תוכן, מדידת בריאות</td></tr>
+    <tr><td>מכבי שלי</td><td>280,000 מבוטחים</td><td>תוכן + Co-branding</td></tr>
+    <tr><td>ג'וינט אשל</td><td>200+ מרכזי קשישים, לגיטימציה</td><td>פלטפורמה דיגיטלית</td></tr>
+    <tr><td>עיריות (ת"א, ירושלים, חיפה)</td><td>פניה לתושבים 65+</td><td>תוכן משלים לשירות פיזי</td></tr>
+  </table>
+
+  <h3>Customer Support — מותאם גיל 65+</h3>
+  <div class="key-stat">❤️ <strong>עקרון ALTO:</strong> "האדם חשוב יותר מהבעיה הטכנית. תמיד שאל 'מה שלומך?' לפני 'מה הבעיה?'"</div>
+  <ul>
+    <li><strong>טלפון 1-800 חינמי</strong> — ערוץ ראשי, מענה עד 3 טבעות</li>
+    <li><strong>WhatsApp Business</strong> — ערוץ משני, האהוב ביותר</li>
+    <li><strong>שעות:</strong> א'-ה' 08:00-20:00, ו' 08:00-13:00</li>
+    <li><strong>שפות:</strong> עברית, ערבית, רוסית, אמהרית</li>
+  </ul>
+</div>
+
+<!-- ===== CHAPTER 10: IMPACT ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>🌟 פרק 10 — אימפקט חברתי ומחקר</h2>
+    <div class="ch-sub">נתוני בדידות, ממצאים מחקריים, Case Studies, מדידת אימפקט</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><span class="num">250K</span><span class="label">קשישים בישראל בבדידות קשה</span></div>
+    <div class="stat-box"><span class="num">30%</span><span class="label">מגיל 65+ חווים בדידות</span></div>
+    <div class="stat-box"><span class="num">37%</span><span class="label">יותר ביקורים ברופא לקשיש בודד</span></div>
+    <div class="stat-box"><span class="num">7.5</span><span class="label">שנות חיים נוספות בזכות קשרים חברתיים</span></div>
+  </div>
+
+  <h3>5 הטיעונים החזקים ביותר למימון</h3>
+  <table>
+    <tr><th>#</th><th>טיעון</th><th>מקור</th></tr>
+    <tr><td>1</td><td>בדידות = 15 סיגריות ביום בהשפעה על בריאות</td><td>Lancet 2015</td></tr>
+    <tr><td>2</td><td>ROI של 1:4.2 על השקעה בחיבור חברתי קשישים</td><td>Togetherness Holland</td></tr>
+    <tr><td>3</td><td>600,000 ישראלים עם גישה דיגיטלית — שוק מוכן</td><td>ג'וינט 2023</td></tr>
+    <tr><td>4</td><td>Life Review מפחית דיכאון 40-60%</td><td>Cochrane 2018</td></tr>
+    <tr><td>5</td><td>COVID הוכיח: הגיל השלישי יכול ורוצה דיגיטל</td><td>OECD 2022</td></tr>
+  </table>
+
+  <h3>Case Studies מוצלחים בעולם</h3>
+  <table>
+    <tr><th>פרויקט</th><th>היקף</th><th>תוצאה עיקרית</th></tr>
+    <tr><td>AARP (ארה"ב)</td><td>38 מיליון חברים</td><td>41% ירידה בבדידות</td></tr>
+    <tr><td>Togetherness (הולנד)</td><td>ממשלתי-פרטי</td><td>35% ירידה באשפוזים, חסכון €2,400/קשיש</td></tr>
+    <tr><td>פרויקט "קשרים" — ג'וינט ישראל</td><td>12,000 קשישים</td><td>44% ירידה בבדידות, 31% פחות מיון</td></tr>
+  </table>
+
+  <div class="key-stat">
+    <strong>המסר למשקיעים ושותפים:</strong><br>
+    "250,000 קשישים ישראלים סובלים מבדידות קשה. פעילות חברתית דיגיטלית מפחיתה בדידות ב-34%, מאריכה חיים ב-7.5 שנים, וחוסכת למדינה 4 שקל על כל שקל מושקע. ALTO היא הפתרון."
+  </div>
+
+  <h3>שיתופי פעולה אקדמיים</h3>
+  <ul>
+    <li><strong>אוניברסיטת חיפה</strong> — המחלקה לגרונטולוגיה (הגדולה בישראל)</li>
+    <li><strong>אוניברסיטת בר-אילן</strong> — ביה"ס לעבודה סוציאלית</li>
+    <li><strong>הטכניון / IDC הרצליה</strong> — Gerontechnology Lab</li>
+    <li><strong>האוניברסיטה הפתוחה</strong> — למידה מרחוק לגיל השלישי</li>
+  </ul>
+</div>
+
+<!-- ===== CHAPTER 11: LESSON PLANS ===== -->
+<div class="chapter">
+  <div class="chapter-header">
+    <h2>📚 פרק 11 — מערכי שיעור</h2>
+    <div class="ch-sub">מערכי שיעור מפורטים לכל 4 הפעילויות</div>
+  </div>
+
+  <h3>מערך שיעור — מדיטציה ויוגה למתחילים (50 דקות)</h3>
+  <div class="warn">⚠️ בטיחות: לוודא אישור רופא. "כלל הכאב": אם כואב — עוצרים. כל תנוחה ניתנת לביצוע בגרסה מותאמת.</div>
+  <table>
+    <tr><th>שלב</th><th>זמן</th><th>תוכן</th></tr>
+    <tr><td>חימום</td><td>5 דקות</td><td>נשימה מודעת, חימום צוואר, גלגול כתפיים</td></tr>
+    <tr><td>מדיטציה</td><td>10 דקות</td><td>"טיול בגוף" — סריקת גוף מודעת</td></tr>
+    <tr><td>תנוחות יוגה</td><td>25 דקות</td><td>הר, כיפוף צד, לוחם, ילד, גשר, שכיבה</td></tr>
+    <tr><td>מדיטציה סיום</td><td>5 דקות</td><td>"קופסת נשימה" — Box Breathing</td></tr>
+    <tr><td>Savasana</td><td>5 דקות</td><td>שכיבה, מוזיקה רכה, יציאה עדינה</td></tr>
+  </table>
+
+  <h3>מערך שיעור — יוגה בכיסא (לכולם)</h3>
+  <p>מיועד לבעלי מגבלות ניידות, כאבי ברכיים, כיסא גלגלים. ציוד: כיסא יציב בלבד.</p>
+  <ul>
+    <li>ראש הר בכיסא, מתיחת צוואר, עץ בכיסא</li>
+    <li>פיתול עמוד שדרה, כיפוף קדימה, הרמת רגליים</li>
+    <li><em>"אין שיעור זה מוגבל — זה פשוט גרסה אחרת!"</em></li>
+  </ul>
+
+  <h3>מערך שיעור — משחקי זיכרון (60 דקות)</h3>
+  <table>
+    <tr><th>פעילות</th><th>זמן</th><th>תיאור</th></tr>
+    <tr><td>שרשרת שמות</td><td>5 דקות</td><td>כל אחד אומר שמו + שמות כולם לפניו</td></tr>
+    <tr><td>אסוציאציות</td><td>5 דקות</td><td>מילה → מילה קשורה, קצב מהיר</td></tr>
+    <tr><td>מגש הזיכרון</td><td>15 דקות</td><td>10-15 חפצים, 60 שניות צפייה, ניקוד קבוצתי</td></tr>
+    <tr><td>קוויז תרבותי ישראלי</td><td>20 דקות</td><td>שנות ה-60, מוזיקה, היסטוריה</td></tr>
+    <tr><td>שיחה חופשית</td><td>15 דקות</td><td>שיתוף תגובות, בניית קהילה</td></tr>
+  </table>
+
+  <h3>מבנה סדנת ציור Live (75 דקות)</h3>
+  <table>
+    <tr><th>זמן</th><th>תוכן</th></tr>
+    <tr><td>00:00–10:00</td><td>"הצצה לאמן" — היסטוריית האמנות</td></tr>
+    <tr><td>10:00–15:00</td><td>הכנת ציוד ושיחה על נושא היום</td></tr>
+    <tr><td>15:00–55:00</td><td>ציור עם הדרכה (מדריך מצלם ומדגים)</td></tr>
+    <tr><td>55:00–70:00</td><td>"גלריה" — כולם מצלמים ומשתפים בצ'אט</td></tr>
+    <tr><td>70:00–75:00</td><td>מחמאות, הכרזה על נושא הבא</td></tr>
+  </table>
+
+  <div class="info">💡 <strong>ציוד ציור בסיסי:</strong> 3 צבעי יסוד + לבן + שחור + 2 מברשות + 10 גיליונות נייר — עלות: ~₪80-120 בלבד.</div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="background:#4a3060; color:white; text-align:center; padding:24px; margin-top:40px;">
+  <strong>✨ ALTO</strong><br>
+  <span style="font-size:10pt; opacity:0.8;">מועדון פעילות בוטיק לגיל 65+ בישראל | מסמך פנימי בלבד</span><br>
+  <span style="font-size:10pt; opacity:0.8;">יוסי ברוש 052-2674041 | שרון חסקל 054-4649544</span><br>
+  <span style="font-size:9pt; opacity:0.6;">© 2026 ALTO | נוצר מאי 2026</span>
+</div>
+
+</body>
+</html>

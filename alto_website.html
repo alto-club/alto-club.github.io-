@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALTO — Wellness וקהילה לגיל 65+</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #C9A96E;
+  --gold-light: #EFE0C0;
+  --gold-dark: #A8813A;
+  --dark: #1E2B35;
+  --dark2: #2C3E50;
+  --cream: #FAF8F5;
+  --cream2: #F3EDE4;
+  --text: #1a1a1a;
+  --text2: #4a4a4a;
+  --white: #ffffff;
+  --sage: #7A9E7E;
+  --sage-light: #EAF2EA;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', 'Arial', 'David', sans-serif;
+  font-size: 18px;
+  direction: rtl;
+  text-align: right;
+  color: var(--text);
+  background: var(--cream);
+  line-height: 1.75;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  background: rgba(30,43,53,0.97);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 68px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+.nav-logo {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 6px;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+.nav-cta {
+  background: var(--gold);
+  color: var(--dark) !important;
+  padding: 9px 22px;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 14px !important;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold-dark) !important; color: white !important; }
+
+/* ===== HERO ===== */
+#hero {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #0d1b24 0%, #1E2B35 45%, #2a3f4f 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 40px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(201,169,110,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(122,158,126,0.06) 0%, transparent 50%);
+}
+
+.hero-tag {
+  display: inline-block;
+  background: rgba(201,169,110,0.15);
+  border: 1px solid rgba(201,169,110,0.4);
+  color: var(--gold);
+  padding: 7px 22px;
+  border-radius: 30px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.hero-logo {
+  font-size: 96px;
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: 20px;
+  margin-bottom: 12px;
+  position: relative;
+  line-height: 1;
+}
+
+.hero-logo span { color: var(--gold); }
+
+.hero-subtitle {
+  font-size: 22px;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.hero-tagline {
+  font-size: 17px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 56px;
+  position: relative;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  margin-bottom: 80px;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--dark);
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(201,169,110,0.35);
+}
+.btn-primary:hover {
+  background: var(--gold-dark);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(201,169,110,0.45);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: rgba(255,255,255,0.85);
+  padding: 15px 38px;
+  border-radius: 50px;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  transition: all 0.25s;
+}
+.btn-secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat .num {
+  display: block;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.hero-stat .lbl {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.5px;
+}
+
+.hero-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.2);
+  align-self: center;
+}
+
+/* ===== SECTIONS ===== */
+section {
+  padding: 90px 40px;
+}
+
+.section-tag {
+  display: inline-block;
+  background: var(--gold-light);
+  color: var(--gold-dark);
+  padding: 5px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.section-sub {
+  font-size: 18px;
+  color: var(--text2);
+  max-width: 640px;
+  margin-bottom: 56px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===== VISION ===== */
+#vision {
+  background: var(--dark);
+  color: white;
+}
+
+#vision .section-title { color: white; }
+#vision .section-sub { color: rgba(255,255,255,0.6); }
+#vision .section-tag { background: rgba(201,169,110,0.15); color: var(--gold); }
+
+.vision-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.vision-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 32px 28px;
+  transition: all 0.25s;
+}
+
+.vision-card:hover {
+  background: rgba(201,169,110,0.08);
+  border-color: rgba(201,169,110,0.25);
+  transform: translateY(-4px);
+}
+
+.vision-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.vision-card h3 {
+  font-size: 19px;
+  color: var(--gold);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.vision-card p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.7;
+}
+
+/* ===== ACTIVITIES ===== */
+#activities { background: var(--cream); }
+
+.activities-split {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  gap: 28px;
+}
+
+.activity-block {
+  border-radius: 20px;
+  padding: 40px 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.activity-block.yoga {
+  background: linear-gradient(135deg, #1E2B35 0%, #2a3f4f 100%);
+  color: white;
+}
+
+.activity-block.wellness {
+  background: linear-gradient(135deg, #7A9E7E 0%, #5a7d5e 100%);
+  color: white;
+}
+
+.activity-pct {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  font-size: 80px;
+  font-weight: 900;
+  opacity: 0.1;
+  line-height: 1;
+}
+
+.activity-block h3 {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.activity-block .a-sub {
+  font-size: 14px;
+  opacity: 0.6;
+  margin-bottom: 28px;
+  position: relative;
+  letter-spacing: 0.5px;
+}
+
+.activity-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
+}
+
+.pill {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 7px 16px;
+  border-radius: 25px;
+  font-size: 14px;
+}
+
+.pill.gold { background: var(--gold); border-color: var(--gold); color: var(--dark); font-weight: 600; }
+
+.activity-num {
+  font-size: 14px;
+  opacity: 0.6;
+  margin-top: 24px;
+  position: relative;
+}
+
+/* ===== SCHEDULE ===== */
+#schedule { background: var(--cream2); }
+
+.schedule-info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 48px;
+}
+
+.sched-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  border-top: 4px solid var(--gold);
+}
+
+.sched-card .big {
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--dark);
+  display: block;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.sched-card .sml {
+  font-size: 14px;
+  color: var(--text2);
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.timeline-item {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.timeline-dot {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--gold-light);
+  color: var(--gold-dark);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.timeline-item h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.timeline-item p {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.timeline-date {
+  font-size: 12px;
+  color: var(--gold-dark);
+  font-weight: 600;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* ===== SPECIAL EVENTS ===== */
+#events { background: var(--cream); }
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.event-card {
+  background: white;
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+.event-emoji {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.event-card h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+
+.event-card p {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* ===== TEAM ===== */
+#team { background: var(--dark); color: white; }
+#team .section-title { color: white; }
+#team .section-sub { color: rgba(255,255,255,0.6); }
+#team .section-tag { background: rgba(201,169,110,0.15); color: var(--gold); }
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.team-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 36px 24px;
+  text-align: center;
+  transition: all 0.25s;
+}
+
+.team-card:hover {
+  background: rgba(201,169,110,0.08);
+  border-color: rgba(201,169,110,0.3);
+  transform: translateY(-4px);
+}
+
+.team-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 20px;
+}
+
+.team-card h4 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.team-card .role {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+
+.team-responsibilities {
+  list-style: none;
+  text-align: right;
+}
+
+.team-responsibilities li {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.team-responsibilities li:last-child { border-bottom: none; }
+.team-responsibilities li::before { content: '◦ '; color: var(--gold); }
+
+/* ===== LOCATIONS ===== */
+#locations { background: var(--cream2); }
+
+.locations-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.location-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+.location-header {
+  padding: 36px 32px 28px;
+  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%);
+  color: white;
+}
+
+.location-icon { font-size: 40px; margin-bottom: 12px; display: block; }
+
+.location-header h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.location-header p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+}
+
+.location-body {
+  padding: 28px 32px;
+}
+
+.location-tag {
+  display: inline-block;
+  background: var(--gold-light);
+  color: var(--gold-dark);
+  padding: 4px 14px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.location-body ul {
+  list-style: none;
+}
+
+.location-body li {
+  padding: 6px 0;
+  font-size: 15px;
+  color: var(--text2);
+  border-bottom: 1px solid #f0ebe4;
+}
+
+.location-body li:last-child { border-bottom: none; }
+.location-body li::before { content: '✓ '; color: var(--sage); font-weight: 700; }
+
+/* ===== PRICING ===== */
+#pricing { background: var(--cream); }
+
+.pricing-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+.price-card {
+  border-radius: 24px;
+  padding: 48px 40px;
+  position: relative;
+}
+
+.price-card.featured {
+  background: linear-gradient(135deg, var(--dark) 0%, #1a3040 100%);
+  color: white;
+  box-shadow: 0 20px 60px rgba(30,43,53,0.3);
+}
+
+.price-card.org {
+  background: white;
+  border: 2px solid var(--gold-light);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.price-badge {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: var(--gold);
+  color: var(--dark);
+  padding: 5px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.price-label {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+.price-card.featured .price-label { color: rgba(255,255,255,0.6); }
+.price-card.org .price-label { color: var(--text2); }
+
+.price-amount {
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.price-card.featured .price-amount { color: var(--gold); }
+.price-card.org .price-amount { color: var(--dark); }
+
+.price-currency {
+  font-size: 28px;
+  font-weight: 600;
+  vertical-align: super;
+}
+
+.price-period {
+  font-size: 14px;
+  margin-bottom: 36px;
+  opacity: 0.6;
+}
+
+.price-features {
+  list-style: none;
+  margin-bottom: 40px;
+}
+
+.price-features li {
+  padding: 10px 0;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.price-card.org .price-features li { border-bottom-color: #f0ebe4; }
+
+.price-features .check { color: var(--gold); font-size: 16px; flex-shrink: 0; }
+
+.price-per-session {
+  background: rgba(201,169,110,0.1);
+  border: 1px solid rgba(201,169,110,0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--gold);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.pricing-note {
+  background: var(--sage-light);
+  border-right: 4px solid var(--sage);
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-size: 15px;
+  color: var(--text2);
+}
+
+/* ===== REGISTRATION ===== */
+#register {
+  background: linear-gradient(135deg, var(--dark) 0%, #1a3040 100%);
+  color: white;
+  text-align: center;
+}
+
+#register .section-title { color: white; }
+#register .section-sub { color: rgba(255,255,255,0.65); margin: 0 auto 48px; }
+#register .section-tag { background: rgba(201,169,110,0.15); color: var(--gold); }
+
+.register-form {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.07);
+  color: white;
+  font-size: 16px;
+  font-family: inherit;
+  direction: rtl;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-input::placeholder { color: rgba(255,255,255,0.35); }
+.form-input:focus { border-color: var(--gold); }
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A96E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 16px center;
+}
+
+.form-input option { background: var(--dark2); color: white; }
+
+.form-submit {
+  background: var(--gold);
+  color: var(--dark);
+  padding: 18px 40px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.25s;
+  font-family: inherit;
+}
+
+.form-submit:hover {
+  background: var(--gold-dark);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(201,169,110,0.4);
+}
+
+.register-alt {
+  margin-top: 28px;
+  font-size: 15px;
+  color: rgba(255,255,255,0.5);
+}
+
+.register-alt a {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ===== CONTACT ===== */
+#contact { background: var(--cream2); }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+
+.contact-card {
+  background: white;
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: transform 0.2s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.contact-card:hover { transform: translateY(-4px); }
+
+.contact-icon {
+  font-size: 44px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.contact-card h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+
+.contact-card p {
+  font-size: 15px;
+  color: var(--text2);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 40px 40px 32px;
+}
+
+footer .logo {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 8px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+footer .tagline {
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+footer .links {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+footer a {
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--gold); }
+
+footer .copy {
+  font-size: 13px;
+  color: rgba(255,255,255,0.3);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 20px;
+}
+
+/* ===== WHATSAPP FLOAT ===== */
+.wa-float {
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 6px 24px rgba(37,211,102,0.4);
+  text-decoration: none;
+  z-index: 99;
+  transition: transform 0.2s;
+}
+.wa-float:hover { transform: scale(1.1); }
+
+/* ===== PRINT ===== */
+@media print {
+  nav, .wa-float, .hero-buttons, .register-form, #register { display: none; }
+  section { padding: 40px 20px; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .vision-grid { grid-template-columns: 1fr; }
+  .activities-split { grid-template-columns: 1fr; }
+  .schedule-info { grid-template-columns: 1fr 1fr; }
+  .timeline { grid-template-columns: 1fr; }
+  .events-grid { grid-template-columns: 1fr 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .locations-grid { grid-template-columns: 1fr; }
+  .pricing-main { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .hero-logo { font-size: 64px; }
+  .section-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <a href="#hero" class="nav-logo">ALTO</a>
+  <ul class="nav-links">
+    <li><a href="#vision">חזון</a></li>
+    <li><a href="#activities">פעילויות</a></li>
+    <li><a href="#schedule">לוח שנה</a></li>
+    <li><a href="#team">צוות</a></li>
+    <li><a href="#pricing">מחירים</a></li>
+    <li><a href="#register" class="nav-cta">הרשמה</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-tag">✦ WELLNESS · COMMUNITY · 65+</div>
+  <div class="hero-logo">ALT<span>O</span></div>
+  <div class="hero-subtitle">Wellness וקהילה לגיל 65+ — תל אביב והמרכז</div>
+  <div class="hero-tagline">מפגש שבועי פרמיום · יוגה · מיינדפולנס · חברות · משמעות</div>
+  <div class="hero-buttons">
+    <a href="#register" class="btn-primary">הרשמה למחזור 2026–2027</a>
+    <a href="#vision" class="btn-secondary">ספר לי עוד</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="num">30</span>
+      <span class="lbl">מפגשים שנתיים</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="num">2</span>
+      <span class="lbl">שעות כל מפגש</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="num">70%</span>
+      <span class="lbl">יוגה מקצועית</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="num">ת"א</span>
+      <span class="lbl">ליד הים</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VISION ===== -->
+<section id="vision">
+  <div class="container">
+    <div class="section-tag">✦ החזון שלנו</div>
+    <h2 class="section-title">למה ALTO?</h2>
+    <p class="section-sub">כי פרישה היא לא סוף פרק — היא תחילתו של הפרק הטוב ביותר.</p>
+
+    <div class="vision-grid">
+      <div class="vision-card">
+        <span class="vision-icon">🌿</span>
+        <h3>בריאות ו-Wellness</h3>
+        <p>יוגה מקצועית מותאמת לגיל 65+, מדיטציה, נשימה ותנועה מודעת — לגוף שנע ולנפש שנושמת.</p>
+      </div>
+      <div class="vision-card">
+        <span class="vision-icon">👥</span>
+        <h3>קהילה אמיתית</h3>
+        <p>מפגש עם אנשים כמוך — מקצועיים, מנוסים, עם עושר חיים. קשרים חדשים, חברויות אמיתיות, ואולי גם משהו יותר.</p>
+      </div>
+      <div class="vision-card">
+        <span class="vision-icon">✨</span>
+        <h3>משמעות והתחדשות</h3>
+        <p>מסגרת קבועה שמעניקה ריתמוס לשבוע — יום איכות שמגדיר את עצמו, עם תכנים שמרחיבים אופקים.</p>
+      </div>
+      <div class="vision-card">
+        <span class="vision-icon">🌍</span>
+        <h3>עולמות חדשים</h3>
+        <p>חשיפה ל-Wellness, Mindfulness, Sound Healing, Rebirthing — עולמות שאולי לא הכרת, שמפתיעים ומחדשים.</p>
+      </div>
+      <div class="vision-card">
+        <span class="vision-icon">💎</span>
+        <h3>איכות פרמיום</h3>
+        <p>מנחים מובילים, מקומות מוקפדים ליד הים, תכנים מקצועיים — ברמה שמתאימה לך ולאורח החיים שלך.</p>
+      </div>
+      <div class="vision-card">
+        <span class="vision-icon">📅</span>
+        <h3>יום איכות שבועי</h3>
+        <p>כל שבוע, בין 10:00–12:00, יום בתל אביב שמתחיל בפעילות ונמשך — בצהריים, בטיול, בבילוי.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACTIVITIES ===== -->
+<section id="activities">
+  <div class="container">
+    <div class="section-tag">✦ תוכן הפעילות</div>
+    <h2 class="section-title">מה עושים ב-ALTO?</h2>
+    <p class="section-sub">30 מפגשים שנתיים, מחולקים בין יוגה מקצועית לעולמות Wellness נוספים.</p>
+
+    <div class="activities-split">
+      <div class="activity-block yoga">
+        <div class="activity-pct">70%</div>
+        <h3>🧘 יוגה מקצועית</h3>
+        <div class="a-sub">כ-20 מפגשים שנתיים · בהנחיית סטפני</div>
+        <div class="activity-pills">
+          <span class="pill gold">יוגה עדינה</span>
+          <span class="pill">יוגה טיפולית</span>
+          <span class="pill">יוגה נשימתית</span>
+          <span class="pill">יוגה דינמית מותאמת</span>
+          <span class="pill">גמישות ושיווי משקל</span>
+          <span class="pill">תרגול בקצב אישי</span>
+        </div>
+        <div class="activity-num">⏱ 10:00–12:00 · שעתיים · כיסאות ומזרנות · מותאם לכל רמה</div>
+      </div>
+
+      <div class="activity-block wellness">
+        <div class="activity-pct">30%</div>
+        <h3>🌿 Wellness</h3>
+        <div class="a-sub">כ-10 מפגשים שנתיים</div>
+        <div class="activity-pills">
+          <span class="pill gold">מדיטציה</span>
+          <span class="pill">Mindfulness</span>
+          <span class="pill">Sound Healing</span>
+          <span class="pill">Rebirthing</span>
+          <span class="pill">נשימה</span>
+          <span class="pill">תנועה מודעת</span>
+          <span class="pill">אמבטיות קרח</span>
+          <span class="pill">טבע</span>
+          <span class="pill">מים</span>
+          <span class="pill">חיבור עצמי</span>
+        </div>
+        <div class="activity-num">⏱ מגוון פורמטים · חוויה שונה כל פעם</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCHEDULE ===== -->
+<section id="schedule">
+  <div class="container">
+    <div class="section-tag">✦ לוח שנה ומבנה</div>
+    <h2 class="section-title">מחזור 2026–2027</h2>
+    <p class="section-sub">שנה של פעילות מסודרת, עם קצב קבוע ועיגורים מיוחדים.</p>
+
+    <div class="schedule-info">
+      <div class="sched-card">
+        <span class="big">30</span>
+        <span class="sml">מפגשים שנתיים</span>
+      </div>
+      <div class="sched-card">
+        <span class="big">10–12</span>
+        <span class="sml">שעות הפעילות</span>
+      </div>
+      <div class="sched-card">
+        <span class="big">₪200</span>
+        <span class="sml">לממוצע למפגש</span>
+      </div>
+      <div class="sched-card">
+        <span class="big">ת"א</span>
+        <span class="sml">ליד הים</span>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">🚀</div>
+        <div>
+          <div class="timeline-date">ספטמבר 2026</div>
+          <h4>אירוע השקה גדול</h4>
+          <p>הרצאות, טעימות Wellness, מפגש היכרות. אירוע פתוח לכל המעוניינים — ההזדמנות להכיר את ALTO.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">🌟</div>
+        <div>
+          <div class="timeline-date">אוקטובר 2026</div>
+          <h4>פתיחת פעילות שוטפת</h4>
+          <p>לאחר חגי תשרי — פתיחה רשמית של המחזור. מפגש שבועי קבוע, כל שבוע.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">🌿</div>
+        <div>
+          <div class="timeline-date">לאורך השנה</div>
+          <h4>יום טבע שנתי</h4>
+          <p>יום מחוץ לעיר — פרדס חנה, טבע, ריכוז ב-Wellness. חוויה שונה וזכירה.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">🏔️</div>
+        <div>
+          <div class="timeline-date">אמצע המחזור</div>
+          <h4>Retreat / יום שיא</h4>
+          <p>יום אינטנסיבי של Wellness עמוק. מדיטציה, יוגה, חיבור, שתיקה ותנועה.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">🎉</div>
+        <div>
+          <div class="timeline-date">יוני 2027</div>
+          <h4>יום סיום חגיגי</h4>
+          <p>חגיגת סיום המחזור, הכרת תודה, השראה. אירוע הרשמה למחזור 2027–2028.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">☀️</div>
+        <div>
+          <div class="timeline-date">לאחר כל מפגש</div>
+          <h4>זמן חופשי בתל אביב</h4>
+          <p>ארוחת צהריים, טיול ליד הים, בילוי חברתי — היום לא נגמר ב-12:00.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SPECIAL EVENTS ===== -->
+<section id="events">
+  <div class="container">
+    <div class="section-tag">✦ אירועים מיוחדים</div>
+    <h2 class="section-title">מעבר למפגש השבועי</h2>
+    <p class="section-sub">לאורך השנה — חוויות שיוצרות זיכרונות.</p>
+
+    <div class="events-grid">
+      <div class="event-card">
+        <span class="event-emoji">🎪</span>
+        <h4>אירוע השקה</h4>
+        <p>ספטמבר 2026 — אירוע פתוח גדול. כניסה חינם לכל המתעניינים.</p>
+      </div>
+      <div class="event-card">
+        <span class="event-emoji">🌲</span>
+        <h4>יום טבע שנתי</h4>
+        <p>יום שלם בטבע — פרדס חנה, הרי השומרון. הליכה, מדיטציה, אוכל טוב.</p>
+      </div>
+      <div class="event-card">
+        <span class="event-emoji">🏔️</span>
+        <h4>Retreat מיוחד</h4>
+        <p>יום שיא של Wellness עמוק. Sound Healing, יוגה נידרה, שתיקה, חיבור.</p>
+      </div>
+      <div class="event-card">
+        <span class="event-emoji">🥂</span>
+        <h4>יום סיום חגיגי</h4>
+        <p>יוני 2027 — חגיגה, הכרת תודה, השראה למחזור הבא. גם אירוע הרשמה.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEAM ===== -->
+<section id="team">
+  <div class="container">
+    <div class="section-tag">✦ הצוות</div>
+    <h2 class="section-title">האנשים מאחורי ALTO</h2>
+    <p class="section-sub">צוות קטן, מחויב ומקצועי — כל אחד מביא את הטוב ביותר שלו.</p>
+
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">👤</div>
+        <h4>יוסי ברוש</h4>
+        <div class="role">מייסד | ניהול אסטרטגי</div>
+        <ul class="team-responsibilities">
+          <li>חזון ואסטרטגיה</li>
+          <li>מיתוג ועיצוב</li>
+          <li>מדיה ותוכן</li>
+          <li>תפעול ולוגיסטיקה</li>
+          <li>בניית המערך הכולל</li>
+        </ul>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">🤝</div>
+        <h4>שרון חסקל</h4>
+        <div class="role">שותף | מכירות ושיווק</div>
+        <ul class="team-responsibilities">
+          <li>מכירות והרשמות</li>
+          <li>תקשורת לקוחות</li>
+          <li>שיחות טלפון</li>
+          <li>סגירת עסקאות</li>
+          <li>שיווק שוטף</li>
+        </ul>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">🧘</div>
+        <h4>סטפני</h4>
+        <div class="role">מובילת Wellness | יוגה</div>
+        <ul class="team-responsibilities">
+          <li>מנחת יוגה ראשית</li>
+          <li>מדיטציה ומיינדפולנס</li>
+          <li>תכנים מקצועיים</li>
+          <li>מערכי שיעור</li>
+          <li>Rebirthing ונשימה</li>
+        </ul>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">🎭</div>
+        <h4>שרונה</h4>
+        <div class="role">משחק ותיאטרון</div>
+        <ul class="team-responsibilities">
+          <li>סדנאות משחק</li>
+          <li>ביטוי עצמי</li>
+          <li>תיאטרון חברתי</li>
+          <li>מפגשי חיבור</li>
+          <li>קהילה ויצירה</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LOCATIONS ===== -->
+<section id="locations">
+  <div class="container">
+    <div class="section-tag">✦ מיקומים</div>
+    <h2 class="section-title">איפה נפגשים?</h2>
+    <p class="section-sub">מקומות מוקפדים שמתאימים לפעילות ולאווירה.</p>
+
+    <div class="locations-grid">
+      <div class="location-card">
+        <div class="location-header">
+          <span class="location-icon">🌊</span>
+          <h3>מרכז Wellness ליד הים</h3>
+          <p>תל אביב — מיקום ראשי לפעילות יוגה ו-Wellness</p>
+        </div>
+        <div class="location-body">
+          <span class="location-tag">פעילות ראשית · 70% מהמפגשים</span>
+          <ul>
+            <li>מרחק הליכה מהים</li>
+            <li>אווירה רגועה ומרגיעה</li>
+            <li>חניה נוחה ותחבורה ציבורית</li>
+            <li>אחרי הפעילות — ארוחת צהריים ליד הים</li>
+            <li>מיקום עתידי: רמת אביב</li>
+          </ul>
+        </div>
+      </div>
+      <div class="location-card">
+        <div class="location-header">
+          <span class="location-icon">🏛️</span>
+          <h3>בית ציוני אמריקה</h3>
+          <p>תל אביב — סדנאות משחק ותיאטרון</p>
+        </div>
+        <div class="location-body">
+          <span class="location-tag">סדנאות מיוחדות · ביטוי עצמי</span>
+          <ul>
+            <li>מקום מרכזי ונגיש</li>
+            <li>אולם מוסיקה ותרבות</li>
+            <li>אוירת אמנות ויצירה</li>
+            <li>סדנאות תיאטרון ומשחק</li>
+            <li>מפגשי ביטוי אישי ייחודיים</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-tag">✦ השקעה</div>
+    <h2 class="section-title">מחירים ומסלולים</h2>
+    <p class="section-sub">השקעה שנתית במחיר שמשתלם — לגוף, לנפש ולחברה.</p>
+
+    <div class="pricing-main">
+      <div class="price-card featured">
+        <div class="price-badge">🌟 הכי פופולרי</div>
+        <div class="price-label">מחיר למחזור שנתי</div>
+        <div class="price-amount"><span class="price-currency">₪</span>6,000</div>
+        <div class="price-period">~30 מפגשים | אוקטובר 2026 – יוני 2027</div>
+        <div class="price-per-session">≈ ₪200 למפגש · שעתיים של Wellness פרמיום</div>
+        <ul class="price-features">
+          <li><span class="check">✦</span> 30 מפגשים שבועיים (10:00–12:00)</li>
+          <li><span class="check">✦</span> ~20 שיעורי יוגה מקצועיים</li>
+          <li><span class="check">✦</span> ~10 מפגשי Wellness מגוונים</li>
+          <li><span class="check">✦</span> יום טבע שנתי</li>
+          <li><span class="check">✦</span> Retreat / יום שיא</li>
+          <li><span class="check">✦</span> אירוע סיום חגיגי</li>
+          <li><span class="check">✦</span> קבוצת WhatsApp קהילתית</li>
+          <li><span class="check">✦</span> עדכונים ותכנים שוטפים</li>
+        </ul>
+        <a href="#register" class="btn-primary" style="display:block; text-align:center;">אני רוצה להירשם</a>
+      </div>
+
+      <div class="price-card org">
+        <div class="price-label" style="margin-top:20px;">מסלול ארגוני</div>
+        <div class="price-amount" style="font-size:48px;"><span class="price-currency">10%</span>–15%</div>
+        <div class="price-period" style="color:var(--text2);">הנחה לחברי ארגונים</div>
+        <div class="price-per-session" style="background:var(--gold-light); border-color:var(--gold-light); color:var(--gold-dark);">
+          הארגון משתתף · הפרט נהנה · כולם מרוויחים
+        </div>
+        <ul class="price-features" style="">
+          <li style="border-bottom-color:#f0ebe4;"><span class="check">✦</span> קופות חולים — 10% הנחה</li>
+          <li style="border-bottom-color:#f0ebe4;"><span class="check">✦</span> ארגוני גמלאים (חבר ואחרים)</li>
+          <li style="border-bottom-color:#f0ebe4;"><span class="check">✦</span> חברות גדולות לעובדים לשעבר</li>
+          <li style="border-bottom-color:#f0ebe4;"><span class="check">✦</span> ארגוני עובדים</li>
+          <li style="border-bottom-color:#f0ebe4;"><span class="check">✦</span> אפשרות: הארגון מממן 10%</li>
+          <li style="border-bottom-color:#f0ebe4;"><span class="check">✦</span> הסכמים מותאמים לארגון</li>
+        </ul>
+        <a href="tel:0522674041" class="btn-primary" style="display:block; text-align:center; background:var(--dark); color:white;">פנייה לארגונים</a>
+      </div>
+    </div>
+
+    <div class="pricing-note">
+      💡 <strong>שים לב:</strong> מקומות מוגבלים לקבוצה קטנה ואיכותית. ניתן לשלם בתשלומים. לשאלות על ארגונים, הנחות ותשלומים — צרו קשר עם שרון: 054-4649544.
+    </div>
+  </div>
+</section>
+
+<!-- ===== REGISTRATION ===== -->
+<section id="register">
+  <div class="container">
+    <div class="section-tag">✦ הרשמה</div>
+    <h2 class="section-title">מוכנים להתחיל?</h2>
+    <p class="section-sub">השאירו פרטים ונחזור אליכם תוך 24 שעות לתיאום שיחה ומידע נוסף.</p>
+
+    <form class="register-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <input type="text" class="form-input" placeholder="שם פרטי" required>
+        <input type="text" class="form-input" placeholder="שם משפחה" required>
+      </div>
+      <input type="tel" class="form-input" placeholder="מספר טלפון" required>
+      <input type="email" class="form-input" placeholder="אימייל (לא חובה)">
+      <select class="form-input form-select">
+        <option value="">מאיפה שמעת עלינו?</option>
+        <option>פייסבוק</option>
+        <option>לינקדאין</option>
+        <option>חבר/ה המליץ</option>
+        <option>ארגון / קופת חולים</option>
+        <option>WhatsApp</option>
+        <option>אחר</option>
+      </select>
+      <textarea class="form-input" rows="3" placeholder="הערות או שאלות (לא חובה)" style="resize:vertical;"></textarea>
+      <button type="submit" class="form-submit">שלח פרטים — נחזור אליכם בהקדם</button>
+    </form>
+
+    <div class="register-alt">
+      מעדיפים להתקשר? <a href="tel:0542649544">שרון 054-464-9544</a> ·
+      <a href="https://wa.me/972542649544">WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="container">
+    <div class="section-tag">✦ צור קשר</div>
+    <h2 class="section-title">דברו איתנו</h2>
+    <p class="section-sub">שאלות? ספקות? סקרנות? אנחנו כאן.</p>
+
+    <div class="contact-grid">
+      <a href="tel:0522674041" class="contact-card">
+        <span class="contact-icon">📞</span>
+        <h4>יוסי ברוש</h4>
+        <p>052-267-4041</p>
+      </a>
+      <a href="tel:0542649544" class="contact-card">
+        <span class="contact-icon">📱</span>
+        <h4>שרון חסקל</h4>
+        <p>054-464-9544</p>
+      </a>
+      <a href="https://wa.me/972542649544" class="contact-card">
+        <span class="contact-icon">💬</span>
+        <h4>WhatsApp</h4>
+        <p>שרון — זמין לשאלות</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <span class="logo">ALTO</span>
+  <div class="tagline">Wellness וקהילה לגיל 65+ · תל אביב והמרכז</div>
+  <div class="links">
+    <a href="#vision">חזון</a>
+    <a href="#activities">פעילויות</a>
+    <a href="#schedule">לוח שנה</a>
+    <a href="#team">צוות</a>
+    <a href="#pricing">מחירים</a>
+    <a href="#register">הרשמה</a>
+  </div>
+  <div class="copy">
+    © 2026 ALTO · יוסי ברוש & שרון חסקל · מסמך פנימי בלבד
+  </div>
+</footer>
+
+<!-- ===== WHATSAPP FLOAT ===== -->
+<a href="https://wa.me/972542649544" class="wa-float" title="שלח הודעה ב-WhatsApp">💬</a>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = '✓ הפרטים נשלחו! נחזור אליכם בהקדם';
+  btn.style.background = '#4CAF50';
+  btn.style.color = 'white';
+  btn.disabled = true;
+}
+
+// Smooth active nav
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current
+      ? 'var(--gold)'
+      : 'rgba(255,255,255,0.85)';
+  });
+});
+</script>
+
+</body>
+</html>

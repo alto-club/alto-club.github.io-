@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMINA — אודות</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@200;300;400&family=Noto+Sans+Hebrew:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design.css">
+  <style>
+    .page-hero { background: var(--bg-cream); padding: 10rem 0 6rem; }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--stone-light); margin-top: 4rem; }
+    .mission-cell { background: var(--bg); padding: 2.5rem 2rem; }
+    .mission-num { font-family: var(--font-serif); font-size: 3rem; font-weight: 200; color: var(--stone-light); display: block; margin-bottom: 1rem; }
+    .mission-cell h3 { font-size: 1rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .mission-cell p { font-size: 0.83rem; color: var(--ink-light); line-height: 1.8; }
+    .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .team-card { padding: 2rem; border: 1px solid var(--stone-light); transition: var(--ease); }
+    .team-card:hover { border-color: var(--matcha); }
+    .team-avatar { width: 60px; height: 60px; border-radius: 50%; background: var(--matcha); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 1.2rem; color: white; margin-bottom: 1rem; }
+    .team-name { font-size: 1.05rem; font-weight: 400; margin-bottom: 0.2rem; }
+    .team-role { font-size: 0.72rem; color: var(--stone); letter-spacing: 0.1em; display: block; margin-bottom: 0.75rem; text-transform: uppercase; }
+    .team-bio { font-size: 0.82rem; color: var(--ink-light); line-height: 1.75; }
+    .quote-block { background: var(--matcha-dark); color: white; padding: 5rem 0; text-align: center; }
+    .quote-text { font-family: var(--font-serif); font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 200; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; } .mission-grid { grid-template-columns: 1fr; } .team-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-dot"></span>LUMINA · לומינה</a>
+    <ul class="nav-links">
+      <li><a href="index.html">ראשי</a></li>
+      <li><a href="activities.html">פעילויות</a></li>
+      <li><a href="about.html" class="active">אודות</a></li>
+      <li><a href="join.html">הצטרפות</a></li>
+      <li><a href="contact.html">צור קשר</a></li>
+    </ul>
+    <a href="join.html" class="btn btn-primary btn-sm">הצטרפי עכשיו</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <span class="label fi">הסיפור שלנו</span>
+        <h1 class="title-xl fi d1" style="margin-bottom:1.5rem;">אנחנו מאמינים שכל גיל ראוי לזוהר</h1>
+        <div class="zen-line start fi d1"></div>
+        <p class="text-lg fi d2" style="margin-bottom:1.5rem;">
+          LUMINA נולדה מתוך שאלה פשוטה: למה אין בישראל פלטפורמה שבאמת עובדת
+          עבור בני ובנות 65+? לא "נגישות" כמילת קסם — אלא חוויה שנבנתה מהיום הראשון
+          עבורם, בעברית, עם חום אנושי, ובסטנדרד עיצוב גבוה.
+        </p>
+        <p class="text-md fi d3">
+          1.1 מיליון ישראלים מעל 65 — 30% מהם חווים בדידות. זה לא גזירת גורל.
+          זו הזדמנות לשנות.
+        </p>
+      </div>
+      <div class="fi d2" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="stat-card">
+          <span class="stat-num">1.1M</span>
+          <span class="stat-label">ישראלים 65+ — קהל יעד ממוקד</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">30%</span>
+          <span class="stat-label">חווים בדידות משמעותית</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">85%</span>
+          <span class="stat-label">מחזיקים סמארטפון</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">2T$</span>
+          <span class="stat-label">שוק עולמי לגיל ה-3 עד 2030</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section" style="background:var(--bg);">
+  <div class="container">
+    <div style="text-align:center;" class="fi">
+      <span class="label">הערכים שלנו</span>
+      <h2 class="title-lg">מה מניע אותנו</h2>
+      <div class="zen-line"></div>
+    </div>
+    <div class="mission-grid fi d1">
+      <div class="mission-cell">
+        <span class="mission-num">01</span>
+        <h3>כבוד ואנושיות</h3>
+        <p>לא "מסתגלים לקשישים" — מכבדים אנשים בוגרים עם ניסיון חיים עשיר. כל עיצוב, כל מילה, כל שיעור — נבנה מתוך כבוד.</p>
+      </div>
+      <div class="mission-cell">
+        <span class="mission-num">02</span>
+        <h3>קהילה אמיתית</h3>
+        <p>חיבורים שנשארים מחוץ למסך. קבוצות קטנות, מנחים אנושיים, חברות שצומחת מהפעילות המשותפת.</p>
+      </div>
+      <div class="mission-cell">
+        <span class="mission-num">03</span>
+        <h3>מבוסס מחקר</h3>
+        <p>כל פעילות תוכננה עם מומחים לגרונטולוגיה, פסיכולוגיה חיובית ורפואה מונעת. לא אינטואיציה — ראיות.</p>
+      </div>
+      <div class="mission-cell">
+        <span class="mission-num">04</span>
+        <h3>שקיפות וביטחון</h3>
+        <p>אין פרסומות, אין שיתוף נתונים, אין הפתעות. LUMINA תמיד תהיה מה שהיא אומרת שהיא.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quote-block">
+  <div class="container">
+    <p class="quote-text fi">
+      "הגיל לא מפחית — הוא מוסיף. כל עשור של חיים הוא שכבה נוספת של עומק,
+      של חוכמה, של יכולת להעניק. LUMINA כאן כדי לאפשר לעומק הזה לפרוח."
+    </p>
+    <div class="zen-line fi d1"></div>
+    <cite style="font-size:0.8rem;color:rgba(255,255,255,0.45);letter-spacing:0.12em;" class="fi d2">יוסי ברוש · מייסד LUMINA</cite>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-cream);">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:3.5rem;" class="fi">
+      <span class="label">הצוות</span>
+      <h2 class="title-lg">האנשים שמאחורי לומינה</h2>
+      <div class="zen-line"></div>
+    </div>
+    <div class="team-grid">
+      <div class="team-card fi">
+        <div class="team-avatar">י</div>
+        <div class="team-name">יוסי ברוש</div>
+        <span class="team-role">מייסד ומנהל</span>
+        <p class="team-bio">יזם סדרתי עם ניסיון של 20 שנה בבניית קהילות ופלטפורמות דיגיטליות. חי ונושם את הגיל השלישי דרך הוריו ומשפחתו המורחבת.</p>
+        <a href="tel:0522674041" style="margin-top:0.75rem;display:block;font-size:0.8rem;color:var(--matcha);">052-2674041</a>
+      </div>
+      <div class="team-card fi d1">
+        <div class="team-avatar" style="background:var(--sakura-dark);">ש</div>
+        <div class="team-name">שרון הסקל</div>
+        <span class="team-role">רכזת פעילויות וקהילה</span>
+        <p class="team-bio">מנחה קבוצות מוסמכת עם התמחות בגרונטולוגיה חברתית. 15 שנה של עבודה עם בני הגיל השלישי בעמותות ומרכזי יום.</p>
+        <a href="tel:0544649544" style="margin-top:0.75rem;display:block;font-size:0.8rem;color:var(--matcha);">054-4649544</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg);text-align:center;">
+  <div class="container">
+    <span class="label fi">הצטרפי אלינו</span>
+    <h2 class="title-lg fi d1" style="margin-bottom:1rem;">מוכנה להתחיל?</h2>
+    <div class="zen-line fi d1"></div>
+    <p class="text-lg fi d2" style="max-width:440px;margin:0 auto 2.5rem;">ההצטרפות חינמית. אין כרטיס אשראי. רק אתך ואנחנו.</p>
+    <div class="fi d3" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="join.html" class="btn btn-primary btn-lg">הצטרפי חינם</a>
+      <a href="contact.html" class="btn btn-outline btn-lg">דברי איתנו קודם</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand"><h3>LUMINA · לומינה</h3><p>מרחב חיים חברתי לגיל 65+.</p></div>
+      <div class="footer-links-col"><h4>ניווט</h4><ul>
+        <li><a href="index.html">ראשי</a></li><li><a href="activities.html">פעילויות</a></li>
+        <li><a href="join.html">הצטרפות</a></li><li><a href="contact.html">צור קשר</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 LUMINA · לומינה</span></div>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('v'), i*70); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

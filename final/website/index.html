@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMINA — לומינה · מרחב חיים לגיל 65+</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@200;300;400&family=Noto+Sans+Hebrew:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../design.css">
+  <style>
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      position: relative;
+      background: var(--bg);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(74,124,89,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-content {
+      padding: 9rem 3rem 5rem 2rem;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: 2rem;
+    }
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 28px; height: 1px;
+      background: var(--stone);
+    }
+    .hero-title {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 200;
+      line-height: 1.18;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--matcha);
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--ink-light);
+      line-height: 1.95;
+      max-width: 400px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+    .hero-ring-wrap {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid var(--stone-light);
+    }
+    .ring-1 { width: 400px; height: 400px; animation: spin 80s linear infinite; opacity: 0.4; border-style: dashed; }
+    .ring-2 { width: 280px; height: 280px; animation: spin 55s linear infinite reverse; opacity: 0.25; }
+    .ring-3 { width: 160px; height: 160px; animation: spin 35s linear infinite; opacity: 0.5; border-color: rgba(74,124,89,0.3); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .hero-center-text {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    .hero-lumina {
+      font-family: var(--font-serif);
+      font-size: 2.8rem;
+      font-weight: 200;
+      color: var(--ink);
+      display: block;
+    }
+    .hero-hebrew {
+      font-size: 1rem;
+      color: var(--stone);
+      letter-spacing: 0.15em;
+      display: block;
+      margin-top: 0.3rem;
+    }
+
+    .hero-stats {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 3rem;
+    }
+    .hero-stat-n {
+      font-family: var(--font-serif);
+      font-size: 1.9rem;
+      font-weight: 200;
+      color: var(--matcha);
+      display: block;
+    }
+    .hero-stat-l { font-size: 0.72rem; color: var(--stone); }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      background: var(--ink);
+      padding: 2.5rem 0;
+    }
+    .stats-bar-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+    .stats-bar-item {
+      padding: 2rem 2.5rem;
+      background: var(--ink);
+      text-align: center;
+    }
+    .stats-bar-num {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      font-weight: 200;
+      color: white;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .stats-bar-lbl { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
+
+    /* ── About ── */
+    .about { background: var(--bg-cream); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--stone-light);
+    }
+    .about-tile {
+      background: var(--bg-cream);
+      padding: 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .about-tile-icon { font-size: 1.6rem; }
+    .about-tile h4 { font-size: 0.95rem; font-weight: 400; }
+    .about-tile p  { font-size: 0.82rem; color: var(--ink-light); line-height: 1.75; }
+    .about-tile.dark { background: var(--matcha-dark); }
+    .about-tile.dark h4, .about-tile.dark p { color: rgba(255,255,255,0.85); }
+
+    /* ── Activities ── */
+    .activities { background: var(--bg); }
+    .activities-header { text-align: center; margin-bottom: 4.5rem; }
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--stone-light);
+    }
+    .activity-item {
+      padding: 3rem 2rem;
+      border-left: 1px solid var(--stone-light);
+      position: relative;
+      overflow: hidden;
+      transition: var(--ease);
+    }
+    .activity-item:last-child { border-left: none; }
+    .activity-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0; left: 0;
+      height: 2px;
+      background: var(--matcha);
+      transform: scaleX(0);
+      transition: transform var(--ease);
+    }
+    .activity-item:hover { background: var(--bg-matcha); }
+    .activity-item:hover::after { transform: scaleX(1); }
+
+    .act-number {
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      font-weight: 200;
+      color: var(--stone-light);
+      display: block;
+      line-height: 1;
+      margin-bottom: 1.25rem;
+    }
+    .act-icon  { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
+    .act-title { font-size: 1.05rem; font-weight: 400; margin-bottom: 0.6rem; color: var(--ink); }
+    .act-desc  { font-size: 0.83rem; color: var(--ink-light); line-height: 1.8; }
+    .act-tag   {
+      display: inline-block;
+      margin-top: 1.25rem;
+      padding: 0.22rem 0.7rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--matcha);
+      border: 1px solid rgba(74,124,89,0.35);
+    }
+
+    /* ── Why section ── */
+    .why { background: var(--matcha-dark); color: white; }
+    .why-header { text-align: center; margin-bottom: 4rem; }
+    .why-header .label { color: rgba(255,255,255,0.4); }
+    .why-header h2 { color: white; margin-bottom: 0.75rem; }
+    .why-header p  { color: rgba(255,255,255,0.65); max-width: 500px; margin: 0 auto; }
+    .why-header .zen-line { background: rgba(255,255,255,0.2); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .why-card {
+      padding: 2rem 1.5rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: var(--ease);
+    }
+    .why-card:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.22);
+    }
+    .why-icon  { font-size: 1.6rem; margin-bottom: 1rem; display: block; }
+    .why-card h3 { font-size: 1rem; font-weight: 400; color: white; margin-bottom: 0.5rem; }
+    .why-card p  { font-size: 0.83rem; color: rgba(255,255,255,0.6); line-height: 1.8; }
+
+    /* ── Plans section ── */
+    .plans { background: var(--bg-cream); }
+    .plans-header { text-align: center; margin-bottom: 4rem; }
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .plan-card {
+      background: var(--bg);
+      border: 1px solid var(--stone-light);
+      padding: 2.5rem 2rem;
+      position: relative;
+      transition: var(--ease);
+    }
+    .plan-card.featured {
+      border-color: var(--matcha);
+      background: var(--bg-matcha);
+    }
+    .plan-card.featured::before {
+      content: 'פופולרי';
+      position: absolute;
+      top: -12px;
+      right: 50%;
+      transform: translateX(50%);
+      background: var(--matcha);
+      color: white;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 1rem;
+    }
+    .plan-name { font-size: 0.72rem; letter-spacing: 0.18em; color: var(--stone); text-transform: uppercase; display: block; margin-bottom: 1rem; }
+    .plan-price {
+      font-family: var(--font-serif);
+      font-size: 2.4rem;
+      font-weight: 200;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+    .plan-price sup { font-size: 1rem; vertical-align: super; }
+    .plan-period { font-size: 0.78rem; color: var(--stone); display: block; margin-bottom: 1.5rem; }
+    .plan-divider { height: 1px; background: var(--stone-light); margin: 1.5rem 0; }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 2rem; }
+    .plan-features li {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+    .plan-features li::before { content: '✓'; color: var(--matcha); font-size: 0.8rem; margin-top: 0.1rem; flex-shrink: 0; }
+    .plan-cta { width: 100%; text-align: center; justify-content: center; }
+
+    /* ── Contact ── */
+    .contact { background: var(--bg); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .coordinators { display: flex; flex-direction: column; gap: 1.5rem; }
+    .coord-card {
+      padding: 2rem;
+      border: 1px solid var(--stone-light);
+      transition: var(--ease);
+    }
+    .coord-card:hover { border-color: var(--matcha); }
+    .coord-name { font-size: 1.1rem; font-weight: 400; margin-bottom: 0.2rem; }
+    .coord-role { font-size: 0.72rem; color: var(--stone); letter-spacing: 0.12em; display: block; margin-bottom: 1.25rem; }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.875rem;
+      color: var(--ink-light);
+      transition: color var(--ease);
+      margin-bottom: 0.5rem;
+    }
+    .contact-link:hover { color: var(--matcha); }
+    .contact-link svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--matcha); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .activities-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-bar-inner { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-content { padding: 8rem 2rem 3rem; }
+      .hero-visual { height: 280px; }
+      .hero-ring-wrap { width: 240px; height: 240px; }
+      .ring-1 { width: 240px; height: 240px; }
+      .ring-2 { width: 168px; height: 168px; }
+      .ring-3 { width: 96px; height: 96px; }
+      .hero-stats { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .plans-grid { grid-template-columns: 1fr; max-width: 400px; }
+    }
+    @media (max-width: 600px) {
+      .activities-grid { grid-template-columns: 1fr; }
+      .activity-item { border-left: none; border-bottom: 1px solid var(--stone-light); }
+      .why-grid { grid-template-columns: 1fr; }
+      .stats-bar-inner { grid-template-columns: 1fr; }
+      .about-visual { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ Navigation ══════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-dot"></span>
+      LUMINA · לומינה
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">ראשי</a></li>
+      <li><a href="activities.html">פעילויות</a></li>
+      <li><a href="about.html">אודות</a></li>
+      <li><a href="join.html">הצטרפות</a></li>
+      <li><a href="contact.html">צור קשר</a></li>
+    </ul>
+    <a href="join.html" class="btn btn-primary btn-sm">הצטרפי עכשיו</a>
+  </div>
+</nav>
+
+<!-- ══ Hero ═════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">רשת חיים חברתית · גיל 65+</div>
+    <h1 class="hero-title fi">
+      המקום שלך<br>
+      לפרוח<br>
+      <em>ולהתחדש</em>
+    </h1>
+    <p class="hero-sub fi d1">
+      LUMINA היא קהילה חיה ומחבקת — פעילויות גוף, נפש ויצירה
+      שמחברות אנשים, מעוררות השראה, ומוכיחות שהגיל הוא רק מספר.
+    </p>
+    <div class="hero-btns fi d2">
+      <a href="join.html" class="btn btn-primary btn-lg">הצטרפי בחינם</a>
+      <a href="activities.html" class="btn btn-outline btn-lg">גלי את הפעילויות</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-ring-wrap">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+      <div class="hero-center-text">
+        <span class="hero-lumina">LUMINA</span>
+        <span class="hero-hebrew">לומינה</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat text-center">
+        <span class="hero-stat-n">1.1M</span>
+        <span class="hero-stat-l">ישראלים 65+</span>
+      </div>
+      <div class="hero-stat text-center">
+        <span class="hero-stat-n">4</span>
+        <span class="hero-stat-l">אשכולות פעילות</span>
+      </div>
+      <div class="hero-stat text-center">
+        <span class="hero-stat-n">∞</span>
+        <span class="hero-stat-l">אפשרויות</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Stats Bar ═══════════════════════════════════════════════ -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-bar-inner">
+      <div class="stats-bar-item fi">
+        <span class="stats-bar-num">30%</span>
+        <span class="stats-bar-lbl">מבני 65+ חווים בדידות</span>
+      </div>
+      <div class="stats-bar-item fi d1">
+        <span class="stats-bar-num">85%</span>
+        <span class="stats-bar-lbl">מחזיקים סמארטפון</span>
+      </div>
+      <div class="stats-bar-item fi d2">
+        <span class="stats-bar-num">2T$</span>
+        <span class="stats-bar-lbl">שוק טכנולוגיה לגיל ה-3 עד 2030</span>
+      </div>
+      <div class="stats-bar-item fi d3">
+        <span class="stats-bar-num">0</span>
+        <span class="stats-bar-lbl">מתחרים אמיתיים בישראל</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ About ════════════════════════════════════════════════════ -->
+<section class="about section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual fi">
+        <div class="about-tile">
+          <span class="about-tile-icon">🧘</span>
+          <h4>מדיטציה ויוגה</h4>
+          <p>תנועה, נשימה ושקט פנימי — שיעורים חיים ומוקלטים בכל שבוע.</p>
+        </div>
+        <div class="about-tile dark">
+          <span class="about-tile-icon">🎲</span>
+          <h4>משחק קוגניטיבי</h4>
+          <p>שחמט, שש-בש, תשחץ ומשחקי זיכרון — שומרים על החשיבה חדה.</p>
+        </div>
+        <div class="about-tile dark">
+          <span class="about-tile-icon">🎨</span>
+          <h4>ציור ואמנות</h4>
+          <p>ביטוי יצירתי חופשי — סדנאות מודרכות וצייר עצמאי.</p>
+        </div>
+        <div class="about-tile">
+          <span class="about-tile-icon">📖</span>
+          <h4>הסיפור שלי</h4>
+          <p>כתיבה, צילום ותיעוד — כלי מורשת אישי לשמר הזיכרון.</p>
+        </div>
+      </div>
+      <div>
+        <span class="label fi">מי אנחנו</span>
+        <h2 class="title-lg fi d1">מרחב חיים, לא "אפליקציה לקשישים"</h2>
+        <div class="zen-line start fi d2"></div>
+        <p class="text-lg fi d2" style="margin-bottom:1.5rem;">
+          LUMINA היא קהילה חברתית-תרבותית המשלבת טכנולוגיה עם חום אנושי.
+          אנו מאמינים שגיל 65 הוא לא סוף — הוא תחילה של פרק חדש ועשיר.
+        </p>
+        <p class="text-md fi d3" style="margin-bottom:2.5rem;">
+          הפלטפורמה שלנו מיועדת לנשים וגברים בגיל השלישי שרוצים להישאר פעילים,
+          מחוברים ומשמעותיים. עם תכנים בעברית, ממשק נגיש, ומדריכים מנוסים.
+        </p>
+        <a href="about.html" class="btn btn-outline fi d3">קראי עוד אודות לומינה</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Activities ═══════════════════════════════════════════════ -->
+<section class="activities section">
+  <div class="container">
+    <div class="activities-header fi">
+      <span class="label">ארבעת אשכולות הפעילות</span>
+      <h2 class="title-lg">מה עושים ב-LUMINA?</h2>
+      <div class="zen-line"></div>
+      <p class="text-lg" style="max-width:520px;margin:0 auto;">
+        כל אשכול עוצב בקפידה לגיל השלישי — מקצועי, נגיש, ומחבר קהילה.
+      </p>
+    </div>
+    <div class="activities-grid fi d1">
+      <div class="activity-item">
+        <span class="act-number">01</span>
+        <span class="act-icon">🧘</span>
+        <h3 class="act-title">מדיטציה ויוגה</h3>
+        <p class="act-desc">שיעורים משולבים של יוגה עדינה ומדיטציה מודרכת — לאיזון הגוף, להרגעת הנפש ולחיזוק הקשר לרגע הנוכחי.</p>
+        <span class="act-tag">חי + מוקלט</span>
+      </div>
+      <div class="activity-item">
+        <span class="act-number">02</span>
+        <span class="act-icon">🎲</span>
+        <h3 class="act-title">משחק קוגניטיבי</h3>
+        <p class="act-desc">שחמט, שש-בש, תשחץ ומשחקי קלפים — מחדדים את החשיבה, מאמנים את הזיכרון ומציעים חברתיות אמיתית.</p>
+        <span class="act-tag">קבוצות + אחד על אחד</span>
+      </div>
+      <div class="activity-item">
+        <span class="act-number">03</span>
+        <span class="act-icon">🎨</span>
+        <h3 class="act-title">ציור ואמנות</h3>
+        <p class="act-desc">סדנאות ציור מודרכות בסגנונות שונים — אקוורל, שמן, פחם. ביטוי חזותי חופשי לכל רמה, ללא צורך בניסיון קודם.</p>
+        <span class="act-tag">סדנאות שבועיות</span>
+      </div>
+      <div class="activity-item">
+        <span class="act-number">04</span>
+        <span class="act-icon">📖</span>
+        <h3 class="act-title">הסיפור שלי</h3>
+        <p class="act-desc">כתיבה אוטוביוגרפית, צילום, ותיעוד זיכרונות — כלי מורשת אישי ייחודי לשמר את הסיפור שלך ולשתפו עם אנשים שאוהבים אותך.</p>
+        <span class="act-tag">כתיבה · צילום · תיעוד</span>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:3rem;" class="fi d2">
+      <a href="activities.html" class="btn btn-primary">לכל הפעילויות</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Why LUMINA ════════════════════════════════════════════════ -->
+<section class="why section">
+  <div class="container">
+    <div class="why-header fi">
+      <span class="label">למה לומינה?</span>
+      <h2 class="title-lg" style="margin-bottom:0.75rem;">כי אתם ראויים לטוב ביותר</h2>
+      <div class="zen-line"></div>
+      <p>LUMINA לא "מסתגלת" לגיל — היא נבנתה עבורו מהיום הראשון.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card fi">
+        <span class="why-icon">🌐</span>
+        <h3>נגיש לגמרי</h3>
+        <p>ממשק ברור, גופן גדול, RTL מלא, עברית טבעית — ללא תרגומים מביכים.</p>
+      </div>
+      <div class="why-card fi d1">
+        <span class="why-icon">👥</span>
+        <h3>קהילה אמיתית</h3>
+        <p>קבוצות קטנות, מנחים אנושיים, חיבורים שנשארים גם מחוץ למסך.</p>
+      </div>
+      <div class="why-card fi d2">
+        <span class="why-icon">💚</span>
+        <h3>מבוסס מחקר</h3>
+        <p>כל פעילות תוכננה עם מומחים לגרונטולוגיה, פסיכולוגיה ורפואה מונעת.</p>
+      </div>
+      <div class="why-card fi d3">
+        <span class="why-icon">🔒</span>
+        <h3>פרטיות ובטיחות</h3>
+        <p>אין שיתוף נתונים. אין פרסומות. רק חוויה בטוחה ואיכותית.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Plans ══════════════════════════════════════════════════════ -->
+<section class="plans section">
+  <div class="container">
+    <div class="plans-header fi">
+      <span class="label">מסלולי חברות</span>
+      <h2 class="title-lg">בחרי את המסלול המתאים לך</h2>
+      <div class="zen-line"></div>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-card fi">
+        <span class="plan-name">מסלול חינם</span>
+        <span class="plan-price">0<sup>₪</sup></span>
+        <span class="plan-period">לצמיד</span>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>5-10 שיעורים מוקלטים בחודש</li>
+          <li>קהילה בסיסית</li>
+          <li>טעימת "הסיפור שלי"</li>
+        </ul>
+        <a href="join.html" class="btn btn-outline plan-cta">הצטרפי חינם</a>
+      </div>
+      <div class="plan-card featured fi d1">
+        <span class="plan-name">לומינה כסף</span>
+        <span class="plan-price">59<sup>₪</sup></span>
+        <span class="plan-period">לחודש | 598₪ לשנה</span>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>כל השיעורים החיים</li>
+          <li>ארכיון מלא + קלטות</li>
+          <li>קבוצות וסדנאות</li>
+          <li>תמיכה בעברית</li>
+        </ul>
+        <a href="join.html" class="btn btn-primary plan-cta">בחרי כסף</a>
+      </div>
+      <div class="plan-card fi d2">
+        <span class="plan-name">לומינה זהב</span>
+        <span class="plan-price">99<sup>₪</sup></span>
+        <span class="plan-period">לחודש | 998₪ לשנה</span>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>הכל מ"כסף"</li>
+          <li>ליווי אישי חודשי</li>
+          <li>"הסיפור שלי" מלא</li>
+          <li>גישה מוקדמת לאירועים</li>
+          <li>הנחות לאירועים פיזיים</li>
+        </ul>
+        <a href="join.html" class="btn btn-outline plan-cta">בחרי זהב</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Contact Banner ═══════════════════════════════════════════ -->
+<section class="section" style="background:var(--bg-matcha);">
+  <div class="container" style="text-align:center;">
+    <span class="label fi">דברו איתנו</span>
+    <h2 class="title-lg fi d1" style="margin-bottom:1rem;">שאלות? נשמח לעזור.</h2>
+    <div class="zen-line fi d1"></div>
+    <p class="text-lg fi d2" style="max-width:480px;margin:0 auto 2.5rem;">
+      יוסי ושרון כאן בשבילכם — פנו בוואטסאפ, בטלפון, או ממלאו את הטופס באתר.
+    </p>
+    <div class="fi d3" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="https://wa.me/972522674041?text=שלום, הגעתי מהאתר LUMINA ואשמח לשמוע עוד" class="btn btn-primary" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        וואטסאפ — יוסי
+      </a>
+      <a href="contact.html" class="btn btn-outline">טופס פנייה</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Footer ════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>LUMINA · לומינה</h3>
+        <p>מרחב חיים חברתי לגיל 65+.<br>כי כל גיל ראוי לזוהר.</p>
+      </div>
+      <div class="footer-links-col">
+        <h4>ניווט</h4>
+        <ul>
+          <li><a href="index.html">ראשי</a></li>
+          <li><a href="activities.html">פעילויות</a></li>
+          <li><a href="about.html">אודות</a></li>
+          <li><a href="join.html">הצטרפות</a></li>
+          <li><a href="contact.html">צור קשר</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-col">
+        <h4>פעילויות</h4>
+        <ul>
+          <li><a href="activities.html#yoga">מדיטציה ויוגה</a></li>
+          <li><a href="activities.html#games">משחק קוגניטיבי</a></li>
+          <li><a href="activities.html#art">ציור ואמנות</a></li>
+          <li><a href="activities.html#story">הסיפור שלי</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-col">
+        <h4>יצירת קשר</h4>
+        <ul>
+          <li><a href="tel:0522674041">יוסי ברוש: 052-2674041</a></li>
+          <li><a href="tel:0544649544">שרון הסקל: 054-4649544</a></li>
+          <li><a href="https://wa.me/972522674041" target="_blank">וואטסאפ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 LUMINA · לומינה. כל הזכויות שמורות.</span>
+      <span>נבנה באהבה עבור הגיל השלישי בישראל 🇮🇱</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Fade-in observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('v'), i * 70);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fi').forEach(el => observer.observe(el));
+
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+</script>
+</body>
+</html>
