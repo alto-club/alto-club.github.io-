@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALTO — תוכנית עסקית ותפעולית</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #C9A96E; --gold-lt: #F0E0B8; --gold-dk: #A8813A;
+  --dark: #0F1C26; --dark2: #1E2B35;
+  --text2: rgba(255,255,255,0.65);
+  --sage: #7A9E7E; --sage-lt: #C8DDCA;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Segoe UI', Arial, sans-serif; direction: rtl; background: var(--dark); color: white; }
+
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+}
+section:nth-child(even) { background: linear-gradient(145deg, #0a1520 0%, #1a2d3d 100%); }
+section:nth-child(odd) { background: linear-gradient(145deg, var(--dark) 0%, var(--dark2) 100%); }
+
+/* COVER */
+.cover { background: radial-gradient(ellipse at 30% 60%, #1a3040 0%, #0F1C26 65%) !important; text-align: center; }
+.cover-logo { font-size: clamp(80px, 15vw, 150px); font-weight: 900; letter-spacing: clamp(12px, 3vw, 28px); line-height: 1; }
+.cover-logo .o { color: var(--gold); }
+.cover-bar { width: 120px; height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-dk)); margin: 24px auto; border-radius: 2px; }
+.cover-sub { font-size: clamp(18px, 3vw, 26px); color: var(--text2); letter-spacing: 1.5px; margin-bottom: 8px; }
+.cover-tagline { font-size: clamp(14px, 2vw, 18px); color: rgba(255,255,255,0.35); font-style: italic; }
+
+/* SECTION HEADER */
+.sec-tag { display: inline-block; background: rgba(201,169,110,0.15); border: 1px solid rgba(201,169,110,0.35); color: var(--gold); padding: 6px 20px; border-radius: 30px; font-size: 13px; letter-spacing: 2px; margin-bottom: 20px; }
+.sec-title { font-size: clamp(26px, 4vw, 44px); font-weight: 800; margin-bottom: 40px; text-align: center; }
+.sec-title .g { color: var(--gold); }
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; max-width: 1000px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 100%; max-width: 1100px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%; max-width: 1100px; }
+
+/* CARDS */
+.card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px 24px; }
+.card h4 { font-size: 16px; color: var(--gold); font-weight: 700; margin-bottom: 14px; }
+.card ul { list-style: none; }
+.card li { font-size: 14px; color: var(--text2); padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06); line-height: 1.5; }
+.card li:last-child { border-bottom: none; }
+.card li::before { content: '◦ '; color: var(--gold); }
+
+/* PILLARS */
+.pillar { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px 24px; text-align: center; }
+.pillar .p-icon { font-size: 44px; display: block; margin-bottom: 16px; }
+.pillar h3 { font-size: 18px; color: var(--gold); font-weight: 800; margin-bottom: 10px; }
+.pillar p { font-size: 14px; color: var(--text2); line-height: 1.65; }
+.pillar ul { list-style: none; text-align: right; margin-top: 8px; }
+.pillar li { font-size: 13px; color: var(--text2); padding: 4px 0; }
+.pillar li::before { content: '· '; color: var(--gold); }
+
+/* TEAM */
+.team-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-top: 3px solid var(--gold); border-radius: 14px; padding: 24px 20px; text-align: center; }
+.team-av { font-size: 40px; display: block; margin-bottom: 12px; }
+.team-card h4 { font-size: 17px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.team-card .role { font-size: 12px; color: var(--text2); margin-bottom: 14px; }
+.team-card ul { list-style: none; text-align: right; }
+.team-card li { font-size: 13px; color: var(--text2); padding: 3px 0; }
+.team-card li::before { content: '· '; color: var(--gold); }
+
+/* BAR */
+.bar-wrap { width: 100%; max-width: 1000px; height: 56px; border-radius: 12px; overflow: hidden; display: flex; margin: 0 0 24px; }
+.bar-70 { background: linear-gradient(90deg, #2C3E50, #3a5068); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 20px; flex: 7; }
+.bar-30 { background: linear-gradient(90deg, var(--sage), #5a7d5e); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 20px; flex: 3; }
+
+/* STEPS */
+.steps-list { width: 100%; max-width: 900px; }
+.step-row { display: flex; gap: 20px; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.step-row:last-child { border-bottom: none; }
+.step-n { width: 40px; height: 40px; border-radius: 50%; background: rgba(201,169,110,0.15); border: 1.5px solid var(--gold); color: var(--gold); font-weight: 900; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-row h4 { font-size: 15px; color: white; font-weight: 700; }
+
+/* CLOSE */
+.close-section { background: radial-gradient(ellipse at 30% 60%, #1a3040 0%, #0F1C26 65%) !important; text-align: center; }
+.close-logo { font-size: clamp(60px, 10vw, 120px); font-weight: 900; letter-spacing: clamp(10px, 2vw, 24px); }
+.close-logo .o { color: var(--gold); }
+.close-tagline { font-size: clamp(16px, 2vw, 22px); color: var(--text2); margin: 20px 0 40px; }
+.contacts { display: flex; gap: 48px; justify-content: center; flex-wrap: wrap; }
+.contact-item { text-align: center; }
+.c-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+.c-name { font-size: 18px; font-weight: 700; }
+.c-role { font-size: 12px; color: var(--text2); margin: 4px 0; }
+.c-phone { font-size: 20px; color: var(--gold); font-weight: 800; direction: ltr; }
+.contact-sep { width: 1px; background: rgba(255,255,255,0.12); }
+
+/* SCROLL INDICATOR */
+.scroll-hint { position: absolute; bottom: 30px; color: rgba(255,255,255,0.3); font-size: 13px; animation: bounce 2s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+@media (max-width: 768px) {
+  section { padding: 60px 20px; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .contacts { gap: 28px; }
+  .contact-sep { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover" style="position:relative;">
+  <div class="cover-logo">ALT<span class="o">O</span></div>
+  <div class="cover-bar"></div>
+  <div class="cover-sub">תוכנית עסקית ותפעולית</div>
+  <div class="cover-tagline">מרכז Wellness וקהילה לגילאי 65+</div>
+  <div class="scroll-hint">↓ גלול למטה</div>
+</section>
+
+<!-- חזון -->
+<section>
+  <div class="sec-tag">✦ חזון</div>
+  <h2 class="sec-title">למה אנחנו <span class="g">כאן?</span></h2>
+  <div class="grid-2" style="max-width:900px;">
+    <div class="pillar">
+      <span class="p-icon">🌟</span>
+      <h3>קהילה איכותית</h3>
+      <p>יצירת קהילה איכותית לאנשים בגילאי 65+ מאזור תל אביב והמרכז.</p>
+    </div>
+    <div class="pillar">
+      <span class="p-icon">🌱</span>
+      <h3>מסגרת מלאת משמעות</h3>
+      <p>מתן מסגרת חברתית, בריאותית והתפתחותית לאחר פרישה — איכות חיים, משמעות ותחושת התחדשות.</p>
+    </div>
+    <div class="pillar">
+      <span class="p-icon">🎭</span>
+      <h3>עולמות חדשים</h3>
+      <p>חשיפה לעולמות ה-Wellness, המיינדפולנס וההתפתחות האישית.</p>
+    </div>
+    <div class="pillar">
+      <span class="p-icon">❤️</span>
+      <h3>שייכות וחיבור</h3>
+      <p>יצירת מקום להיכרות חברתית, חיזוק תחושת שייכות ואפשרות להיכרויות חדשות וזוגיות.</p>
+    </div>
+  </div>
+</section>
+
+<!-- קהל יעד -->
+<section>
+  <div class="sec-tag">✦ קהל יעד</div>
+  <h2 class="sec-title">מי הם <span class="g">החברים?</span></h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>פרופיל — סוציו-אקונומי גבוה | גילאי 65+</h4>
+      <ul>
+        <li>רופאים</li>
+        <li>עורכי דין</li>
+        <li>רואי חשבון</li>
+        <li>אנשי הייטק</li>
+        <li>יועצי מס</li>
+        <li>מנהלים בכירים</li>
+        <li>פורשי צבא</li>
+        <li>אנשי מקצוע חופשיים</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>אזורי מגורים</h4>
+      <ul>
+        <li>תל אביב</li>
+        <li>רמת השרון</li>
+        <li>רעננה</li>
+        <li>הוד השרון</li>
+        <li>גבעתיים</li>
+        <li>רמת גן</li>
+        <li>חולון</li>
+        <li>פתח תקווה</li>
+        <li>כל אזור המרכז והשרון</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- מבנה הפעילות -->
+<section>
+  <div class="sec-tag">✦ מבנה הפעילות</div>
+  <h2 class="sec-title">לוח <span class="g">הזמנים</span></h2>
+  <div class="grid-3">
+    <div class="pillar">
+      <span class="p-icon">🚀</span>
+      <h3>שלב ראשון</h3>
+      <p style="color:var(--gold-lt); font-weight:700; margin-bottom:10px;">אירוע השקה — ספטמבר 2026</p>
+      <ul>
+        <li>אירוע גדול להצגת המיזם</li>
+        <li>הרצאות וטעימות Wellness</li>
+        <li>מפגש חברתי והיכרות</li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <span class="p-icon">📅</span>
+      <h3>שלב שני</h3>
+      <p style="color:var(--gold-lt); font-weight:700; margin-bottom:10px;">פתיחה — אוקטובר 2026</p>
+      <ul>
+        <li>לאחר חגי תשרי</li>
+        <li>רצף פעילות יציב</li>
+        <li>סיום המחזור: יוני 2027</li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <span class="p-icon">🕙</span>
+      <h3>מבנה שנתי</h3>
+      <ul>
+        <li>כ־30 מפגשים שנתיים</li>
+        <li>מפגש אחד בשבוע</li>
+        <li>10:00–12:00</li>
+        <li>ארוחה + בילוי חברתי לאחר</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- חלוקת תוכן -->
+<section>
+  <div class="sec-tag">✦ חלוקת התוכן</div>
+  <h2 class="sec-title">מה <span class="g">עושים?</span></h2>
+  <div class="bar-wrap">
+    <div class="bar-70">יוגה 70%</div>
+    <div class="bar-30">Wellness 30%</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h4>🧘 יוגה ותנועה — כ־20 מפגשים</h4>
+      <ul>
+        <li>יוגה עדינה</li>
+        <li>יוגה טיפולית</li>
+        <li>יוגה נשימתית</li>
+        <li>יוגה דינמית מותאמת גיל</li>
+        <li>עבודה על גמישות ושיווי משקל</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>✨ Wellness משלים — כ־10 מפגשים</h4>
+      <ul>
+        <li>מדיטציה ו-Mindfulness</li>
+        <li>Rebirthing ותרגילי נשימה</li>
+        <li>Sound Healing</li>
+        <li>אמבטיות קרח</li>
+        <li>Mindfulness בטבע ופעילות מים</li>
+        <li>תנועה מודעת וסדנאות חיבור עצמי</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- פעילויות מיוחדות -->
+<section>
+  <div class="sec-tag">✦ פעילויות מיוחדות ומיקומים</div>
+  <h2 class="sec-title">מעבר <span class="g">לשיעור הרגיל</span></h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>פעילויות מיוחדות</h4>
+      <ul>
+        <li>יום טבע שנתי</li>
+        <li>Retreat / יום שיא — פרדס חנה או אזור טבע</li>
+        <li>פעילות מחוץ לעיר</li>
+        <li>יום סיום חגיגי + הרשמה לשנה הבאה</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>מיקומי הפעילות</h4>
+      <ul>
+        <li>🌊 Wellness — מרכז ליד הים בתל אביב</li>
+        <li>🎭 משחק ותיאטרון — בית ציוני אמריקה</li>
+        <li>🔮 מיקום עתידי — רמת אביב</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- צוות -->
+<section>
+  <div class="sec-tag">✦ הצוות</div>
+  <h2 class="sec-title">האנשים <span class="g">שמאחורי ALTO</span></h2>
+  <div class="grid-4">
+    <div class="team-card">
+      <span class="team-av">💡</span>
+      <h4>יוסי ברוש</h4>
+      <div class="role">מנהל אסטרטגי ותפעולי</div>
+      <ul>
+        <li>חזון ואסטרטגיה</li>
+        <li>מיתוג ומדיה</li>
+        <li>סרטונים ועיצוב</li>
+        <li>תפעול ובניית המערך</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <span class="team-av">🤝</span>
+      <h4>שרון חסקל</h4>
+      <div class="role">שיווק ומכירות</div>
+      <ul>
+        <li>מכירות ושיווק</li>
+        <li>תקשורת לקוחות</li>
+        <li>שיחות טלפון</li>
+        <li>סגירות והרשמות</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <span class="team-av">🧘</span>
+      <h4>סטפני</h4>
+      <div class="role">מובילת Wellness</div>
+      <ul>
+        <li>יוגה</li>
+        <li>תכנים מקצועיים</li>
+        <li>בניית מערכי שיעור</li>
+        <li>הובלת Wellness</li>
+      </ul>
+    </div>
+    <div class="team-card">
+      <span class="team-av">🎭</span>
+      <h4>שרונה</h4>
+      <div class="role">משחק ותיאטרון</div>
+      <ul>
+        <li>סדנאות משחק</li>
+        <li>תיאטרון</li>
+        <li>ביטוי אישי</li>
+        <li>פעילות חברתית חווייתית</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- שיווק -->
+<section>
+  <div class="sec-tag">✦ אסטרטגיית שיווק</div>
+  <h2 class="sec-title">איך <span class="g">מגיעים אליהם?</span></h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>ערוצי שיווק</h4>
+      <ul>
+        <li>פייסבוק ולינקדאין</li>
+        <li>קבוצות גמלאים</li>
+        <li>קהילות איכות חיים</li>
+        <li>קבוצות עירוניות</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>שיתופי פעולה + מודל הנחות</h4>
+      <ul>
+        <li>קופות חולים</li>
+        <li>ארגוני גמלאים</li>
+        <li>חברות גדולות וארגוני עובדים</li>
+        <li>מועדון "חבר"</li>
+        <li>10%–15% הנחה לארגונים</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ערך ללקוח -->
+<section>
+  <div class="sec-tag">✦ ערך ללקוח</div>
+  <h2 class="sec-title">מה <span class="g">מקבלים?</span></h2>
+  <div class="grid-3">
+    <div class="pillar">
+      <span class="p-icon">💪</span>
+      <h3>גוף ובריאות</h3>
+      <ul>
+        <li>פעילות גופנית מותאמת גיל</li>
+        <li>שיפור בריאות ואנרגיה</li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <span class="p-icon">❤️</span>
+      <h3>קהילה ושייכות</h3>
+      <ul>
+        <li>קהילה איכותית</li>
+        <li>תחושת שייכות</li>
+        <li>חברויות חדשות</li>
+        <li>אפשרות להיכרויות</li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <span class="p-icon">🌟</span>
+      <h3>חיים מלאים</h3>
+      <ul>
+        <li>מסגרת שבועית קבועה</li>
+        <li>חשיפה לעולמות חדשים</li>
+        <li>יום איכות שבועי בתל אביב</li>
+        <li>משמעות חדשה לאחר הפרישה</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- מערכת תקשורת -->
+<section>
+  <div class="sec-tag">✦ מערכת תקשורת</div>
+  <h2 class="sec-title">איך <span class="g">שומרים קשר?</span></h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>💬 תקשורת שוטפת</h4>
+      <ul>
+        <li>קבוצות WhatsApp</li>
+        <li>דיוור במייל</li>
+        <li>תזכורות שבועיות</li>
+        <li>תוכן קבוע למשתתפים</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>📋 מערכות ניהול</h4>
+      <ul>
+        <li>מערכת הרשמה מסודרת</li>
+        <li>מעקב משתתפים</li>
+        <li>ניהול תשלומים</li>
+        <li>CRM לניהול לידים</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- צעדים הבאים -->
+<section>
+  <div class="sec-tag">✦ צעדים הבאים</div>
+  <h2 class="sec-title">מה <span class="g">עושים עכשיו?</span></h2>
+  <div class="steps-list">
+    <div class="step-row"><div class="step-n">1</div><h4>בניית מצגת</h4></div>
+    <div class="step-row"><div class="step-n">2</div><h4>בניית שפה מיתוגית</h4></div>
+    <div class="step-row"><div class="step-n">3</div><h4>יצירת סרטוני תדמית</h4></div>
+    <div class="step-row"><div class="step-n">4</div><h4>בניית אתר / דף נחיתה</h4></div>
+    <div class="step-row"><div class="step-n">5</div><h4>פתיחת מערכת הרשמה</h4></div>
+    <div class="step-row"><div class="step-n">6</div><h4>בניית קמפיינים</h4></div>
+    <div class="step-row"><div class="step-n">7</div><h4>פנייה לארגונים</h4></div>
+    <div class="step-row"><div class="step-n">8</div><h4>בניית לוח תוכן שנתי</h4></div>
+    <div class="step-row"><div class="step-n">9</div><h4>קביעת תאריכים סופיים לפי לוח החגים</h4></div>
+    <div class="step-row"><div class="step-n">10</div><h4>סגירת הסכמים עם המקומות והמנחים</h4></div>
+  </div>
+</section>
+
+<!-- CLOSE -->
+<section class="close-section">
+  <div class="close-logo">ALT<span class="o">O</span></div>
+  <div class="cover-bar" style="margin:24px auto;"></div>
+  <div class="close-tagline">"יחד, ניצור את המועדון שהם מחכים לו"</div>
+  <div class="contacts">
+    <div class="contact-item">
+      <span class="c-icon">🤝</span>
+      <div class="c-name">יוסי ברוש</div>
+      <div class="c-role">מייסד שותף</div>
+      <div class="c-phone">052-267-4041</div>
+    </div>
+    <div class="contact-sep"></div>
+    <div class="contact-item">
+      <span class="c-icon">🤝</span>
+      <div class="c-name">שרון חסקל</div>
+      <div class="c-role">הדרך שלי | מייסד שותף</div>
+      <div class="c-phone">054-464-9544</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
